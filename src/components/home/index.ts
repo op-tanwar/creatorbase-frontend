@@ -1,0 +1,9 @@
+export { HeroSection } from './HeroSection';
+export { InteractiveMockTerminal } from './InteractiveMockTerminal';
+export { SocialProofMarquee } from './SocialProofMarquee';
+export { BentoFeatures } from './BentoFeatures';
+export { LiveDemoWidget } from './LiveDemoWidget';
+export { ComparisonTable } from './ComparisonTable';
+export { TestimonialsSection } from './TestimonialsSection';
+export { FAQAccordion } from './FAQAccordion';
+export { FinalCtaBanner } from './FinalCtaBanner';

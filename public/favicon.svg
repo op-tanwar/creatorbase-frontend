@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+  <defs>
+    <!-- Tailwind bg-gradient-to-tr from-emerald-500 to-indigo-600 -->
+    <linearGradient id="creatorbase-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Container: h-9 w-9, rounded-xl (rx="9") -->
+  <rect width="36" height="36" rx="9" fill="url(#creatorbase-gradient)" />
+
+  <!-- Lucide Sparkles icon (h-5 w-5 = 20px, text-emerald-100 = #d1fae5) -->
+  <g transform="translate(8, 8)" fill="none" stroke="#d1fae5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Main 4-point Sparkle -->
+    <path d="m9.93 1.93-1.07 4.14a2 2 0 0 1-1.42 1.42L3.3 8.56a.4.4 0 0 0 0 .78l4.14 1.07a2 2 0 0 1 1.42 1.42l1.07 4.14a.4.4 0 0 0 .78 0l1.07-4.14a2 2 0 0 1 1.42-1.42l4.14-1.07a.4.4 0 0 0 0-.78l-4.14-1.07a2 2 0 0 1-1.42-1.42L10.71 1.93a.4.4 0 0 0-.78 0z" />
+    <!-- Secondary small sparkle top-right -->
+    <path d="M17 2v3M18.5 3.5h-3" />
+    <!-- Secondary small sparkle bottom-left -->
+    <path d="M3 15v2M4 16H2" />
+  </g>
+</svg>
