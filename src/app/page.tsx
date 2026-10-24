@@ -11,7 +11,7 @@ import { FaqJsonLd } from '@/components/seo/JsonLd';
 
 export default function HomePage() {
   return (
-    <div className="relative overflow-hidden bg-[#08090B] text-zinc-100 min-h-screen">
+    <div className="relative overflow-x-hidden bg-[#08090B] text-zinc-100 min-h-screen">
       <FaqJsonLd />
       {/* Stripe Mesh & Radial Glow Engine */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.15),transparent_50%)]" />
