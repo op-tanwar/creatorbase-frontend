@@ -7,8 +7,8 @@ export interface CreatorUrlTarget {
 
 // Canonical marquee overrides for verified Indian creators
 const MARQUEE_CANONICAL_YT_MAP: Record<string, string> = {
-  totalgaming: 'TotalGaming093',
-  totalgaming093: 'TotalGaming093',
+  totalgaming: 'totalgaming',
+  totalgaming093: 'totalgaming',
   technogamerz: 'technogamerz',
   carryminati: 'CarryMinati',
   carryislive: 'CarryisLive',

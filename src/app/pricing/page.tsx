@@ -29,6 +29,25 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
   const [isProcessingPayment, setIsProcessingPayment] = useState<string | null>(null);
 
+  // B2B GST Compliance Inputs
+  const [companyName, setCompanyName] = useState(user?.companyName || '');
+  const [gstin, setGstin] = useState('');
+  const [isGstEnabled, setIsGstEnabled] = useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedGstin = localStorage.getItem('creatorbase_agency_gstin');
+      const savedCompany = localStorage.getItem('creatorbase_agency_company');
+      if (savedGstin) {
+        setGstin(savedGstin);
+        setIsGstEnabled(true);
+      }
+      if (savedCompany && !user?.companyName) {
+        setCompanyName(savedCompany);
+      }
+    }
+  }, [user]);
+
   const handlePlanAction = async (plan: any) => {
     if (plan.id === 'enterprise') {
       router.push(plan.ctaHref);
@@ -38,6 +57,12 @@ export default function PricingPage() {
     if (!isAuthenticated || !user) {
       router.push(`/login?redirect=/pricing`);
       return;
+    }
+
+    // Persist company and GSTIN
+    if (typeof window !== 'undefined') {
+      if (companyName.trim()) localStorage.setItem('creatorbase_agency_company', companyName.trim());
+      if (gstin.trim()) localStorage.setItem('creatorbase_agency_gstin', gstin.trim().toUpperCase());
     }
 
     const planCode = plan.id === 'starter' ? 'STARTER' : 'PRO';
@@ -122,25 +147,25 @@ export default function PricingPage() {
     {
       id: 'starter',
       name: 'Starter',
-      tagline: 'Ideal for D2C founders and solo growth marketers testing creator campaigns.',
+      tagline: 'For solo D2C founders. 50 creator contact unlocks, 3 active shortlists, basic CSV export.',
       priceMonthly: 2999,
       priceAnnual: 2399, // ~20% discount
       badge: null,
       highlight: false,
       features: [
-        '100 Verified Creator Searches / month',
+        '50 creator contact unlocks / month',
+        '3 active campaign shortlists',
+        'Basic CSV export with INR pricing',
         'Tier-1 City Filters (Mumbai, Delhi, Bengaluru)',
-        '2 Active Campaign Shortlists',
-        'Basic Engagement & Follower Metrics',
-        'Standard CSV Export with Indian Rupee (₹)',
-        'Email Support (24h response time)',
+        'Basic engagement & follower authenticity scores',
+        'Standard email support (24h SLA)',
       ],
       notIncluded: [
-        'Tier-2 & Tier-3 City Filters (Indore, Surat, etc.)',
-        'Audience Bot & Authenticity Audit',
-        'Multi-Deliverable Live Budget Calculator',
-        'Team Seats & Role Management',
-        'Custom Data Scraping & API Access',
+        'Unlimited Client Pitch Links (/pitch/[token])',
+        'Deliverables Kanban Tracker (5 Workflow Stages)',
+        'Tier-2 & Tier-3 City Filters (Indore, Surat, Jaipur)',
+        'Smart Rate-Card Intelligence (Reel/Story dynamic forecasting)',
+        'Team multi-seat logins & role permissions',
       ],
       ctaText: 'Start 7-Day Free Trial',
       ctaHref: '/register?plan=starter',
@@ -148,25 +173,25 @@ export default function PricingPage() {
     {
       id: 'agency',
       name: 'Agency Pro',
-      tagline: 'Built for high-growth D2C brands and creative agencies running multi-city campaigns.',
+      tagline: 'The Operating System for modern Indian influencer agencies managing client campaigns.',
       priceMonthly: 7999,
       priceAnnual: 6399, // ~20% discount
       badge: 'MOST POPULAR',
       highlight: true,
       features: [
-        'Unlimited Creator Searches & Profile Views',
-        'Full Pan-India Tier 1, 2 & 3 City Coverage',
-        'Audience Bot Detection & Authenticity Scoring',
-        'Gender & Top City Audience Demographics',
-        'Unlimited Campaign Shortlists & Cohorts',
-        'Live Deliverables Budget Recalculator (Reel/Story)',
+        'Unlimited contact unlocks & verified business emails',
+        'Unlimited Client Pitch Links with Interactive Approval (/pitch/[token])',
+        'Deliverables Kanban Tracker (5 Workflow Stages)',
+        'Smart Rate-Card Intelligence (Reel/Story dynamic forecasting)',
+        'Full Pan-India Tier 1, 2 & 3 City Coverage (Indore, Surat, etc.)',
+        'Audience Bot Detection & Authenticity Scoring (90%+ Gatekeeper)',
         'Client-Ready White-Label CSV Exports',
-        '3 Team Member Seats Included',
+        '18% GST Input Tax Credit (ITC) Invoices (HSN 998314)',
         'Priority Slack & WhatsApp Support',
       ],
       notIncluded: [
-        'Dedicated Influencer Campaign Manager',
-        'Custom API Access & Webhooks',
+        'Dedicated Enterprise Account Strategist',
+        'Custom Scraping & REST API Access',
       ],
       ctaText: 'Start Agency Pro Trial',
       ctaHref: '/register?plan=pro',
@@ -181,13 +206,13 @@ export default function PricingPage() {
       highlight: false,
       features: [
         'Everything in Agency Pro with Unlimited Scale',
-        'Dedicated Account Strategist & Campaign QA',
-        'Unlimited Team Seats with Role-Based Access',
-        'Full REST API & Webhooks Access',
-        'Custom Scraping & Bespoke Creator Ingestion',
-        'Campaign Escrow & Creator Contract Templates',
-        'Custom Billing, GST Invoicing & SLA Guarantee',
-        'Quarterly Influencer Trend & Pricing Benchmarks',
+        'Custom REST API access & webhooks',
+        'Team multi-seat logins with role permissions',
+        'Dedicated account manager & campaign QA',
+        'Bespoke creator scraping & custom city ingestion',
+        'Campaign escrow & custom contract templates',
+        'Custom B2B billing ledger with GST compliance',
+        'Quarterly Indian influencer pricing benchmarks',
       ],
       notIncluded: [],
       ctaText: 'Contact Enterprise Sales',
@@ -212,9 +237,9 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="relative overflow-hidden bg-zinc-950 py-16 sm:py-24 text-zinc-100">
+    <div className="relative overflow-x-hidden bg-[#08090B] py-16 sm:py-24 text-zinc-100 min-h-screen">
       {/* Background Glow */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-emerald-600/15 via-teal-500/10 to-indigo-600/15 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-emerald-500/10 via-indigo-500/10 to-transparent blur-[140px]" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -262,6 +287,54 @@ export default function PricingPage() {
               </span>
             </button>
           </div>
+
+          {/* B2B Agency GST Compliance Details Ribbon */}
+          <div className="mt-8 max-w-xl mx-auto rounded-2xl border border-zinc-800 bg-[#121316] p-4 text-left shadow-lg space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Building className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs font-mono font-semibold text-zinc-200">
+                  Indian Agency Billing &amp; GST Details (Optional)
+                </span>
+              </div>
+              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+                18% ITC • HSN 998314
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div className="space-y-1">
+                <label className="text-[10px] font-mono uppercase text-zinc-400 font-semibold">
+                  Company / Agency Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Elevation Media Pvt Ltd"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="w-full rounded-lg bg-[#0B0C0E] border border-zinc-700 px-3 py-1.5 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-mono uppercase text-zinc-400 font-semibold">
+                  Agency GSTIN (15 Digits)
+                </label>
+                <input
+                  type="text"
+                  maxLength={15}
+                  placeholder="e.g. 27AAAAA0000A1Z5"
+                  value={gstin}
+                  onChange={(e) => setGstin(e.target.value.toUpperCase())}
+                  className="w-full rounded-lg bg-[#0B0C0E] border border-zinc-700 px-3 py-1.5 text-xs font-mono text-emerald-400 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none uppercase"
+                />
+              </div>
+            </div>
+
+            <p className="text-[10px] font-mono text-zinc-500 leading-tight">
+              * Official GST Tax Invoices with SAC 998314 are auto-generated and downloadable in your Billing ledger after checkout.
+            </p>
+          </div>
         </div>
 
         {/* Pricing Cards Grid */}
@@ -272,10 +345,10 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col justify-between rounded-2xl p-6 sm:p-8 transition-all ${
+                className={`relative flex flex-col justify-between rounded-2xl p-6 sm:p-8 transition-all backdrop-blur-xl ${
                   plan.highlight
-                    ? 'border-2 border-emerald-500 bg-zinc-900/80 shadow-2xl shadow-emerald-950/40 ring-1 ring-emerald-500/50 scale-[1.02]'
-                    : 'border border-zinc-800/80 bg-zinc-900/40 hover:border-zinc-700'
+                    ? 'border-2 border-emerald-500 bg-[#12141A]/90 shadow-[0_0_35px_rgba(16,185,129,0.2)] ring-1 ring-emerald-500/50 scale-[1.02]'
+                    : 'border border-white/[0.08] bg-[#12141A]/70 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:border-emerald-500/30'
                 }`}
               >
                 {plan.badge && (

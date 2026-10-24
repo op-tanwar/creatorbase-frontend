@@ -1,21 +1,8 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { StoreProvider } from '@/providers/StoreProvider';
 import { AppShell } from '@/components/layout/AppShell';
 import { OrganizationJsonLd, SoftwareAppJsonLd } from '@/components/seo/JsonLd';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 export const viewport: Viewport = {
   themeColor: '#08090B',
@@ -23,6 +10,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
 };
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://creatorbase.in'),
@@ -99,10 +88,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${inter.variable} ${jetbrainsMono.variable}`}
+      className="dark"
       suppressHydrationWarning
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <OrganizationJsonLd />
         <SoftwareAppJsonLd />
       </head>

@@ -21,6 +21,8 @@ import {
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
 import { getCreatorPlatformUrl, EXTERNAL_LINK_PROPS } from '@/utils/url';
 
+import { PAN_INDIA_CITY_MAP, PAN_INDIA_NICHE_MAP } from '@/lib/constants';
+
 export const revalidate = 86400; // ISR cache for 24 hours
 
 interface PageProps {
@@ -30,35 +32,9 @@ interface PageProps {
   }>;
 }
 
-// City display name mapping
-const CITY_MAP: Record<string, { name: string; state: string; hub: string }> = {
-  indore: { name: 'Indore', state: 'Madhya Pradesh', hub: 'Central India Tier-2 Epicenter' },
-  mumbai: { name: 'Mumbai', state: 'Maharashtra', hub: 'Financial & Entertainment Capital' },
-  delhi: { name: 'Delhi NCR', state: 'National Capital Region', hub: 'Northern Media & Commerce Hub' },
-  bengaluru: { name: 'Bengaluru', state: 'Karnataka', hub: 'Silicon Valley of India' },
-  pune: { name: 'Pune', state: 'Maharashtra', hub: 'Automotive & Higher Education Hub' },
-  jaipur: { name: 'Jaipur', state: 'Rajasthan', hub: 'Heritage, Tourism & Craft Hub' },
-  hyderabad: { name: 'Hyderabad', state: 'Telangana', hub: 'Tech & Pharma Capital' },
-  ahmedabad: { name: 'Ahmedabad', state: 'Gujarat', hub: 'Commercial & Textile Capital' },
-  surat: { name: 'Surat', state: 'Gujarat', hub: 'Diamond, Textile & D2C Epicenter' },
-  bhopal: { name: 'Bhopal', state: 'Madhya Pradesh', hub: 'Heritage & Administrative Hub' },
-  chandigarh: { name: 'Chandigarh', state: 'Punjab & Haryana', hub: 'North Indian Lifestyle Epicenter' },
-  goa: { name: 'Goa', state: 'Goa', hub: 'Hospitality & Luxury Lifestyle Hub' },
-};
-
-// Niche display name mapping
-const NICHE_MAP: Record<string, { label: string; icon: string; description: string }> = {
-  food: { label: 'Food & Dining', icon: '🍽️', description: 'Street food reviewers, gourmet culinary creators, cafe scouts, and chef-led lifestyle pages' },
-  tech: { label: 'Technology & Gadgets', icon: '💻', description: 'Smartphone reviewers, AI prompt engineers, coding educators, and hardware specialists' },
-  fashion: { label: 'Fashion & Style', icon: '👗', description: 'Ethnic wear curators, sustainable thrift stylists, luxury street-style models, and beauty editors' },
-  travel: { label: 'Travel & Tourism', icon: '✈️', description: 'Backpacking vloggers, luxury resort reviewers, weekend getaway guides, and offbeat itinerary scouts' },
-  fitness: { label: 'Fitness & Wellness', icon: '💪', description: 'Certified CrossFit trainers, yoga practitioners, nutrition consultants, and transformation athletes' },
-  finance: { label: 'Finance & FinTech', icon: '📈', description: 'Stock market analysts, personal budgeting educators, mutual fund advisors, and tax strategists' },
-  lifestyle: { label: 'Lifestyle & Culture', icon: '✨', description: 'City aesthetics, modern apartment living, daily vlogs, and regional culture ambassadors' },
-  gaming: { label: 'Gaming & Esports', icon: '🎮', description: 'Competitive BGMI streamers, PC build analysts, game commentary hosts, and interactive community leads' },
-  comedy: { label: 'Comedy & Entertainment', icon: '🎭', description: 'Stand-up artists, relatable regional sketch creators, satire producers, and viral meme creators' },
-  beauty: { label: 'Beauty & Skincare', icon: '💄', description: 'Dermatologist-recommended skincare reviewers, clean makeup artists, and grooming influencers' },
-};
+// Full Pan-India City & Niche mappings
+const CITY_MAP = PAN_INDIA_CITY_MAP;
+const NICHE_MAP = PAN_INDIA_NICHE_MAP;
 
 export async function generateStaticParams() {
   const topCombos = [
@@ -68,6 +44,7 @@ export async function generateStaticParams() {
     { city: 'mumbai', niche: 'food' },
     { city: 'delhi', niche: 'fashion' },
     { city: 'delhi', niche: 'tech' },
+    { city: 'bangalore', niche: 'tech' },
     { city: 'bengaluru', niche: 'tech' },
     { city: 'pune', niche: 'fitness' },
     { city: 'jaipur', niche: 'travel' },
@@ -76,6 +53,9 @@ export async function generateStaticParams() {
     { city: 'surat', niche: 'fashion' },
     { city: 'bhopal', niche: 'food' },
     { city: 'chandigarh', niche: 'lifestyle' },
+    { city: 'lucknow', niche: 'food' },
+    { city: 'chennai', niche: 'tech' },
+    { city: 'kolkata', niche: 'food' },
     { city: 'goa', niche: 'travel' },
   ];
   return topCombos;

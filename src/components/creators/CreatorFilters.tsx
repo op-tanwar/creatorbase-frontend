@@ -7,6 +7,7 @@ import {
   setCity,
   setNiche,
   setMinFollowers,
+  setMaxFollowers,
   setMinEngagement,
   setSearch,
   resetFilters,
@@ -22,40 +23,16 @@ import {
   X,
   Check,
   Command,
+  Sparkles,
 } from 'lucide-react';
 import { formatFollowers } from '@/lib/utils';
 import { Button } from '../ui/Button';
 import { InstagramIcon, YoutubeIcon } from '../ui/Icons';
+import { INDIAN_CITIES_LIST, FULL_SPECTRUM_NICHES } from '@/lib/constants';
 
-const INDIAN_CITIES = [
-  'All',
-  'Indore',
-  'Mumbai',
-  'Delhi NCR',
-  'Bengaluru',
-  'Pune',
-  'Jaipur',
-  'Hyderabad',
-  'Goa',
-  'Bhopal',
-  'Ahmedabad',
-  'Surat',
-  'Chandigarh',
-];
+const INDIAN_CITIES = [...INDIAN_CITIES_LIST];
 
-const NICHES = [
-  'All',
-  'Food',
-  'Tech',
-  'Fashion',
-  'Travel',
-  'Fitness',
-  'Finance',
-  'Lifestyle',
-  'Gaming',
-  'Comedy',
-  'Beauty',
-];
+const NICHES = [...FULL_SPECTRUM_NICHES];
 
 // Presets matching Apify / Linear / Vercel filter standards (Enforcing 5K+ nano baseline)
 const FOLLOWER_PRESETS = [
@@ -456,6 +433,91 @@ export function CreatorFilters() {
             <span>Clear</span>
           </button>
         )}
+      </div>
+
+      {/* Modern Quick Filter Pill Presets */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-0.5 scrollbar-none">
+        <span className="text-[11px] font-mono text-zinc-400 font-semibold shrink-0 flex items-center gap-1 mr-0.5">
+          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Quick Filters:</span>
+        </span>
+
+        {/* 1. Top Indore Creators */}
+        <button
+          type="button"
+          onClick={() => {
+            if (filters.city === 'Indore') {
+              dispatch(setCity('All'));
+            } else {
+              dispatch(setCity('Indore'));
+            }
+          }}
+          className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
+            filters.city === 'Indore'
+              ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-sm'
+              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-emerald-500/50 hover:bg-[#181A1F]'
+          }`}
+        >
+          <span>📍 Top Indore Creators</span>
+        </button>
+
+        {/* 2. Beauty & Skincare */}
+        <button
+          type="button"
+          onClick={() => {
+            if (filters.niche === 'Beauty') {
+              dispatch(setNiche('All'));
+            } else {
+              dispatch(setNiche('Beauty'));
+            }
+          }}
+          className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
+            filters.niche === 'Beauty'
+              ? 'bg-pink-500 text-zinc-950 font-bold border-pink-400 shadow-sm'
+              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-pink-500/50 hover:bg-[#181A1F]'
+          }`}
+        >
+          <span>💄 Beauty &amp; Skincare</span>
+        </button>
+
+        {/* 3. High ER (>4%) */}
+        <button
+          type="button"
+          onClick={() => {
+            if (filters.minEngagement === 4.0) {
+              handleEngagementPreset(1.0);
+            } else {
+              handleEngagementPreset(4.0);
+            }
+          }}
+          className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
+            filters.minEngagement >= 4.0
+              ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-sm'
+              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-emerald-500/50 hover:bg-[#181A1F]'
+          }`}
+        >
+          <span>📈 High ER (&gt;4%)</span>
+        </button>
+
+        {/* 4. Micro-Influencers (<50k) */}
+        <button
+          type="button"
+          onClick={() => {
+            if (filters.maxFollowers === 50000) {
+              dispatch(setMaxFollowers(500000));
+            } else {
+              dispatch(setMaxFollowers(50000));
+              handleFollowersPreset(5000);
+            }
+          }}
+          className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
+            filters.maxFollowers === 50000
+              ? 'bg-indigo-500 text-zinc-950 font-bold border-indigo-400 shadow-sm'
+              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-indigo-500/50 hover:bg-[#181A1F]'
+          }`}
+        >
+          <span>⚡ Micro-Influencers (&lt;50k)</span>
+        </button>
       </div>
 
       {/* Active Filters Summary Pill Ribbon */}

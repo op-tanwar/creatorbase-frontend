@@ -119,7 +119,7 @@ export default function DiscoverPage() {
   return (
     <div className="space-y-6">
       {/* Top Filter Bar */}
-      <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800">
+      <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 bg-[#08090B]/95 backdrop-blur-xl border-b border-white/[0.08]">
         <CreatorFilters />
       </div>
 

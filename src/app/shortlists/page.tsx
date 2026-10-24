@@ -10,6 +10,7 @@ import api from '@/lib/api';
 import { ShortlistTable } from '@/components/shortlists/ShortlistTable';
 import { KanbanBoard } from '@/components/shortlists/KanbanBoard';
 import { CreateShortlistModal } from '@/components/shortlists/CreateShortlistModal';
+import { SharePitchModal } from '@/components/shortlists/SharePitchModal';
 import { Button } from '@/components/ui/Button';
 import {
   Bookmark,
@@ -32,6 +33,7 @@ export default function ShortlistsPage() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [campaigns, setCampaigns] = useState<any[]>([]);
   const [viewMode, setViewMode] = useState<'table' | 'kanban'>('kanban');
 
@@ -104,6 +106,17 @@ export default function ShortlistsPage() {
                 <span>Workflow Kanban ⚏</span>
               </button>
             </div>
+          )}
+
+          {/* One-Click Client Pitch Portal */}
+          {activeShortlist && (
+            <button
+              type="button"
+              onClick={() => setIsShareModalOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 px-3 py-2 text-xs font-mono font-bold text-emerald-300 hover:bg-emerald-900/60 hover:border-emerald-400 transition-all shadow-sm"
+            >
+              <span>Share Pitch with Client 🚀</span>
+            </button>
           )}
 
           <Button
@@ -199,6 +212,15 @@ export default function ShortlistsPage() {
         campaigns={campaigns}
         onSuccess={fetchShortlistsAndCampaigns}
       />
+
+      {/* Share Pitch with Client Modal */}
+      {activeShortlist && (
+        <SharePitchModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          shortlist={activeShortlist}
+        />
+      )}
     </div>
   );
 }

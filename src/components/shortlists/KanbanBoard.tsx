@@ -42,16 +42,16 @@ const COLUMNS: ColumnConfig[] = [
     badgeBg: 'bg-zinc-900/80',
     badgeText: 'text-zinc-300',
     badgeBorder: 'border-zinc-800',
-    description: 'Initial creator selection',
+    description: 'Initial creator selection & audit',
   },
   {
     key: 'EMAIL_SENT',
-    title: 'Email Sent',
+    title: 'Outreach Sent',
     dotColor: 'bg-sky-400',
     badgeBg: 'bg-sky-950/30',
     badgeText: 'text-sky-300',
     badgeBorder: 'border-sky-800/40',
-    description: 'Collaboration pitch delivered',
+    description: 'Collab inquiry & rate kit requested',
   },
   {
     key: 'COMMERCIALS_AGREED',
@@ -60,7 +60,7 @@ const COLUMNS: ColumnConfig[] = [
     badgeBg: 'bg-amber-950/30',
     badgeText: 'text-amber-300',
     badgeBorder: 'border-amber-800/40',
-    description: 'Commercial fee & dates locked',
+    description: 'Agreed INR payout & deliverables locked',
   },
   {
     key: 'DRAFT_UNDER_REVIEW',
@@ -69,7 +69,7 @@ const COLUMNS: ColumnConfig[] = [
     badgeBg: 'bg-indigo-950/30',
     badgeText: 'text-indigo-300',
     badgeBorder: 'border-indigo-800/40',
-    description: 'Video cut submitted for check',
+    description: 'Reel / video cut submitted for brand QA',
   },
   {
     key: 'LIVE_AND_PAID',
@@ -78,7 +78,7 @@ const COLUMNS: ColumnConfig[] = [
     badgeBg: 'bg-emerald-950/40',
     badgeText: 'text-emerald-300',
     badgeBorder: 'border-emerald-800/50',
-    description: 'Reel published & payment settled',
+    description: 'Reel published live & payout disbursed',
   },
 ];
 

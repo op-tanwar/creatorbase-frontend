@@ -8,6 +8,7 @@ import api from '@/lib/api';
 import { User } from '@/types';
 import { formatINR } from '@/lib/utils';
 import { UpgradeModal } from '@/components/subscription/UpgradeModal';
+import { GstTaxInvoiceModal, InvoiceData } from '@/components/subscription/GstTaxInvoiceModal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
@@ -34,6 +35,10 @@ import {
   FileSpreadsheet,
   Megaphone,
   BookmarkCheck,
+  FileText,
+  Printer,
+  Download,
+  ShieldCheck,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -73,9 +78,16 @@ export default function ProfilePage() {
   // Form states
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [gstin, setGstin] = useState('');
+  const [billingAddress, setBillingAddress] = useState('');
+  const [billingState, setBillingState] = useState('Maharashtra (27)');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Tax Invoice Modal state
+  const [invoiceModalOpen, setInvoiceModalOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
 
   // Authentication check
   useEffect(() => {
@@ -83,6 +95,18 @@ export default function ProfilePage() {
       router.push('/login?redirect=/profile');
     }
   }, [authLoading, isAuthenticated, router]);
+
+  // Load saved GSTIN / Billing details from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedGstin = localStorage.getItem('creatorbase_agency_gstin');
+      const savedAddr = localStorage.getItem('creatorbase_agency_billing_addr');
+      const savedState = localStorage.getItem('creatorbase_agency_billing_state');
+      if (savedGstin) setGstin(savedGstin);
+      if (savedAddr) setBillingAddress(savedAddr);
+      if (savedState) setBillingState(savedState);
+    }
+  }, []);
 
   // Fetch complete profile details from GET /api/auth/me
   const fetchProfile = async () => {
@@ -135,6 +159,13 @@ export default function ProfilePage() {
       return;
     }
 
+    // Save GSTIN & Billing information locally and update profile
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('creatorbase_agency_gstin', gstin.trim().toUpperCase());
+      localStorage.setItem('creatorbase_agency_billing_addr', billingAddress.trim());
+      localStorage.setItem('creatorbase_agency_billing_state', billingState);
+    }
+
     try {
       setIsSavingProfile(true);
       const res = await api.put('/auth/profile', {
@@ -143,7 +174,7 @@ export default function ProfilePage() {
       });
 
       if (res.data.success) {
-        toast.success('Profile details updated successfully');
+        toast.success('Agency profile & GSTIN details saved successfully ✅');
         dispatch(setUser(res.data.data));
         setProfile((prev) => (prev ? { ...prev, ...res.data.data } : res.data.data));
       }
@@ -152,6 +183,25 @@ export default function ProfilePage() {
     } finally {
       setIsSavingProfile(false);
     }
+  };
+
+  const handleOpenInvoice = (payment: any) => {
+    setSelectedInvoice({
+      orderId: payment.orderId,
+      paymentId: payment.paymentId,
+      amount: payment.amount,
+      plan: payment.plan,
+      createdAt: payment.createdAt,
+      user: {
+        name: currentUser?.name || name,
+        email: currentUser?.email || '',
+        companyName: companyName || currentUser?.companyName || 'Agency Partner',
+        gstin: gstin.trim() ? gstin.trim().toUpperCase() : undefined,
+        billingAddress: billingAddress.trim() || undefined,
+        billingState: billingState,
+      },
+    });
+    setInvoiceModalOpen(true);
   };
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
@@ -424,8 +474,69 @@ export default function ProfilePage() {
                   required
                 />
                 <p className="text-[11px] font-mono text-zinc-500">
-                  This brand name appears on white-label CSV client exports and campaign receipts.
+                  This brand name appears on white-label CSV client exports, pitch links, and GST tax invoices.
                 </p>
+              </div>
+
+              {/* GSTIN (Indian Business Compliance) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-mono font-medium text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Agency GSTIN (For 18% Input Tax Credit)</span>
+                  </label>
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                    HSN 998314 • 18% ITC
+                  </span>
+                </div>
+                <Input
+                  type="text"
+                  maxLength={15}
+                  value={gstin}
+                  onChange={(e) => setGstin(e.target.value.toUpperCase())}
+                  placeholder="e.g. 27AAAAA0000A1Z5 (15 Characters)"
+                  className="font-mono uppercase tracking-wider"
+                />
+                <p className="text-[11px] font-mono text-zinc-500">
+                  Enter your registered 15-digit GSTIN to claim 18% Input Tax Credit (ITC) on all CreatorBase subscription invoices.
+                </p>
+              </div>
+
+              {/* Place of Supply & Billing Address */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-mono font-medium text-zinc-300 uppercase tracking-wider">
+                    Place of Supply (State)
+                  </label>
+                  <select
+                    value={billingState}
+                    onChange={(e) => setBillingState(e.target.value)}
+                    className="w-full rounded-xl bg-[#0B0C0E] border border-[#262930] px-3.5 py-2.5 text-xs font-mono text-zinc-200 focus:border-emerald-500 focus:outline-none"
+                  >
+                    <option value="Maharashtra (27)">Maharashtra (27)</option>
+                    <option value="Delhi NCR (07)">Delhi NCR (07)</option>
+                    <option value="Karnataka (29)">Karnataka (29)</option>
+                    <option value="Madhya Pradesh (23)">Madhya Pradesh (23)</option>
+                    <option value="Gujarat (24)">Gujarat (24)</option>
+                    <option value="Rajasthan (08)">Rajasthan (08)</option>
+                    <option value="Uttar Pradesh (09)">Uttar Pradesh (09)</option>
+                    <option value="Telangana (36)">Telangana (36)</option>
+                    <option value="Tamil Nadu (33)">Tamil Nadu (33)</option>
+                    <option value="West Bengal (19)">West Bengal (19)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-mono font-medium text-zinc-300 uppercase tracking-wider">
+                    Billing Address
+                  </label>
+                  <Input
+                    type="text"
+                    value={billingAddress}
+                    onChange={(e) => setBillingAddress(e.target.value)}
+                    placeholder="e.g. 101, Senapati Bapat Marg, Lower Parel, Mumbai"
+                  />
+                </div>
               </div>
 
               <div className="space-y-1.5">
@@ -600,15 +711,52 @@ export default function ProfilePage() {
               </div>
             </div>
 
+            {/* Indian GST ITC Invoicing Banner */}
+            <div className="rounded-xl bg-gradient-to-r from-[#0B0C0E] to-emerald-950/20 border border-emerald-500/30 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-white text-sm">
+                    GST Input Tax Credit (ITC) Invoicing
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/30 text-[10px]">
+                    18% GST • HSN 998314
+                  </span>
+                </div>
+                <p className="text-zinc-400 text-[11px]">
+                  Configured GSTIN:{' '}
+                  <strong className="text-white">
+                    {gstin || 'Not configured (Add your GSTIN in General Profile tab)'}
+                  </strong>
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  handleOpenInvoice({
+                    orderId: 'CB_PREVIEW_' + Date.now().toString().slice(-6),
+                    paymentId: 'pay_sample_' + Date.now().toString().slice(-8),
+                    amount: isPro ? 799900 : 299900,
+                    plan: isPro ? 'PRO' : 'STARTER',
+                    createdAt: new Date().toISOString(),
+                  })
+                }
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/50 transition-colors text-xs font-mono font-semibold shrink-0"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Preview Sample GST Invoice (PDF)</span>
+              </button>
+            </div>
+
             {payments.length === 0 ? (
               <div className="text-center py-12 rounded-xl border border-dashed border-[#24272E] bg-[#0B0C0E] space-y-3">
-                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#16181D] text-zinc-500 font-mono text-sm">
+                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#16181D] text-emerald-400 font-mono text-base border border-zinc-800">
                   ₹
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-bold text-white font-sans">No Transaction History Found</p>
                   <p className="text-xs text-zinc-400 font-mono max-w-sm mx-auto">
-                    You have not completed any payments yet. When you upgrade your plan, receipts will appear here.
+                    You have not completed any payments yet. When you upgrade your plan, official GST Tax Invoices will appear here.
                   </p>
                 </div>
                 <div>
@@ -631,7 +779,8 @@ export default function ProfilePage() {
                       <th className="px-4 py-3">Plan / Subscription</th>
                       <th className="px-4 py-3">Amount</th>
                       <th className="px-4 py-3">Date</th>
-                      <th className="px-4 py-3 text-right">Payment Status</th>
+                      <th className="px-4 py-3">Status</th>
+                      <th className="px-4 py-3 text-right">Tax Invoice</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#20232A]">
@@ -670,7 +819,7 @@ export default function ProfilePage() {
                         <td className="px-4 py-3.5 text-zinc-400">
                           {formatDate(p.createdAt)}
                         </td>
-                        <td className="px-4 py-3.5 text-right">
+                        <td className="px-4 py-3.5">
                           <span
                             className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
                               p.status === 'SUCCESS'
@@ -691,6 +840,17 @@ export default function ProfilePage() {
                             />
                             <span>{p.status}</span>
                           </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-right">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenInvoice(p)}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-950/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-400 hover:bg-emerald-950/50 hover:border-emerald-500/60 transition-colors"
+                            title="Download official GST Tax Invoice containing 18% GST breakup and HSN 998314"
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Download GST Tax Invoice (PDF)</span>
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -838,6 +998,13 @@ export default function ProfilePage() {
         }}
         title="Upgrade to Agency Pro"
         description="Unlock full Pan-India Tier 1, 2 & 3 influencer intel, client-ready CSV exports, and direct verified contacts."
+      />
+
+      {/* GST Tax Invoice Modal */}
+      <GstTaxInvoiceModal
+        isOpen={invoiceModalOpen}
+        onClose={() => setInvoiceModalOpen(false)}
+        invoice={selectedInvoice}
       />
     </div>
   );

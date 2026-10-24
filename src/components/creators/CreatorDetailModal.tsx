@@ -9,6 +9,7 @@ import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { InstagramIcon, YoutubeIcon } from '../ui/Icons';
 import { formatFollowers, formatINR, formatPercentage } from '@/lib/utils';
+import { calculateCommercialEstimate } from '@/lib/commercialEstimates';
 import { getCreatorPlatformUrl, EXTERNAL_LINK_PROPS } from '@/utils/url';
 import {
   CheckCircle2,
@@ -58,9 +59,8 @@ export function CreatorDetailModal() {
     dispatch(setQuickAddCreator(current));
   };
 
-  // Estimated deliverables rate
-  const estReelINR = Math.round(creator.followerCount * 0.35 + creator.avgReelViews * 0.12);
-  const estStoryINR = Math.round(creator.followerCount * 0.15);
+  // Smart Commercial Estimate Rate-Card Intelligence
+  const estimate = calculateCommercialEstimate(creator);
 
   return (
     <Modal
@@ -295,35 +295,60 @@ export function CreatorDetailModal() {
               />
             </div>
             <p className="text-[10px] font-mono text-zinc-500 italic pt-0.5">
-              * Estimated based on category audience heuristics & interaction sampling
+              * Audience demographics estimated via category heuristics and interaction sampling.
             </p>
           </div>
         </div>
 
         {/* Commercial Pricing Tier Benchmarks */}
         <div className="rounded-xl bg-emerald-950/20 border border-emerald-900/40 p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-              <IndianRupee className="w-4 h-4 text-emerald-400" />
-              Suggested Commercial Pricing Guide
-            </h4>
-            <span className="text-[11px] text-slate-400">Indian Market Estimates</span>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <IndianRupee className="w-3.5 h-3.5" />
+              </div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400 font-mono">
+                Commercial Rate-Card Intelligence
+              </h4>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                {estimate.nicheLabel}
+              </span>
+              <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
+                {estimate.tier}
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="rounded-lg bg-slate-900/80 border border-slate-800 p-3">
-              <p className="text-xs text-slate-400">1x Dedicated Reel / Video</p>
-              <p className="mt-1 text-base font-bold text-white">
-                {formatINR(estReelINR)}
+            <div className="rounded-lg bg-slate-900/90 border border-slate-800 p-3 space-y-1">
+              <p className="text-[11px] font-mono text-slate-400 uppercase tracking-wide">
+                Estimated 1x Dedicated Reel
+              </p>
+              <p className="text-lg font-bold font-mono text-emerald-400">
+                {formatINR(estimate.reelMinINR)} – {formatINR(estimate.reelMaxINR)}
+              </p>
+              <p className="text-[10px] font-mono text-zinc-500">
+                Benchmark Median: {formatINR(estimate.reelMedianINR)}
               </p>
             </div>
-            <div className="rounded-lg bg-slate-900/80 border border-slate-800 p-3">
-              <p className="text-xs text-slate-400">1x Sponsored Story (24h)</p>
-              <p className="mt-1 text-base font-bold text-white">
-                {formatINR(estStoryINR)}
+            <div className="rounded-lg bg-slate-900/90 border border-slate-800 p-3 space-y-1">
+              <p className="text-[11px] font-mono text-slate-400 uppercase tracking-wide">
+                Estimated 1x Story + Link
+              </p>
+              <p className="text-lg font-bold font-mono text-zinc-100">
+                {formatINR(estimate.storyMinINR)} – {formatINR(estimate.storyMaxINR)}
+              </p>
+              <p className="text-[10px] font-mono text-zinc-500">
+                Benchmark Median: {formatINR(estimate.storyMedianINR)}
               </p>
             </div>
           </div>
+
+          <p className="text-[10px] font-mono text-zinc-500 italic pt-0.5">
+            * {estimate.disclaimer}
+          </p>
         </div>
 
         {/* Direct Business / Collaboration Email Contact */}

@@ -7,6 +7,7 @@ import { Shortlist } from '@/types';
 import api from '@/lib/api';
 import { ShortlistTable } from '@/components/shortlists/ShortlistTable';
 import { KanbanBoard } from '@/components/shortlists/KanbanBoard';
+import { SharePitchModal } from '@/components/shortlists/SharePitchModal';
 import { Button } from '@/components/ui/Button';
 import {
   BookmarkCheck,
@@ -32,6 +33,7 @@ export default function ShortlistDetailPage({
 
   const [shortlist, setShortlist] = useState<Shortlist | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // View state: 'kanban' | 'table'
   const initialView = (searchParams.get('view') as 'table' | 'kanban') || 'kanban';
@@ -150,34 +152,16 @@ export default function ShortlistDetailPage({
             </button>
           </div>
 
-          {/* Quick Pitch Portal Link & 1-Click Copy */}
-          {shortlist.shareToken && (
-            <div className="flex items-center gap-1.5">
-              <Link
-                href={`/pitch/${shortlist.shareToken}`}
-                target="_blank"
-                className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 bg-zinc-800/80 px-3 py-2 text-xs font-medium text-zinc-200 hover:bg-zinc-700 transition-colors"
-                title="Open client pitch portal in new tab"
-              >
-                <Share2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Client Pitch</span>
-                <ExternalLink className="h-3 w-3 text-zinc-500" />
-              </Link>
-              <button
-                type="button"
-                onClick={() => {
-                  const url = `${window.location.origin}/pitch/${shortlist.shareToken}`;
-                  navigator.clipboard.writeText(url);
-                  toast.success('Client pitch link copied to clipboard! 📋');
-                }}
-                className="inline-flex items-center gap-1 rounded-xl border border-zinc-700 bg-zinc-800/80 px-2.5 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:border-emerald-500/50 hover:bg-zinc-700 transition-colors"
-                title="Copy public client pitch link"
-              >
-                <Copy className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Copy</span>
-              </button>
-            </div>
-          )}
+          {/* Prominent "Share Pitch with Client" Button (Monetization Hero Workflow) */}
+          <button
+            type="button"
+            onClick={() => setIsShareModalOpen(true)}
+            className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 bg-emerald-950/40 px-3.5 py-2 text-xs font-mono font-bold text-emerald-300 hover:bg-emerald-900/60 hover:border-emerald-400 transition-all shadow-md shadow-emerald-950/30"
+            title="Generate client pitch portal link"
+          >
+            <Share2 className="h-4 w-4 text-emerald-400" />
+            <span>Share Pitch with Client 🚀</span>
+          </button>
 
           <Link
             href="/discover"
@@ -194,6 +178,15 @@ export default function ShortlistDetailPage({
         <KanbanBoard shortlist={shortlist} onRefresh={fetchShortlist} />
       ) : (
         <ShortlistTable shortlist={shortlist} onRefresh={fetchShortlist} />
+      )}
+
+      {/* Reusable Share Pitch Portal Modal */}
+      {shortlist && (
+        <SharePitchModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          shortlist={shortlist}
+        />
       )}
     </div>
   );

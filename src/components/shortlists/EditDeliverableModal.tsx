@@ -35,7 +35,7 @@ interface EditDeliverableModalProps {
 
 const STAGES: { key: DeliverableStage; label: string }[] = [
   { key: 'SHORTLISTED', label: '1. Shortlisted' },
-  { key: 'EMAIL_SENT', label: '2. Email Sent' },
+  { key: 'EMAIL_SENT', label: '2. Outreach Sent' },
   { key: 'COMMERCIALS_AGREED', label: '3. Commercials Agreed' },
   { key: 'DRAFT_UNDER_REVIEW', label: '4. Draft Under Review' },
   { key: 'LIVE_AND_PAID', label: '5. Live & Paid' },

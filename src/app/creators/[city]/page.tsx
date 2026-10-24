@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
 import { getCreatorPlatformUrl, EXTERNAL_LINK_PROPS } from '@/utils/url';
+import { PAN_INDIA_CITY_MAP } from '@/lib/constants';
 
 export const revalidate = 86400; // ISR cache for 24 hours
 
@@ -29,20 +30,7 @@ interface PageProps {
   }>;
 }
 
-const CITY_MAP: Record<string, { name: string; state: string; hub: string }> = {
-  indore: { name: 'Indore', state: 'Madhya Pradesh', hub: 'Central India Commercial & Food Capital' },
-  mumbai: { name: 'Mumbai', state: 'Maharashtra', hub: 'India’s Financial & Entertainment Hub' },
-  delhi: { name: 'Delhi NCR', state: 'National Capital Region', hub: 'Northern Media & Government Hub' },
-  bengaluru: { name: 'Bengaluru', state: 'Karnataka', hub: 'Silicon Valley & Startup Capital' },
-  pune: { name: 'Pune', state: 'Maharashtra', hub: 'Automotive & Cultural City' },
-  jaipur: { name: 'Jaipur', state: 'Rajasthan', hub: 'Pink City of Heritage & Handicrafts' },
-  hyderabad: { name: 'Hyderabad', state: 'Telangana', hub: 'HITEC City & South Indian Media' },
-  ahmedabad: { name: 'Ahmedabad', state: 'Gujarat', hub: 'Industrial & D2C Brand Powerhouse' },
-  surat: { name: 'Surat', state: 'Gujarat', hub: 'Textile & High-Growth D2C Center' },
-  bhopal: { name: 'Bhopal', state: 'Madhya Pradesh', hub: 'City of Lakes & Culture' },
-  chandigarh: { name: 'Chandigarh', state: 'Punjab & Haryana', hub: 'North Indian Lifestyle Epicenter' },
-  goa: { name: 'Goa', state: 'Goa', hub: 'Global Tourism & Luxury Lifestyle Hub' },
-};
+const CITY_MAP = PAN_INDIA_CITY_MAP;
 
 const NICHES = [
   { key: 'food', label: 'Food & Dining', icon: '🍽️' },
@@ -58,7 +46,24 @@ const NICHES = [
 ];
 
 export async function generateStaticParams() {
-  return Object.keys(CITY_MAP).map((city) => ({ city }));
+  return [
+    { city: 'indore' },
+    { city: 'mumbai' },
+    { city: 'delhi' },
+    { city: 'bengaluru' },
+    { city: 'bangalore' },
+    { city: 'pune' },
+    { city: 'jaipur' },
+    { city: 'hyderabad' },
+    { city: 'ahmedabad' },
+    { city: 'surat' },
+    { city: 'bhopal' },
+    { city: 'chandigarh' },
+    { city: 'goa' },
+    { city: 'lucknow' },
+    { city: 'chennai' },
+    { city: 'kolkata' },
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
