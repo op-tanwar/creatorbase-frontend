@@ -99,7 +99,7 @@ export function SocialProofMarquee() {
         </div>
 
         {/* 4 Crisp Stat Cards */}
-        <div className="mt-12 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-12 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -107,15 +107,15 @@ export function SocialProofMarquee() {
               whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-5 sm:p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-emerald-500/30 transition-all"
+              className="rounded-xl sm:rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-3.5 sm:p-5 lg:p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-emerald-500/30 transition-all"
             >
-              <span className="text-2xl sm:text-4xl font-extrabold font-mono tracking-tight text-white block">
+              <span className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-extrabold font-mono tracking-tight text-white block">
                 {stat.value}
               </span>
-              <h4 className="mt-2 text-xs sm:text-sm font-semibold text-zinc-200 font-sans">
+              <h4 className="mt-1.5 sm:mt-2 text-xs sm:text-sm font-semibold text-zinc-200 font-sans leading-tight">
                 {stat.label}
               </h4>
-              <p className="mt-1 text-[11px] font-mono text-zinc-500">{stat.detail}</p>
+              <p className="mt-1 text-[10px] sm:text-[11px] font-mono text-zinc-500">{stat.detail}</p>
             </motion.div>
           ))}
         </div>

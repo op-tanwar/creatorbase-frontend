@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#060709] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div className="min-h-screen bg-[#060709] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300 pt-16 sm:pt-20">
       {/* Top Breadcrumb */}
       <div className="border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between text-xs font-mono">

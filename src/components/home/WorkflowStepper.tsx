@@ -124,7 +124,7 @@ export function WorkflowStepper() {
 
         {/* Right Column: Dynamic Interactive Stage Preview (7 cols) */}
         <div className="lg:col-span-7">
-          <div className="relative rounded-2xl border border-white/[0.08] bg-[#0C0E12]/95 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.06)] overflow-hidden">
+          <div className="relative rounded-2xl border border-white/[0.08] bg-[#0C0E12]/95 p-4 sm:p-6 lg:p-8 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.06)] overflow-hidden">
             <AnimatePresence mode="wait">
               {activeStep === 0 && (
                 <motion.div
@@ -141,15 +141,15 @@ export function WorkflowStepper() {
                   </div>
 
                   <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs text-zinc-300 space-y-2">
-                    <div className="flex justify-between">
+                    <div className="flex flex-col xs:flex-row justify-between xs:items-center gap-1">
                       <span className="text-zinc-500">Query Filter:</span>
                       <span className="text-white">City IN (&apos;Indore&apos;, &apos;Pune&apos;, &apos;Jaipur&apos;)</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col xs:flex-row justify-between xs:items-center gap-1">
                       <span className="text-zinc-500">Audience Authenticity:</span>
                       <span className="text-emerald-400">&gt; 90.0% Real Human</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col xs:flex-row justify-between xs:items-center gap-1">
                       <span className="text-zinc-500">Median Reel Reach:</span>
                       <span className="text-white">100K - 500K Views</span>
                     </div>
@@ -207,12 +207,12 @@ export function WorkflowStepper() {
                       </button>
                     </div>
 
-                    <div className="flex items-center justify-between rounded-lg bg-[#0C0E12] p-2.5 border border-white/[0.04]">
+                    <div className="flex flex-col xs:flex-row justify-between xs:items-center gap-1 rounded-lg bg-[#0C0E12] p-2.5 border border-white/[0.04]">
                       <span className="text-zinc-300">Client Approval Permission:</span>
                       <span className="text-emerald-400 font-bold">Enabled (Zero-Auth)</span>
                     </div>
 
-                    <div className="flex items-center justify-between rounded-lg bg-[#0C0E12] p-2.5 border border-white/[0.04]">
+                    <div className="flex flex-col xs:flex-row justify-between xs:items-center gap-1 rounded-lg bg-[#0C0E12] p-2.5 border border-white/[0.04]">
                       <span className="text-zinc-300">Commercial Margin Markup:</span>
                       <span className="text-white font-bold">+15% Agency Retainer</span>
                     </div>
@@ -260,7 +260,7 @@ export function WorkflowStepper() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
+                    <div className="flex flex-col xs:flex-row justify-between xs:items-center gap-1 pt-2 border-t border-white/[0.06]">
                       <span className="text-zinc-400">GST Invoice SAC 998314:</span>
                       <span className="text-emerald-400 font-bold">Generated &amp; Filed</span>
                     </div>

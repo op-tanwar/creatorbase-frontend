@@ -84,7 +84,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#060709] py-16 sm:py-24 text-zinc-100">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#060709] pt-28 pb-16 sm:pt-36 sm:pb-24 text-zinc-100">
       {/* Background ambient spotlight & dot grid */}
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_40%_at_50%_-10%,rgba(16,185,129,0.12),transparent)]" />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />

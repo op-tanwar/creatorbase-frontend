@@ -100,68 +100,79 @@ export function ComparisonTable() {
       </div>
 
       {/* Comparison Matrix Table */}
-      <div className="overflow-x-auto rounded-2xl border border-white/[0.08] bg-[#0A0C10] shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)]">
-        <table className="w-full text-left text-xs sm:text-sm">
-          <thead>
-            <tr className="border-b border-white/[0.08] bg-[#08090C] text-[11px] font-mono uppercase tracking-wider">
-              <th className="py-5 px-4 sm:px-6 text-zinc-400 font-semibold w-1/4">
-                Capability / Standard
-              </th>
-              <th className="py-5 px-4 sm:px-6 text-zinc-500 font-semibold w-1/4">
-                Manual Excel / WhatsApp
-              </th>
-              <th className="py-5 px-4 sm:px-6 text-zinc-400 font-semibold w-1/4">
-                Global Tools (₹30,000+/mo)
-              </th>
-              <th className="py-5 px-4 sm:px-6 text-emerald-400 font-bold bg-emerald-950/20 border-l border-emerald-500/20 w-1/4">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>CreatorBase (₹2,999/mo)</span>
-                </div>
-              </th>
-            </tr>
-          </thead>
+      <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-[#0A0C10] shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)] overflow-hidden">
+        {/* Mobile Swipe Hint */}
+        <div className="sm:hidden px-4 py-2.5 bg-[#08090C] border-b border-white/[0.06] text-[11px] font-mono text-zinc-400 flex items-center justify-between">
+          <span className="flex items-center gap-1.5 text-emerald-400">
+            <span>⇄</span>
+            <span>Swipe horizontally to compare</span>
+          </span>
+          <span className="text-zinc-500">4 columns</span>
+        </div>
 
-          <tbody className="divide-y divide-white/[0.06] font-sans">
-            {COMPARISON_ROWS.map((row) => (
-              <tr key={row.capability} className="hover:bg-white/[0.02] transition-colors">
-                {/* Capability Column */}
-                <td className="py-4 sm:py-5 px-4 sm:px-6 align-top">
-                  <span className="font-bold text-white block">{row.capability}</span>
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block mt-0.5">
-                    {row.category}
-                  </span>
-                </td>
-
-                {/* Excel Column */}
-                <td className="py-4 sm:py-5 px-4 sm:px-6 align-top text-zinc-400">
-                  <div className="flex items-start gap-2">
-                    <X className="h-4 w-4 text-red-500/70 shrink-0 mt-0.5" />
-                    <span className="text-xs sm:text-sm leading-relaxed">{row.excel}</span>
+        <div className="overflow-x-auto w-full">
+          <table className="w-full min-w-[680px] text-left text-xs sm:text-sm">
+            <thead>
+              <tr className="border-b border-white/[0.08] bg-[#08090C] text-[11px] font-mono uppercase tracking-wider">
+                <th className="py-4 sm:py-5 px-4 sm:px-6 text-zinc-400 font-semibold w-1/4">
+                  Capability / Standard
+                </th>
+                <th className="py-4 sm:py-5 px-4 sm:px-6 text-zinc-500 font-semibold w-1/4">
+                  Manual Excel / WhatsApp
+                </th>
+                <th className="py-4 sm:py-5 px-4 sm:px-6 text-zinc-400 font-semibold w-1/4">
+                  Global Tools (₹30,000+/mo)
+                </th>
+                <th className="py-4 sm:py-5 px-4 sm:px-6 text-emerald-400 font-bold bg-emerald-950/20 border-l border-emerald-500/20 w-1/4">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>CreatorBase (₹2,999/mo)</span>
                   </div>
-                </td>
-
-                {/* Global Tools Column */}
-                <td className="py-4 sm:py-5 px-4 sm:px-6 align-top text-zinc-400">
-                  <div className="flex items-start gap-2">
-                    <Minus className="h-4 w-4 text-amber-500/70 shrink-0 mt-0.5" />
-                    <span className="text-xs sm:text-sm leading-relaxed">{row.global}</span>
-                  </div>
-                </td>
-
-                {/* CreatorBase Highlight Column */}
-                <td className="py-4 sm:py-5 px-4 sm:px-6 align-top text-white bg-emerald-950/10 border-l border-emerald-500/20">
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5 stroke-[2.5]" />
-                    <span className="text-xs sm:text-sm font-medium leading-relaxed text-zinc-100">
-                      {row.creatorbase}
-                    </span>
-                  </div>
-                </td>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="divide-y divide-white/[0.06] font-sans">
+              {COMPARISON_ROWS.map((row) => (
+                <tr key={row.capability} className="hover:bg-white/[0.02] transition-colors">
+                  {/* Capability Column */}
+                  <td className="py-4 sm:py-5 px-4 sm:px-6 align-top">
+                    <span className="font-bold text-white block">{row.capability}</span>
+                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block mt-0.5">
+                      {row.category}
+                    </span>
+                  </td>
+
+                  {/* Excel Column */}
+                  <td className="py-4 sm:py-5 px-4 sm:px-6 align-top text-zinc-400">
+                    <div className="flex items-start gap-2">
+                      <X className="h-4 w-4 text-red-500/70 shrink-0 mt-0.5" />
+                      <span className="text-xs sm:text-sm leading-relaxed">{row.excel}</span>
+                    </div>
+                  </td>
+
+                  {/* Global Tools Column */}
+                  <td className="py-4 sm:py-5 px-4 sm:px-6 align-top text-zinc-400">
+                    <div className="flex items-start gap-2">
+                      <Minus className="h-4 w-4 text-amber-500/70 shrink-0 mt-0.5" />
+                      <span className="text-xs sm:text-sm leading-relaxed">{row.global}</span>
+                    </div>
+                  </td>
+
+                  {/* CreatorBase Highlight Column */}
+                  <td className="py-4 sm:py-5 px-4 sm:px-6 align-top text-white bg-emerald-950/10 border-l border-emerald-500/20">
+                    <div className="flex items-start gap-2">
+                      <Check className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5 stroke-[2.5]" />
+                      <span className="text-xs sm:text-sm font-medium leading-relaxed text-zinc-100">
+                        {row.creatorbase}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );

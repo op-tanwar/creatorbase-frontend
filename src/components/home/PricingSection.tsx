@@ -121,7 +121,7 @@ export function PricingSection() {
       </div>
 
       {/* 3 Pricing Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch max-w-6xl mx-auto">
         {plans.map((plan) => {
           const price =
             billingCycle === 'annual' ? plan.priceAnnual : plan.priceMonthly;
@@ -193,10 +193,10 @@ export function PricingSection() {
               <div className="mt-8 pt-6 border-t border-white/[0.04]">
                 <Link
                   href={plan.href}
-                  className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs sm:text-sm font-semibold transition-all shadow-md ${
+                  className={`w-full min-h-[48px] inline-flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-98 ${
                     plan.popular
-                      ? 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_20px_rgba(16,185,129,0.3)] active:scale-95'
-                      : 'border border-white/[0.08] bg-white/[0.05] hover:bg-white/[0.1] text-white active:scale-95'
+                      ? 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+                      : 'border border-white/[0.08] bg-white/[0.05] hover:bg-white/[0.1] text-white'
                   }`}
                 >
                   <span>{plan.cta}</span>

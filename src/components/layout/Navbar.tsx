@@ -20,7 +20,7 @@ export function Navbar({ onOpenMobileMenu, title, subtitle }: NavbarProps) {
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenMobileMenu}
-          className="lg:hidden rounded-lg p-2 text-zinc-400 hover:bg-white/[0.05] hover:text-white transition-colors"
+          className="lg:hidden flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-white/[0.08] bg-[#0C0E12] text-zinc-300 hover:bg-white/[0.05] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
           aria-label="Open mobile navigation menu"
         >
           <Menu className="w-5 h-5" />

@@ -258,7 +258,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
 
       {/* Main Container */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-24 pb-12 sm:pt-28 sm:pb-16 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav
           aria-label="Breadcrumb"

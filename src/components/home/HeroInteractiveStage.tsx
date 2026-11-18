@@ -329,7 +329,7 @@ export function HeroInteractiveStage() {
     <div
       ref={containerRef}
       id="engine"
-      className="relative mx-auto max-w-6xl w-full mt-12 sm:mt-16 perspective-[1000px]"
+      className="relative mx-auto max-w-6xl w-full mt-10 sm:mt-14 lg:mt-16 perspective-[1000px]"
     >
       {/* Ambient Radial Spotlight Under Stage */}
       <div className="pointer-events-none absolute -top-20 left-1/2 -z-10 h-[450px] w-[800px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.18),transparent_65%)] blur-[90px]" />
@@ -341,39 +341,39 @@ export function HeroInteractiveStage() {
           opacity,
           transformStyle: 'preserve-3d',
         }}
-        className="rounded-2xl border border-white/[0.08] bg-[#0A0C10] shadow-[0_25px_70px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.08)] overflow-hidden"
+        className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-[#0A0C10] shadow-[0_25px_70px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.08)] overflow-hidden"
       >
         {/* macOS / Linear Dark Browser Window Header */}
-        <div className="flex h-11 items-center justify-between border-b border-white/[0.06] bg-[#08090C] px-4 sm:px-6">
-          <div className="flex items-center gap-2">
+        <div className="flex h-11 items-center justify-between border-b border-white/[0.06] bg-[#08090C] px-3 sm:px-6">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <span className="h-3 w-3 rounded-full bg-[#FF5F56]/90 border border-[#E0443E]" />
             <span className="h-3 w-3 rounded-full bg-[#FFBD2E]/90 border border-[#DEA123]" />
             <span className="h-3 w-3 rounded-full bg-[#27C93F]/90 border border-[#1AAB29]" />
           </div>
 
-          <div className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-black/50 px-3.5 py-1 text-xs text-zinc-400 font-mono">
-            <Lock className="h-3 w-3 text-emerald-400" />
+          <div className="hidden sm:flex items-center gap-2 rounded-lg border border-white/[0.06] bg-black/50 px-3.5 py-1 text-xs text-zinc-400 font-mono">
+            <Lock className="h-3 w-3 text-emerald-400 shrink-0" />
             <span className="text-zinc-500">https://</span>
             <span className="text-zinc-200">creatorbase.in</span>
             <span className="text-zinc-500">/engine/discovery</span>
           </div>
 
-          <div className="flex items-center gap-2 text-[11px] font-mono text-emerald-400">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-mono text-emerald-400 shrink-0">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="hidden sm:inline">24ms API LATENCY</span>
+            <span>24ms API LATENCY</span>
           </div>
         </div>
 
         {/* Product Stage Content Area */}
-        <div className="p-4 sm:p-6 lg:p-8">
+        <div className="p-3 sm:p-5 lg:p-6">
           {/* Interactive Filter Switches: Cities & Niches */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.06]">
-            {/* City Selector */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-xs font-mono uppercase text-zinc-500 mr-1 flex items-center gap-1">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 border-b border-white/[0.06]">
+            {/* City Selector with Smooth Horizontal Scroll on Mobile */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 w-full md:w-auto">
+              <span className="text-[11px] sm:text-xs font-mono uppercase text-zinc-500 mr-1 flex items-center gap-1 shrink-0">
                 <MapPin className="h-3.5 w-3.5 text-emerald-400" />
                 <span>City:</span>
               </span>
@@ -381,7 +381,7 @@ export function HeroInteractiveStage() {
                 <button
                   key={city}
                   onClick={() => setSelectedCity(city)}
-                  className={`relative rounded-lg px-3 py-1.5 text-xs font-mono font-medium transition-all ${
+                  className={`shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-mono font-medium transition-all ${
                     selectedCity === city
                       ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
                       : 'text-zinc-400 hover:text-white border border-transparent hover:border-white/[0.06]'
@@ -395,9 +395,9 @@ export function HeroInteractiveStage() {
               ))}
             </div>
 
-            {/* Niche Selector */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-xs font-mono uppercase text-zinc-500 mr-1 flex items-center gap-1">
+            {/* Niche Selector with Smooth Horizontal Scroll on Mobile */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 w-full md:w-auto">
+              <span className="text-[11px] sm:text-xs font-mono uppercase text-zinc-500 mr-1 flex items-center gap-1 shrink-0">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Niche:</span>
               </span>
@@ -405,7 +405,7 @@ export function HeroInteractiveStage() {
                 <button
                   key={niche}
                   onClick={() => setSelectedNiche(niche)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-mono font-medium transition-all ${
+                  className={`shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-mono font-medium transition-all ${
                     selectedNiche === niche
                       ? 'bg-white text-black font-semibold shadow-sm'
                       : 'text-zinc-400 hover:text-white border border-white/[0.06] bg-[#0E1014]'
@@ -425,13 +425,13 @@ export function HeroInteractiveStage() {
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
               transition={{ type: 'spring', stiffness: 280, damping: 26 }}
-              className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch"
+              className="mt-5 sm:mt-6 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch"
             >
               {/* Left Column: Creator Identity & Bio (5 cols) */}
-              <div className="lg:col-span-5 rounded-xl border border-white/[0.06] bg-[#0C0E12] p-5 sm:p-6 flex flex-col justify-between">
+              <div className="lg:col-span-5 rounded-xl border border-white/[0.06] bg-[#0C0E12] p-4 sm:p-5 lg:p-6 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-start gap-4">
-                    <div className="relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border border-white/[0.08] shadow-md">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="relative h-14 w-14 xs:h-16 xs:w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border border-white/[0.08] shadow-md">
                       <Image
                         src={activeCreator.avatar}
                         alt={activeCreator.name}
@@ -439,7 +439,7 @@ export function HeroInteractiveStage() {
                         className="object-cover"
                         unoptimized
                       />
-                      <span className="absolute bottom-1 right-1 rounded-md bg-black/80 p-1 text-white backdrop-blur-sm border border-white/[0.1]">
+                      <span className="absolute bottom-1 right-1 rounded-md bg-black/80 p-0.5 sm:p-1 text-white backdrop-blur-sm border border-white/[0.1]">
                         {activeCreator.platform === 'INSTAGRAM' ? (
                           <InstagramIcon className="h-3 w-3 text-pink-400" />
                         ) : (
@@ -450,7 +450,7 @@ export function HeroInteractiveStage() {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <h4 className="text-base sm:text-lg font-bold text-white truncate">
+                        <h4 className="text-sm xs:text-base sm:text-lg font-bold text-white truncate">
                           {activeCreator.name}
                         </h4>
                         <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -458,9 +458,9 @@ export function HeroInteractiveStage() {
                       <p className="text-xs font-mono text-zinc-400 truncate">
                         {activeCreator.handle}
                       </p>
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[11px] font-mono text-zinc-300">
-                          <MapPin className="h-3 w-3 text-emerald-400" />
+                      <div className="mt-1.5 sm:mt-2 flex items-center gap-2 flex-wrap">
+                        <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] sm:text-[11px] font-mono text-zinc-300">
+                          <MapPin className="h-3 w-3 text-emerald-400 shrink-0" />
                           <span>
                             {activeCreator.city}, {activeCreator.state}
                           </span>
@@ -469,13 +469,13 @@ export function HeroInteractiveStage() {
                     </div>
                   </div>
 
-                  <p className="mt-4 text-xs sm:text-sm text-zinc-300 leading-relaxed font-sans border-t border-white/[0.04] pt-4">
+                  <p className="mt-3.5 sm:mt-4 text-xs sm:text-sm text-zinc-300 leading-relaxed font-sans border-t border-white/[0.04] pt-3 sm:pt-4">
                     {activeCreator.bio}
                   </p>
                 </div>
 
                 {/* Direct Verified Business Email Snippet */}
-                <div className="mt-5 rounded-lg border border-white/[0.06] bg-[#111317] p-3 flex items-center justify-between gap-2">
+                <div className="mt-4 sm:mt-5 rounded-lg border border-white/[0.06] bg-[#111317] p-2.5 sm:p-3 flex items-center justify-between gap-2">
                   <div className="min-w-0 flex items-center gap-2">
                     <Mail className="h-4 w-4 text-emerald-400 shrink-0" />
                     <span className="text-xs font-mono text-zinc-200 truncate">
@@ -484,13 +484,13 @@ export function HeroInteractiveStage() {
                   </div>
                   <button
                     onClick={() => handleCopyEmail(activeCreator.email)}
-                    className="shrink-0 rounded-md border border-white/[0.08] bg-white/[0.05] p-1.5 text-zinc-400 hover:text-white hover:bg-white/[0.1] transition-colors"
+                    className="shrink-0 flex h-9 w-9 min-h-[36px] min-w-[36px] sm:min-h-[40px] sm:min-w-[40px] items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.05] text-zinc-400 hover:text-white hover:bg-white/[0.1] transition-colors"
                     title="Copy direct collab email"
                   >
                     {copiedEmail === activeCreator.email ? (
-                      <Check className="h-3.5 w-3.5 text-emerald-400" />
+                      <Check className="h-4 w-4 text-emerald-400" />
                     ) : (
-                      <Copy className="h-3.5 w-3.5" />
+                      <Copy className="h-4 w-4" />
                     )}
                   </button>
                 </div>
@@ -499,13 +499,13 @@ export function HeroInteractiveStage() {
               {/* Right Column: Telemetry & Rate Card Deck (7 cols) */}
               <div className="lg:col-span-7 flex flex-col justify-between gap-4">
                 {/* 4 Telemetry Metrics Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   {/* Metric 1: Followers */}
-                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-4 text-center">
+                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-2.5 sm:p-4 text-center">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">
                       Followers
                     </span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-white">
+                    <span className="text-base sm:text-xl font-bold font-mono text-white">
                       {activeCreator.followers}
                     </span>
                     <span className="text-[10px] font-mono text-emerald-400 block mt-1">
@@ -514,11 +514,11 @@ export function HeroInteractiveStage() {
                   </div>
 
                   {/* Metric 2: Real Engagement */}
-                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-4 text-center">
+                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-2.5 sm:p-4 text-center">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">
                       Eng. Rate
                     </span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-emerald-400">
+                    <span className="text-base sm:text-xl font-bold font-mono text-emerald-400">
                       {activeCreator.er}
                     </span>
                     <span className="text-[10px] font-mono text-zinc-400 block mt-1">
@@ -527,12 +527,12 @@ export function HeroInteractiveStage() {
                   </div>
 
                   {/* Metric 3: Authenticity Gauge */}
-                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-4 text-center">
+                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-2.5 sm:p-4 text-center">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">
                       Authenticity
                     </span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-white flex items-center justify-center gap-1">
-                      <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                    <span className="text-base sm:text-xl font-bold font-mono text-white flex items-center justify-center gap-1">
+                      <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-400 shrink-0" />
                       <span>{activeCreator.authenticity}/100</span>
                     </span>
                     <span className="text-[10px] font-mono text-emerald-400 block mt-1">
@@ -541,11 +541,11 @@ export function HeroInteractiveStage() {
                   </div>
 
                   {/* Metric 4: Median Views */}
-                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-4 text-center">
+                  <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12] p-2.5 sm:p-4 text-center">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">
                       Median Views
                     </span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-zinc-100">
+                    <span className="text-base sm:text-xl font-bold font-mono text-zinc-100">
                       {activeCreator.medianViews}
                     </span>
                     <span className="text-[10px] font-mono text-zinc-400 block mt-1">
@@ -555,7 +555,7 @@ export function HeroInteractiveStage() {
                 </div>
 
                 {/* Commercial Rate Card & Approval Action Box */}
-                <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-4 sm:p-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                   <div>
                     <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 block mb-0.5">
                       Verified Commercial Rate Card
@@ -568,14 +568,14 @@ export function HeroInteractiveStage() {
                         / Dedicated Reel
                       </span>
                     </div>
-                    <span className="text-[11px] font-mono text-zinc-400 block mt-1">
+                    <span className="text-[10px] sm:text-[11px] font-mono text-zinc-400 block mt-1">
                       GST ITC SAC 998314 • Zero Broker Markups
                     </span>
                   </div>
 
                   <button
                     onClick={() => toggleApprove(activeCreator.id)}
-                    className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-xs sm:text-sm font-semibold transition-all shadow-md ${
+                    className={`w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-98 ${
                       isApproved
                         ? 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                         : 'bg-white text-black hover:bg-zinc-200'
@@ -599,8 +599,8 @@ export function HeroInteractiveStage() {
           </AnimatePresence>
 
           {/* Bottom Live Campaign Budget Telemetry Bar */}
-          <div className="mt-6 pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-zinc-400">
-            <div className="flex items-center gap-3">
+          <div className="mt-5 sm:mt-6 pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3 text-xs font-mono text-zinc-400">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
               <span className="text-zinc-500">DECK SIMULATION:</span>
               <span className="text-white font-bold">
                 {approvedCreators.size} Creator{approvedCreators.size !== 1 ? 's' : ''} Selected

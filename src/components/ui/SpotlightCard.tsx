@@ -44,7 +44,7 @@ export function SpotlightCard({
       onMouseLeave={() => setIsHovered(false)}
       transition={{ type: 'spring', stiffness: 260, damping: 24 }}
       className={cn(
-        'group relative rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-6 sm:p-8 backdrop-blur-xl',
+        'group relative rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-4 sm:p-6 lg:p-8 backdrop-blur-xl',
         'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] overflow-hidden transition-all duration-300',
         className
       )}

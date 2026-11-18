@@ -153,10 +153,10 @@ export function BentoFeatures() {
                 {pitchCreators.map((creator) => (
                   <div
                     key={creator.id}
-                    className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-[#0E1014] p-3 text-xs"
+                    className="flex flex-col xs:flex-row xs:items-center justify-between gap-2 rounded-lg border border-white/[0.06] bg-[#0E1014] p-3 text-xs"
                   >
-                    <div>
-                      <span className="font-semibold text-white block">
+                    <div className="min-w-0">
+                      <span className="font-semibold text-white block truncate">
                         {creator.name}
                       </span>
                       <span className="text-[11px] font-mono text-zinc-400">
@@ -166,7 +166,7 @@ export function BentoFeatures() {
 
                     <button
                       onClick={() => togglePitchCreator(creator.id)}
-                      className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-medium transition-all ${
+                      className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-medium transition-all shrink-0 ${
                         creator.approved
                           ? 'bg-emerald-500 text-black font-bold shadow-[0_0_12px_rgba(16,185,129,0.3)]'
                           : 'border border-white/[0.08] bg-white/[0.05] text-zinc-400 hover:text-white'
@@ -418,12 +418,12 @@ export function BentoFeatures() {
 
             {/* Interactive CPM Chart Selector */}
             <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#08090C] p-4">
-              <div className="flex items-center justify-between gap-1 mb-4">
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 mb-4">
                 {(['Tech', 'Food', 'Fashion', 'Finance'] as const).map((v) => (
                   <button
                     key={v}
                     onClick={() => setSelectedVertical(v)}
-                    className={`rounded-lg px-2.5 py-1 text-xs font-mono transition-all ${
+                    className={`shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1 text-xs font-mono transition-all ${
                       selectedVertical === v
                         ? 'bg-emerald-500 text-black font-bold'
                         : 'text-zinc-400 hover:text-white bg-[#0E1014]'
@@ -508,9 +508,9 @@ export function BentoFeatures() {
                 </div>
               </div>
 
-              <div className="pt-3 flex justify-between items-center text-sm">
+              <div className="pt-3 flex flex-col xs:flex-row justify-between xs:items-center gap-1 text-xs sm:text-sm">
                 <span className="text-emerald-400 font-bold">Total (18% ITC Eligible):</span>
-                <span className="text-white font-extrabold font-mono">₹3,538.82</span>
+                <span className="text-white font-extrabold font-mono text-sm sm:text-base">₹3,538.82</span>
               </div>
 
               <div className="mt-4 flex items-center justify-between gap-2">

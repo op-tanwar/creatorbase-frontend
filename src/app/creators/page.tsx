@@ -66,7 +66,7 @@ export default function CreatorsDirectoryIndex() {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(16,185,129,0.12),transparent_70%)]" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-24 pb-12 sm:pt-28 sm:pb-16 sm:px-6 lg:px-8">
         <nav
           aria-label="Breadcrumb"
           className="mb-8 flex items-center gap-2 text-xs font-medium text-zinc-400"
