@@ -32,7 +32,6 @@ export function AddToShortlistModal() {
     }
   }, [shortlists, selectedShortlistId]);
 
-  // Pre-fill suggested fee if empty when creator opened
   useEffect(() => {
     if (creator) {
       const suggested = Math.round(
@@ -67,7 +66,6 @@ export function AddToShortlistModal() {
         if (createRes.data.success) {
           targetShortlistId = createRes.data.data.id;
           targetShortlistName = createRes.data.data.name;
-          // Refresh shortlists
           const refreshed = await api.get('/shortlists');
           if (refreshed.data.success) {
             dispatch(setShortlists(refreshed.data.data));
@@ -126,16 +124,16 @@ export function AddToShortlistModal() {
         {/* Shortlist Selection */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+            <label className="text-xs font-mono uppercase tracking-wider text-zinc-400">
               Select Shortlist
             </label>
             <button
               type="button"
               onClick={() => setIsCreatingNew(!isCreatingNew)}
-              className="text-xs text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1 transition-colors"
+              className="text-xs text-emerald-400 hover:text-emerald-300 font-mono font-medium flex items-center gap-1 transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />
-              {isCreatingNew ? 'Pick Existing' : 'Create New'}
+              <span>{isCreatingNew ? 'Pick Existing' : 'Create New'}</span>
             </button>
           </div>
 
@@ -148,17 +146,17 @@ export function AddToShortlistModal() {
             />
           ) : (
             <div className="relative">
-              <Bookmark className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <Bookmark className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
               <select
                 value={selectedShortlistId}
                 onChange={(e) => setSelectedShortlistId(e.target.value)}
-                className="w-full appearance-none rounded-xl bg-slate-900 border border-slate-700/80 pl-9 pr-8 py-2.5 text-sm text-slate-200 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                className="w-full appearance-none rounded-xl bg-[#08090B] border border-white/[0.08] pl-9 pr-8 py-2.5 text-xs sm:text-sm font-mono text-zinc-200 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.03)] focus:border-emerald-500/60 focus:bg-[#0C0E12] focus:outline-none focus:ring-1 focus:ring-emerald-500/40 cursor-pointer"
               >
                 {shortlists.length === 0 ? (
                   <option value="">No existing shortlists. Create one!</option>
                 ) : (
                   shortlists.map((sl) => (
-                    <option key={sl.id} value={sl.id}>
+                    <option key={sl.id} value={sl.id} className="bg-[#0C0E12] text-zinc-200">
                       {sl.name} ({sl.creatorCount || sl.items?.length || 0} creators)
                     </option>
                   ))
@@ -176,7 +174,7 @@ export function AddToShortlistModal() {
             min="0"
             step="1000"
             placeholder="e.g. 50000"
-            leftIcon={<IndianRupee className="w-4 h-4" />}
+            leftIcon={<IndianRupee className="w-4 h-4 text-emerald-400" />}
             value={fee}
             onChange={(e) => setFee(e.target.value)}
             helperText="Commercial payout allocated for this creator's deliverables."
@@ -185,27 +183,28 @@ export function AddToShortlistModal() {
 
         {/* Deliverable Notes */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-            Deliverable Notes & Requirements
+          <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+            Deliverable Notes &amp; Requirements
           </label>
           <div className="relative">
-            <FileText className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
+            <FileText className="absolute left-3 top-3 w-4 h-4 text-zinc-400 pointer-events-none" />
             <textarea
               rows={3}
               placeholder="e.g., 1x Dedicated 60s Reel, 2x Stories with promo coupon code..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full rounded-xl bg-slate-900 border border-slate-700/80 pl-9 pr-3 py-2 text-sm text-slate-100 placeholder-slate-500 shadow-sm transition-all focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-xl bg-[#08090B] border border-white/[0.08] pl-9 pr-3 py-2 text-xs sm:text-sm font-mono text-zinc-100 placeholder-zinc-500 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.03)] transition-all focus:border-emerald-500/60 focus:bg-[#0C0E12] focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
             />
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.06]">
           <Button
             type="button"
             variant="ghost"
             onClick={() => dispatch(setQuickAddCreator(null))}
+            className="font-mono text-xs"
           >
             Cancel
           </Button>
@@ -214,6 +213,7 @@ export function AddToShortlistModal() {
             variant="primary"
             isLoading={isSubmitting}
             leftIcon={<Check className="w-4 h-4" />}
+            className="font-mono text-xs"
           >
             Save to Shortlist
           </Button>

@@ -47,12 +47,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isAuthPage = normalizedPath === '/login' || normalizedPath === '/register';
 
   if (isAuthPage) {
-    return <main className="min-h-screen bg-zinc-950 text-zinc-100">{children}</main>;
+    return (
+      <main className="min-h-screen bg-[#060709] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
+        <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_40%_at_50%_-10%,rgba(16,185,129,0.12),transparent)]" />
+        <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
+        {children}
+      </main>
+    );
   }
 
   if (pathname.startsWith('/pitch')) {
     return (
-      <main className="min-h-screen bg-[#08090B] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-white">
+      <main className="min-h-screen bg-[#060709] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
+        <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_40%_at_50%_-10%,rgba(16,185,129,0.10),transparent)]" />
+        <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
         {children}
       </main>
     );
@@ -102,7 +110,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { title, subtitle } = getPageInfo();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-950 text-zinc-100 font-sans">
+    <div className="flex h-screen overflow-hidden bg-[#060709] text-zinc-100 font-sans">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_40%_at_50%_-10%,rgba(16,185,129,0.08),transparent)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
+
       {/* Desktop Persistent Sidebar (>= 1024px) */}
       <div className="hidden lg:flex lg:shrink-0">
         <Sidebar />
@@ -112,7 +124,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 flex lg:hidden animate-in fade-in duration-200">
           <div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md"
             onClick={() => setMobileMenuOpen(false)}
           />
           <div className="relative flex w-64 flex-1 flex-col shadow-2xl z-10 animate-in slide-in-from-left duration-250">
@@ -128,7 +140,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           title={title}
           subtitle={subtitle}
         />
-        <main className="flex-1 w-full  mx-auto px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8 lg:pb-10 bg-[#0B0C0E] overflow-x-hidden">
+        <main className="flex-1 w-full mx-auto px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8 lg:pb-10 bg-[#060709] overflow-x-hidden">
           {children}
         </main>
       </div>

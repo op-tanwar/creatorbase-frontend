@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#08090B] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div className="min-h-screen bg-[#060709] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
       {/* Top Breadcrumb */}
-      <div className="border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md">
+      <div className="border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between text-xs font-mono">
           <Link
             href="/"
@@ -61,7 +61,7 @@ export default function RefundPolicyPage() {
 
         {/* Timeline Infographic / Steps */}
         <div className="my-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 mb-1">
               <Clock className="w-4 h-4" />
               <span>STEP 1: REQUEST</span>
@@ -71,7 +71,7 @@ export default function RefundPolicyPage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-indigo-400 mb-1">
               <CheckCircle className="w-4 h-4" />
               <span>STEP 2: APPROVAL</span>
@@ -81,7 +81,7 @@ export default function RefundPolicyPage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-teal-400 mb-1">
               <CreditCard className="w-4 h-4" />
               <span>STEP 3: REVERSAL</span>
@@ -143,7 +143,7 @@ export default function RefundPolicyPage() {
             <p>
               Once approved, all refunds are routed directly through Razorpay to the original source payment instrument:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-950/80 p-4 font-mono text-xs space-y-2.5">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs space-y-2.5">
               <div className="flex justify-between items-center border-b border-zinc-800 pb-2">
                 <span className="text-white">UPI (Google Pay, PhonePe, Paytm, BHIM)</span>
                 <span className="text-emerald-400 font-semibold">24 to 48 Hours</span>
@@ -170,7 +170,7 @@ export default function RefundPolicyPage() {
             <p>
               To initiate a cancellation or submit a refund request, reach out to our dedicated billing team:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 font-mono text-xs space-y-1.5">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs space-y-1.5">
               <p className="text-white font-bold">Billing &amp; Payments Support Desk</p>
               <p className="text-zinc-400">CreatorBase Technologies</p>
               <p className="text-zinc-400">Email: <a href="mailto:billing@creatorbase.in" className="text-emerald-400 underline">billing@creatorbase.in</a></p>

@@ -14,23 +14,24 @@ interface NavbarProps {
 
 export function Navbar({ onOpenMobileMenu, title, subtitle }: NavbarProps) {
   const { user } = useAppSelector((state) => state.auth);
+
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-[#24272E] bg-[#0B0C0E]/90 px-4 md:px-8 backdrop-blur-md">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-white/[0.06] bg-[#060709]/80 px-4 md:px-8 backdrop-blur-2xl">
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenMobileMenu}
-          className="lg:hidden rounded-lg p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
+          className="lg:hidden rounded-lg p-2 text-zinc-400 hover:bg-white/[0.05] hover:text-white transition-colors"
           aria-label="Open mobile navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
         <div>
-          <h1 className="text-base md:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+          <h1 className="text-sm md:text-base font-bold tracking-tight text-white font-sans flex items-center gap-2">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xs text-slate-400 hidden sm:block">
+            <p className="text-xs text-zinc-400 hidden sm:block font-sans">
               {subtitle}
             </p>
           )}
@@ -38,19 +39,20 @@ export function Navbar({ onOpenMobileMenu, title, subtitle }: NavbarProps) {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Market Status pill */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
+        {/* Live Feed Hub Status Pill */}
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0C0E12] border border-white/[0.08] text-xs font-mono text-zinc-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
           </span>
-          <span className="font-medium text-slate-200">India Tier 1 & 2 Hubs</span>
-          <Badge variant="indigo" size="sm" className="py-0 px-1 text-[10px]">
-            Live Feed
-          </Badge>
+          <span>50+ Indian Hubs Active</span>
+          <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-1.5 py-0.2 rounded-full">
+            24ms
+          </span>
         </div>
 
-        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 text-xs font-medium">
+        {/* Precision Match Engine Badge */}
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium shadow-[0_0_15px_rgba(16,185,129,0.12)]">
           <Sparkles className="w-3.5 h-3.5 shrink-0" />
           <span className="hidden md:inline">Precision Match</span>
           <Radio className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
@@ -59,20 +61,20 @@ export function Navbar({ onOpenMobileMenu, title, subtitle }: NavbarProps) {
         {user?.role === 'SUPER_ADMIN' && (
           <Link
             href="/admin"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/15 via-amber-500/25 to-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-semibold hover:border-amber-400 hover:text-amber-200 transition-all shadow-sm shadow-amber-950"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-semibold hover:border-amber-400 hover:bg-amber-500/20 transition-all shadow-[0_0_15px_rgba(245,158,11,0.15)]"
           >
-            <span className="text-sm">👑</span>
-            <span className="tracking-wide">Admin Console</span>
+            <span>👑</span>
+            <span className="tracking-wide">Admin</span>
           </Link>
         )}
 
         {/* Profile Avatar Shortcut */}
         <Link
           href="/profile"
-          className="flex items-center gap-2 pl-2 border-l border-zinc-800 hover:opacity-85 transition-opacity"
+          className="flex items-center gap-2 pl-2 border-l border-white/[0.08] hover:opacity-90 transition-opacity"
           title="Account & Organization Settings"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-bold text-xs uppercase shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-950 to-zinc-900 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs uppercase shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             {user?.name ? user.name.slice(0, 2) : 'CB'}
           </div>
         </Link>

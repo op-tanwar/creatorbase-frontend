@@ -188,7 +188,7 @@ export default function AdminCreatorsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#24272E] pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/[0.06] pb-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white font-sans flex items-center gap-2">
             <span>Creator Catalog Manager</span>
@@ -228,7 +228,7 @@ export default function AdminCreatorsPage() {
               placeholder="Search by creator name, @handle, city, or niche..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-[#121418] border border-[#24272E] rounded-xl text-xs text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-amber-500/60 font-mono transition-colors"
+              className="w-full pl-10 pr-4 py-2 bg-[#08090C] border border-white/[0.06] rounded-xl text-xs text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-amber-500/60 font-mono transition-colors"
             />
           </div>
           <button
@@ -254,7 +254,7 @@ export default function AdminCreatorsPage() {
               className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-colors ${
                 platformFilter === p
                   ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200 bg-zinc-900/60 border border-zinc-800'
+                  : 'text-zinc-400 hover:text-zinc-200 bg-white/[0.04]/60 border border-white/[0.08]'
               }`}
             >
               {p === 'ALL' ? 'All Platforms' : p}
@@ -264,10 +264,10 @@ export default function AdminCreatorsPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-[#24272E] bg-[#111317] overflow-hidden shadow-sm">
+      <div className="rounded-xl border border-white/[0.06] bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#15171D] border-b border-[#24272E] text-zinc-400 font-mono uppercase tracking-wider text-[11px]">
+            <thead className="bg-[#08090C] border-b border-white/[0.06] text-zinc-400 font-mono uppercase tracking-wider text-[11px]">
               <tr>
                 <th className="py-3 px-4">Creator</th>
                 <th className="py-3 px-4">Platform</th>
@@ -400,7 +400,7 @@ export default function AdminCreatorsPage() {
 
         {/* Pagination Footer */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 bg-[#13151A] border-t border-[#24272E] text-xs font-mono">
+          <div className="flex items-center justify-between px-4 py-3 bg-[#08090C] border-t border-white/[0.06] text-xs font-mono">
             <span className="text-zinc-400">
               Page <strong>{page}</strong> of <strong>{totalPages}</strong> ({total} total)
             </span>
@@ -408,14 +408,14 @@ export default function AdminCreatorsPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 disabled:opacity-40 hover:bg-zinc-800 transition-colors"
+                className="p-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-zinc-300 disabled:opacity-40 hover:bg-zinc-800 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
-                className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 disabled:opacity-40 hover:bg-zinc-800 transition-colors"
+                className="p-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-zinc-300 disabled:opacity-40 hover:bg-zinc-800 transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -427,9 +427,9 @@ export default function AdminCreatorsPage() {
       {/* Add / Edit Creator Modal */}
       {(modalType === 'CREATE' || modalType === 'EDIT') && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#121418] border border-[#2A2E38] p-6 shadow-2xl space-y-5 text-zinc-200">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#08090C] border border-[#2A2E38] p-6 shadow-2xl space-y-5 text-zinc-200">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-[#24272E] pb-4">
+            <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <span>{modalType === 'CREATE' ? 'Add Verified Creator' : 'Edit Creator Record'}</span>
@@ -641,11 +641,11 @@ export default function AdminCreatorsPage() {
               </div>
 
               {/* Form Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#24272E]">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.06]">
                 <button
                   type="button"
                   onClick={() => setModalType('NONE')}
-                  className="px-4 py-2 rounded-xl text-xs font-mono text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 transition-colors"
+                  className="px-4 py-2 rounded-xl text-xs font-mono text-zinc-400 hover:text-white bg-white/[0.04] border border-white/[0.08] transition-colors"
                 >
                   Cancel
                 </button>
@@ -669,7 +669,7 @@ export default function AdminCreatorsPage() {
       {/* Delete Confirmation Modal */}
       {modalType === 'DELETE' && selectedCreator && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="relative w-full max-w-md rounded-2xl bg-[#121418] border border-rose-900/60 p-6 shadow-2xl space-y-4 text-zinc-200">
+          <div className="relative w-full max-w-md rounded-2xl bg-[#08090C] border border-rose-900/60 p-6 shadow-2xl space-y-4 text-zinc-200">
             <div className="flex items-center gap-3 text-rose-400">
               <div className="p-2.5 rounded-xl bg-rose-950/60 border border-rose-900/60">
                 <AlertTriangle className="w-5 h-5 text-rose-400" />
@@ -686,11 +686,11 @@ export default function AdminCreatorsPage() {
               This will remove this creator from the directory and any associated shortlists.
             </p>
 
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#24272E]">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.06]">
               <button
                 type="button"
                 onClick={() => setModalType('NONE')}
-                className="px-4 py-2 rounded-xl text-xs font-mono text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-mono text-zinc-400 hover:text-white bg-white/[0.04] border border-white/[0.08] transition-colors"
               >
                 Cancel
               </button>

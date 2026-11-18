@@ -13,8 +13,6 @@ import {
   Clock,
   Sparkles,
   MapPin,
-  TrendingUp,
-  Users,
   ShieldCheck,
   Check,
   X,
@@ -24,7 +22,6 @@ import {
   Copy,
   Loader2,
   AlertCircle,
-  Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
@@ -402,7 +399,7 @@ export default function PublicPitchPage({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#08090B] flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#060709] flex flex-col items-center justify-center p-4">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-emerald-400" />
           <span className="font-mono text-xs text-zinc-400 tracking-wider uppercase">
@@ -415,12 +412,12 @@ export default function PublicPitchPage({
 
   if (error || !pitch) {
     return (
-      <div className="min-h-screen bg-[#08090B] flex flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-md w-full rounded-2xl bg-[#12141A]/90 border border-white/[0.08] p-8 space-y-4 shadow-2xl backdrop-blur-xl">
+      <div className="min-h-screen bg-[#060709] flex flex-col items-center justify-center p-6 text-center">
+        <div className="max-w-md w-full rounded-2xl bg-[#0C0E12]/90 border border-white/[0.08] p-8 space-y-4 shadow-2xl backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">
             <AlertCircle className="w-6 h-6" />
           </div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-xl font-bold text-white tracking-tight font-sans">
             Pitch Roster Unavailable
           </h2>
           <p className="text-xs text-zinc-400 font-mono leading-relaxed">
@@ -446,19 +443,20 @@ export default function PublicPitchPage({
       : 0;
 
   return (
-    <div className="min-h-screen bg-[#08090B] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-zinc-950 pb-32 overflow-x-hidden">
-      {/* Background glow & subtle depth */}
-      <div className="pointer-events-none fixed -top-40 left-1/2 -z-10 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-emerald-500/10 via-indigo-500/5 to-transparent blur-[140px]" />
+    <div className="min-h-screen bg-[#060709] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-zinc-950 pb-32 overflow-x-hidden">
+      {/* Background ambient spotlight & subtle grid */}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_40%_at_50%_-10%,rgba(16,185,129,0.12),transparent)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
 
       {/* Top White-Label Bar */}
-      <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#0D0E12]/90 backdrop-blur-xl px-4 sm:px-8 py-3.5">
+      <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl px-4 sm:px-8 py-3.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-zinc-950 font-black shadow-md shadow-emerald-500/20">
                 <Sparkles className="w-4 h-4 text-zinc-950" />
               </div>
-              <span className="font-bold text-sm tracking-tight text-white">
+              <span className="font-bold text-sm tracking-tight text-white font-sans">
                 CreatorBase
               </span>
             </Link>
@@ -488,7 +486,7 @@ export default function PublicPitchPage({
                 navigator.clipboard.writeText(window.location.href);
                 toast.success('Pitch portal link copied to clipboard! 📋');
               }}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.1] bg-white/[0.05] px-3 py-1.5 text-xs font-mono text-zinc-300 hover:text-white hover:border-emerald-500/40 hover:bg-white/[0.08] transition-all"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-mono text-zinc-300 hover:text-white hover:border-emerald-500/40 hover:bg-white/[0.08] transition-all"
             >
               <Copy className="w-3.5 h-3.5 text-emerald-400" />
               <span>Copy Link</span>
@@ -500,7 +498,7 @@ export default function PublicPitchPage({
       {/* Main Pitch Roster Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
         {/* Hero Pitch Banner */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#12141A]/70 p-6 sm:p-8 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative overflow-hidden">
+        <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-6 sm:p-8 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] relative overflow-hidden">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
@@ -515,7 +513,7 @@ export default function PublicPitchPage({
                 )}
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-[-0.03em]">
+              <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-[-0.03em] font-sans">
                 {pitch.shortlistName}
               </h1>
               <p className="text-xs sm:text-sm text-zinc-400 font-mono">
@@ -525,19 +523,19 @@ export default function PublicPitchPage({
 
             {/* Metrics Counter Card */}
             <div className="grid grid-cols-3 gap-3 shrink-0">
-              <div className="rounded-xl bg-black/40 border border-white/[0.06] p-3 text-center">
+              <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-3 text-center">
                 <span className="text-[10px] font-mono uppercase text-zinc-500 block">Total Talent</span>
                 <span className="text-base sm:text-lg font-bold font-mono text-white">
                   {pitch.creatorCount} Creators
                 </span>
               </div>
-              <div className="rounded-xl bg-black/40 border border-white/[0.06] p-3 text-center">
+              <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-3 text-center">
                 <span className="text-[10px] font-mono uppercase text-zinc-500 block">Audited Reach</span>
                 <span className="text-base sm:text-lg font-bold font-mono text-indigo-300">
                   {formatFollowers(pitch.totalFollowers)}
                 </span>
               </div>
-              <div className="rounded-xl bg-black/40 border border-white/[0.06] p-3 text-center">
+              <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-3 text-center">
                 <span className="text-[10px] font-mono uppercase text-zinc-500 block">Modeled Spend</span>
                 <span className="text-base sm:text-lg font-bold font-mono text-emerald-400">
                   {formatINR(pitch.totalEstimatedCostINR)}
@@ -563,10 +561,10 @@ export default function PublicPitchPage({
                 animate={{ opacity: 1, y: 0 }}
                 className={`rounded-2xl transition-all duration-300 p-5 flex flex-col justify-between shadow-lg relative overflow-hidden backdrop-blur-xl ${
                   isApproved
-                    ? 'bg-[#0E1511]/90 border-2 border-emerald-500/70 shadow-[0_0_25px_rgba(16,185,129,0.15)]'
+                    ? 'bg-[#0C0E12]/95 border-2 border-emerald-500/70 shadow-[0_0_30px_rgba(16,185,129,0.18),inset_0_1px_0_0_rgba(255,255,255,0.06)]'
                     : isRejected
-                    ? 'bg-[#140D0E]/80 border-2 border-rose-500/40 opacity-70'
-                    : 'bg-[#12141A]/70 border border-white/[0.08] hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.1)]'
+                    ? 'bg-[#0C0E12]/60 border-2 border-rose-500/35 opacity-70'
+                    : 'bg-[#0C0E12]/90 border border-white/[0.07] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)]'
                 }`}
               >
                 <div>
@@ -604,7 +602,7 @@ export default function PublicPitchPage({
                     <a
                       href={getCreatorPlatformUrl(c)}
                       {...EXTERNAL_LINK_PROPS}
-                      className="relative h-12 w-12 rounded-xl overflow-hidden border border-white/[0.1] shrink-0 bg-zinc-900 transition-transform hover:scale-105"
+                      className="relative h-12 w-12 rounded-xl overflow-hidden border border-white/[0.1] shrink-0 bg-white/[0.04] transition-transform hover:scale-105"
                       title={`Visit @${c.handle} profile`}
                     >
                       <Image
@@ -622,7 +620,7 @@ export default function PublicPitchPage({
                         <a
                           href={getCreatorPlatformUrl(c)}
                           {...EXTERNAL_LINK_PROPS}
-                          className="font-bold text-sm text-white truncate tracking-tight hover:text-emerald-400 transition-colors"
+                          className="font-bold text-sm text-white truncate tracking-tight hover:text-emerald-400 transition-colors font-sans"
                         >
                           {c.fullName}
                         </a>
@@ -680,7 +678,7 @@ export default function PublicPitchPage({
                   </div>
 
                   {/* 3 Metrics Block */}
-                  <div className="mt-3.5 grid grid-cols-3 gap-1.5 rounded-xl bg-black/40 p-2.5 border border-white/[0.06]">
+                  <div className="mt-3.5 grid grid-cols-3 gap-1.5 rounded-xl bg-[#08090C] p-2.5 border border-white/[0.06]">
                     <div className="text-center">
                       <span className="text-[10px] text-zinc-500 font-mono block">Followers</span>
                       <p className="font-mono font-bold text-xs sm:text-sm text-zinc-100 mt-0.5">
@@ -730,13 +728,13 @@ export default function PublicPitchPage({
                             [c.creatorId]: e.target.value,
                           }))
                         }
-                        className="flex-1 rounded-lg bg-black/60 border border-white/[0.08] px-2.5 py-1.5 text-xs font-mono text-zinc-200 placeholder-zinc-600 focus:border-emerald-500 focus:outline-none"
+                        className="flex-1 rounded-lg bg-[#08090C] border border-white/[0.08] px-2.5 py-1.5 text-xs font-mono text-zinc-200 placeholder-zinc-600 focus:border-emerald-500 focus:outline-none"
                       />
                       <button
                         type="button"
                         onClick={() => handleSaveNote(c.creatorId)}
                         disabled={isUpdating}
-                        className="px-2.5 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-[11px] font-mono text-zinc-200 border border-white/[0.1] transition-colors shrink-0"
+                        className="px-2.5 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-[11px] font-mono text-zinc-200 border border-white/[0.08] transition-colors shrink-0"
                       >
                         Save
                       </button>
@@ -779,7 +777,7 @@ export default function PublicPitchPage({
                       type="button"
                       onClick={() => handleUpdateStatus(c.creatorId, 'PENDING')}
                       disabled={isUpdating}
-                      className="p-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-zinc-400 hover:text-white transition-colors"
+                      className="p-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-zinc-400 hover:text-white transition-colors border border-white/[0.08]"
                       title="Reset to Pending"
                     >
                       <Clock className="w-3.5 h-3.5" />
@@ -792,9 +790,9 @@ export default function PublicPitchPage({
         </div>
       </main>
 
-      {/* Floating Summary Pill (Pillar 5A) */}
+      {/* Floating Summary Pill */}
       <div className="fixed bottom-5 inset-x-4 max-w-2xl mx-auto z-40">
-        <div className="rounded-2xl bg-[#0D0E12]/95 backdrop-blur-2xl border border-white/[0.1] p-4 shadow-[0_12px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-4 text-xs font-mono">
+        <div className="rounded-2xl bg-[#0C0E12]/95 backdrop-blur-2xl border border-white/[0.08] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex items-center justify-between gap-4 text-xs font-mono">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="font-bold text-white text-sm">
@@ -812,9 +810,9 @@ export default function PublicPitchPage({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="hidden sm:block w-28 h-2 rounded-full bg-zinc-800 overflow-hidden">
+            <div className="hidden sm:block w-28 h-2 rounded-full bg-white/[0.08] overflow-hidden">
               <div
-                className="h-full bg-emerald-500 transition-all duration-300"
+                className="h-full bg-emerald-500 transition-all duration-300 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
                 style={{ width: `${approvedPercent}%` }}
               />
             </div>

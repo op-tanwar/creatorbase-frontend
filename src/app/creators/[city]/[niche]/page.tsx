@@ -241,7 +241,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#08090B] text-zinc-100 selection:bg-emerald-500 selection:text-white">
+    <div className="relative min-h-screen bg-[#060709] text-zinc-100 selection:bg-emerald-500 selection:text-white">
       {/* Structured Data */}
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <script
@@ -280,13 +280,13 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
         </nav>
 
         {/* Hero Header */}
-        <div className="mb-10 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 sm:p-10 backdrop-blur-md">
+        <div className="mb-10 rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-10 backdrop-blur-md">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               {cityInfo.name}, {cityInfo.state}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-700/60 bg-zinc-800/60 px-3 py-1 text-xs font-medium text-zinc-300">
+            <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.08]/60 bg-white/[0.06]/60 px-3 py-1 text-xs font-medium text-zinc-300">
               <span>{nicheInfo.icon}</span>
               {nicheInfo.label}
             </span>
@@ -311,8 +311,8 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
           </p>
 
           {/* Key Benchmarks Grid */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 pt-6 border-t border-zinc-800/80">
-            <div className="rounded-xl border border-zinc-800/60 bg-zinc-950/60 p-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 pt-6 border-t border-white/[0.08]/80">
+            <div className="rounded-xl border border-white/[0.08]/60 bg-zinc-950/60 p-4">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
                 <Users className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Verified Profiles</span>
@@ -323,7 +323,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               <div className="text-[11px] text-zinc-500 mt-0.5">Active indexed roster</div>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/60 bg-zinc-950/60 p-4">
+            <div className="rounded-xl border border-white/[0.08]/60 bg-zinc-950/60 p-4">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
                 <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Avg Engagement</span>
@@ -334,7 +334,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               <div className="text-[11px] text-zinc-500 mt-0.5">High regional stickiness</div>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/60 bg-zinc-950/60 p-4">
+            <div className="rounded-xl border border-white/[0.08]/60 bg-zinc-950/60 p-4">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
                 <Eye className="h-3.5 w-3.5 text-indigo-400" />
                 <span>Avg Reel Views</span>
@@ -345,7 +345,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               <div className="text-[11px] text-zinc-500 mt-0.5">Median video traction</div>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/60 bg-zinc-950/60 p-4">
+            <div className="rounded-xl border border-white/[0.08]/60 bg-zinc-950/60 p-4">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Authenticity Floor</span>
@@ -381,7 +381,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                   className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
                     isActive
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                      : 'bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:bg-zinc-800/80 hover:text-zinc-200'
+                      : 'bg-zinc-900/60 text-zinc-400 border border-white/[0.08] hover:bg-white/[0.06]/80 hover:text-zinc-200'
                   }`}
                 >
                   <span>{info.icon}</span>
@@ -398,7 +398,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
                 <span>Verified Influencer Directory</span>
-                <span className="rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-mono font-normal text-zinc-400">
+                <span className="rounded-full bg-white/[0.06] px-2.5 py-0.5 text-xs font-mono font-normal text-zinc-400">
                   {creators.length} Profiles
                 </span>
               </h2>
@@ -416,7 +416,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
           </div>
 
           {creators.length === 0 ? (
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/30 p-12 text-center">
+            <div className="rounded-2xl border border-white/[0.08]/80 bg-zinc-900/30 p-12 text-center">
               <Users className="mx-auto h-10 w-10 text-zinc-600 mb-3" />
               <h3 className="text-base font-semibold text-zinc-200">
                 Updating {cityInfo.name} {nicheInfo.label} Index
@@ -426,7 +426,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               </p>
               <Link
                 href="/discover"
-                className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-100 hover:bg-zinc-700 transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.06] px-4 py-2 text-xs font-semibold text-zinc-100 hover:bg-zinc-700 transition-colors"
               >
                 Go to Main Discovery Hub →
               </Link>
@@ -436,7 +436,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               {creators.map((c: any) => (
                 <div
                   key={c.id}
-                  className="group relative flex flex-col justify-between rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-4 transition-all duration-200 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-black/40"
+                  className="group relative flex flex-col justify-between rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-4 transition-all duration-200 hover:border-white/[0.08] hover:bg-white/[0.02] hover:shadow-lg hover:shadow-black/40"
                 >
                   <div>
                     {/* Header: Avatar, Name, Verified */}
@@ -444,7 +444,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                       <a
                         href={getCreatorPlatformUrl(c)}
                         {...EXTERNAL_LINK_PROPS}
-                        className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800 transition-transform hover:scale-105"
+                        className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-white/[0.08] bg-white/[0.06] transition-transform hover:scale-105"
                         title={`Open live profile for @${c.handle}`}
                       >
                         {c.avatarUrl ? (
@@ -500,7 +500,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                     )}
 
                     {/* Metrics 3-Col Bar */}
-                    <div className="grid grid-cols-3 gap-1 rounded-lg border border-zinc-800 bg-zinc-950/70 p-2 text-center mb-3">
+                    <div className="grid grid-cols-3 gap-1 rounded-lg border border-white/[0.06] bg-[#08090C] p-2 text-center mb-3">
                       <div>
                         <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium">
                           Followers
@@ -509,7 +509,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                           {formatNumber(c.followerCount)}
                         </div>
                       </div>
-                      <div className="border-x border-zinc-800/80">
+                      <div className="border-x border-white/[0.08]/80">
                         <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium">
                           Engagement
                         </div>
@@ -538,7 +538,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                       </div>
 
                       {/* Masked Collaboration Email */}
-                      <div className="flex items-center justify-between rounded-md border border-zinc-800 bg-zinc-950/40 px-2.5 py-1.5 text-xs">
+                      <div className="flex items-center justify-between rounded-md border border-white/[0.06] bg-[#08090C] px-2.5 py-1.5 text-xs">
                         <div className="flex items-center gap-1.5 text-zinc-400 font-mono truncate">
                           <Mail className="h-3 w-3 text-zinc-500 shrink-0" />
                           <span className="truncate">{c.businessEmail || 'Locked (Sign in to view)'}</span>
@@ -551,7 +551,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                   {/* CTA Action Button */}
                   <Link
                     href={`/register?redirect=/discover&creator=${encodeURIComponent(c.handle)}`}
-                    className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800/80 px-3 py-2 text-xs font-medium text-zinc-200 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all"
+                    className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.06]/80 px-3 py-2 text-xs font-medium text-zinc-200 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all"
                   >
                     <span>View Rate Card & Audience</span>
                     <ArrowRight className="h-3 w-3" />
@@ -586,7 +586,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               </Link>
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-5 py-2.5 text-xs font-semibold text-zinc-200 hover:bg-zinc-800 transition-all"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-zinc-900/80 px-5 py-2.5 text-xs font-semibold text-zinc-200 hover:bg-white/[0.06] transition-all"
               >
                 View Transparent Pricing (Starts ₹2,999/mo)
               </Link>
@@ -607,7 +607,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+            <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-5">
               <h3 className="text-sm font-semibold text-zinc-100 mb-2">
                 How many verified {nicheInfo.label} influencers are active in {cityInfo.name}?
               </h3>
@@ -617,7 +617,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               </p>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+            <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-5">
               <h3 className="text-sm font-semibold text-zinc-100 mb-2">
                 What is the average engagement rate for {nicheInfo.label} creators in {cityInfo.name}?
               </h3>
@@ -628,7 +628,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               </p>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+            <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-5">
               <h3 className="text-sm font-semibold text-zinc-100 mb-2">
                 What are typical collaboration rates for {nicheInfo.label} creators in {cityInfo.name}?
               </h3>
@@ -638,7 +638,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
               </p>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+            <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-5">
               <h3 className="text-sm font-semibold text-zinc-100 mb-2">
                 How does CreatorBase prevent fake followers and bot engagement?
               </h3>
@@ -651,7 +651,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
         </div>
 
         {/* Cross-Linking Top Indian Cities Hub */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/20 p-6 sm:p-8">
+        <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-2">
             <Building2 className="h-4 w-4 text-emerald-400" />
             Explore {nicheInfo.label} Influencers in Other Indian Cities
@@ -663,7 +663,7 @@ export default async function ProgrammaticDirectoryPage({ params }: PageProps) {
                 <Link
                   key={cKey}
                   href={`/creators/${cKey}/${nicheKey}`}
-                  className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5 text-center transition-all hover:border-zinc-700 hover:bg-zinc-900"
+                  className="rounded-lg border border-white/[0.06] bg-[#08090C] p-2.5 text-center transition-all hover:border-white/[0.08] hover:bg-white/[0.02]"
                 >
                   <div className="text-xs font-semibold text-zinc-200">{cData.name}</div>
                   <div className="text-[10px] text-zinc-500 truncate">{cData.state}</div>

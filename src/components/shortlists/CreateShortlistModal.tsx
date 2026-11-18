@@ -79,7 +79,7 @@ export function CreateShortlistModal({
 
         {campaigns.length > 0 && (
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300 mb-1.5">
+            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-300 mb-1.5">
               Link to Campaign (Optional)
             </label>
             <div className="relative">
@@ -87,11 +87,11 @@ export function CreateShortlistModal({
               <select
                 value={campaignId}
                 onChange={(e) => setCampaignId(e.target.value)}
-                className="w-full appearance-none rounded-xl bg-zinc-900 border border-zinc-700/80 pl-9 pr-8 py-2.5 text-sm text-zinc-200 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                className="w-full appearance-none rounded-xl bg-[#08090C] border border-white/[0.08] pl-9 pr-8 py-2.5 text-xs font-mono text-zinc-200 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
               >
-                <option value="">No linked campaign (Standalone Shortlist)</option>
+                <option value="" className="bg-[#0C0E12]">No linked campaign (Standalone Shortlist)</option>
                 {campaigns.map((camp) => (
-                  <option key={camp.id} value={camp.id}>
+                  <option key={camp.id} value={camp.id} className="bg-[#0C0E12]">
                     {camp.title}
                   </option>
                 ))}
@@ -100,11 +100,22 @@ export function CreateShortlistModal({
           </div>
         )}
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-zinc-800">
-          <Button type="button" variant="ghost" onClick={onClose}>
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.06]">
+          <Button
+            type="button"
+            variant="ghost"
+            size="md"
+            onClick={onClose}
+            disabled={isLoading}
+          >
             Cancel
           </Button>
-          <Button type="submit" variant="primary" isLoading={isLoading}>
+          <Button
+            type="submit"
+            variant="primary"
+            size="md"
+            isLoading={isLoading}
+          >
             Create Shortlist
           </Button>
         </div>

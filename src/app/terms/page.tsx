@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function TermsOfServicePage() {
   return (
-    <div className="min-h-screen bg-[#08090B] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div className="min-h-screen bg-[#060709] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
       {/* Top Banner / Breadcrumb */}
-      <div className="border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md">
+      <div className="border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between text-xs font-mono">
           <Link
             href="/"
@@ -112,7 +112,7 @@ export default function TermsOfServicePage() {
             <p>
               Metrics displayed on CreatorBase (follower counts, engagement rates, reel views) are retrieved from publicly accessible social media web profiles and compliant developer connectors (including Apify actors).
             </p>
-            <div className="rounded-lg border border-zinc-800 bg-zinc-950/80 p-4 font-mono text-xs text-zinc-400 space-y-2">
+            <div className="rounded-lg border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs text-zinc-400 space-y-2">
               <p className="text-amber-400 font-semibold flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5" />
                 RESTRICTIONS ON AUTOMATED SCRAPING
@@ -178,7 +178,7 @@ export default function TermsOfServicePage() {
             <p>
               In accordance with the Information Technology Act 2000 and the rules made thereunder, the contact details of the designated Grievance Officer are provided below:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 font-mono text-xs space-y-1.5">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs space-y-1.5">
               <p className="text-white font-bold">Grievance Officer: Mr. Rohan Sharma</p>
               <p className="text-zinc-400">Entity: CreatorBase Technologies</p>
               <p className="text-zinc-400">Address: Scheme 54, Vijay Nagar, Indore, Madhya Pradesh 452010, India</p>

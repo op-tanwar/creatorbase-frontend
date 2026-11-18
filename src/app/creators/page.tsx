@@ -60,7 +60,7 @@ export default function CreatorsDirectoryIndex() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#08090B] text-zinc-100 selection:bg-emerald-500 selection:text-white">
+    <div className="relative min-h-screen bg-[#060709] text-zinc-100 selection:bg-emerald-500 selection:text-white">
       <BreadcrumbJsonLd items={breadcrumbItems} />
 
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(16,185,129,0.12),transparent_70%)]" />
@@ -79,7 +79,7 @@ export default function CreatorsDirectoryIndex() {
         </nav>
 
         {/* Hero Section */}
-        <div className="mb-12 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-8 sm:p-12 text-center backdrop-blur-md">
+        <div className="mb-12 rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-8 sm:p-12 text-center backdrop-blur-md">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 mb-4">
             <Sparkles className="h-3.5 w-3.5" />
             1,000+ Audited Creators Across India
@@ -122,7 +122,7 @@ export default function CreatorsDirectoryIndex() {
               <Link
                 key={c.key}
                 href={`/creators/${c.key}`}
-                className="group flex items-center justify-between rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 transition-all hover:border-emerald-500/40 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-black/30"
+                className="group flex items-center justify-between rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-4 transition-all hover:border-emerald-500/40 hover:bg-white/[0.02] hover:shadow-lg hover:shadow-black/30"
               >
                 <div>
                   <h3 className="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
@@ -131,7 +131,7 @@ export default function CreatorsDirectoryIndex() {
                   <p className="text-xs text-zinc-400">{c.state}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs font-mono text-zinc-400">
+                  <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-xs font-mono text-zinc-400">
                     {c.count}
                   </span>
                   <ChevronRight className="h-4 w-4 text-zinc-600 group-hover:text-emerald-400 transition-colors" />
@@ -160,7 +160,7 @@ export default function CreatorsDirectoryIndex() {
               <Link
                 key={n.key}
                 href={`/creators/indore/${n.key}`}
-                className="group flex flex-col justify-between rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 transition-all hover:border-emerald-500/40 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-black/30"
+                className="group flex flex-col justify-between rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-4 transition-all hover:border-emerald-500/40 hover:bg-white/[0.02] hover:shadow-lg hover:shadow-black/30"
               >
                 <div>
                   <div className="text-2xl mb-2">{n.icon}</div>

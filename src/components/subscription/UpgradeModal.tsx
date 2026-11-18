@@ -24,7 +24,7 @@ export function UpgradeModal({
   onClose,
   title = 'Upgrade to Agency Pro',
   description = 'Upgrade to Agency Pro to export unlimited verified creator contacts & CSVs.',
-  feature = 'CSV Export & Unlimited Contacts',
+  feature: _feature = 'CSV Export & Unlimited Contacts',
 }: UpgradeModalProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -74,7 +74,7 @@ export function UpgradeModal({
         },
         theme: {
           color: '#10b981',
-          backdrop_color: 'rgba(11, 12, 14, 0.85)',
+          backdrop_color: 'rgba(6, 7, 9, 0.90)',
         },
         handler: async (response: any) => {
           try {
@@ -130,7 +130,7 @@ export function UpgradeModal({
 
         {/* Main Title & Context */}
         <div className="space-y-2">
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2 font-sans">
             <span>{title}</span>
             <Sparkles className="w-5 h-5 text-emerald-400" />
           </h2>
@@ -140,8 +140,8 @@ export function UpgradeModal({
         </div>
 
         {/* Feature Highlights Grid */}
-        <div className="rounded-xl bg-[#0B0C0E] border border-[#24272E] p-4 space-y-2.5">
-          <div className="text-xs font-mono text-zinc-300 font-semibold uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-[#1E222A]">
+        <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-4 space-y-2.5">
+          <div className="text-xs font-mono text-zinc-300 font-semibold uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-white/[0.06]">
             <Lock className="w-3.5 h-3.5 text-emerald-400" />
             <span>Unlocked with Agency Pro</span>
           </div>
@@ -163,17 +163,17 @@ export function UpgradeModal({
         </div>
 
         {/* Billing Cycle Switcher */}
-        <div className="flex items-center justify-between p-3 rounded-xl bg-[#16181D] border border-[#262930]">
+        <div className="flex items-center justify-between p-3 rounded-xl bg-[#08090C] border border-white/[0.08]">
           <div className="text-xs font-mono text-zinc-300 font-medium">
             <span>Billing Frequency</span>
           </div>
-          <div className="flex items-center gap-1.5 p-1 rounded-lg bg-[#0B0C0E] border border-[#24272E]">
+          <div className="flex items-center gap-1.5 p-1 rounded-lg bg-[#0C0E12] border border-white/[0.08]">
             <button
               type="button"
               onClick={() => setBillingCycle('monthly')}
               className={`px-2.5 py-1 rounded text-xs font-mono transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-zinc-800 text-white font-bold'
+                  ? 'bg-white/[0.08] text-white font-bold border border-white/[0.08]'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >

@@ -32,14 +32,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-semibold uppercase tracking-wider text-slate-300"
+            className="block text-xs font-mono uppercase tracking-wider text-zinc-400"
           >
             {label}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3 text-slate-400 pointer-events-none flex items-center">
+            <div className="absolute left-3 text-zinc-400 pointer-events-none flex items-center">
               {leftIcon}
             </div>
           )}
@@ -47,24 +47,24 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              'w-full rounded-xl bg-[#0B0C0E] border border-[#2E333D] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 font-mono shadow-sm transition-all focus:border-emerald-500 focus:bg-[#121316] focus:outline-none focus:ring-1 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed',
+              'w-full rounded-xl bg-[#08090B] border border-white/[0.08] px-3.5 py-2.5 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-mono shadow-[inset_0_1px_0_0_rgba(255,255,255,0.03)] transition-all focus:border-emerald-500/60 focus:bg-[#0C0E12] focus:outline-none focus:ring-1 focus:ring-emerald-500/40 disabled:opacity-50 disabled:cursor-not-allowed',
               leftIcon && 'pl-9',
               rightIcon && 'pr-9',
-              error && 'border-rose-500 focus:border-rose-500 focus:ring-rose-500',
+              error && 'border-rose-500/70 focus:border-rose-500 focus:ring-rose-500/30',
               className
             )}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 text-slate-400 flex items-center">
+            <div className="absolute right-3 text-zinc-400 flex items-center">
               {rightIcon}
             </div>
           )}
         </div>
         {error ? (
-          <p className="text-xs text-rose-400 mt-1">{error}</p>
+          <p className="text-xs font-mono text-rose-400 mt-1">{error}</p>
         ) : helperText ? (
-          <p className="text-xs text-slate-400 mt-1">{helperText}</p>
+          <p className="text-xs font-mono text-zinc-500 mt-1">{helperText}</p>
         ) : null}
       </div>
     );

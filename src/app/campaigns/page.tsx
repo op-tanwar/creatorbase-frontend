@@ -126,16 +126,16 @@ export default function CampaignsPage() {
 
       {/* Campaign List */}
       {isLoading ? (
-        <div className="flex h-64 w-full items-center justify-center rounded-2xl bg-zinc-900/40 border border-zinc-800">
+        <div className="flex h-64 w-full items-center justify-center rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl">
           <Loader2 className="w-6 h-6 animate-spin text-emerald-400" />
         </div>
       ) : campaigns.length === 0 ? (
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-16 text-center space-y-4">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-800 text-emerald-400 border border-zinc-700/60">
+        <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-16 text-center space-y-4 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.04] text-emerald-400 border border-white/[0.08]">
             <Megaphone className="w-7 h-7" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-white">No Campaigns Created Yet</h3>
+            <h3 className="text-lg font-bold text-white tracking-tight font-sans">No Campaigns Created Yet</h3>
             <p className="text-xs text-zinc-400 max-w-sm mx-auto">
               Launch your first campaign to allocate budget and link creator cohorts.
             </p>

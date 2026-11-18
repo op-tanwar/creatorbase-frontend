@@ -165,7 +165,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#08090B] text-zinc-100 selection:bg-emerald-500 selection:text-white">
+    <div className="relative min-h-screen bg-[#060709] text-zinc-100 selection:bg-emerald-500 selection:text-white">
       <BreadcrumbJsonLd items={breadcrumbItems} />
 
       {/* Ambient background glows */}
@@ -190,7 +190,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
         </nav>
 
         {/* Hero Header */}
-        <div className="mb-10 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 sm:p-10 backdrop-blur-md">
+        <div className="mb-10 rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-10 backdrop-blur-md">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -216,7 +216,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
           </p>
 
           {/* Niches Grid */}
-          <div className="pt-6 border-t border-zinc-800/80">
+          <div className="pt-6 border-t border-white/[0.08]/80">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
               Explore by Niche in {cityInfo.name}
             </h2>
@@ -225,7 +225,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
                 <Link
                   key={n.key}
                   href={`/creators/${cityKey}/${n.key}`}
-                  className="group flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950/70 p-3 text-xs font-medium text-zinc-300 hover:border-emerald-500/40 hover:bg-zinc-900 hover:text-white transition-all"
+                  className="group flex items-center justify-between rounded-xl border border-white/[0.06] bg-[#08090C] p-3 text-xs font-medium text-zinc-300 hover:border-emerald-500/40 hover:bg-white/[0.02] hover:text-white transition-all"
                 >
                   <span className="flex items-center gap-2 truncate">
                     <span>{n.icon}</span>
@@ -244,7 +244,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
                 <span>Top Creators in {cityInfo.name}</span>
-                <span className="rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-mono font-normal text-zinc-400">
+                <span className="rounded-full bg-white/[0.06] px-2.5 py-0.5 text-xs font-mono font-normal text-zinc-400">
                   {total > 0 ? total : creators.length} Verified
                 </span>
               </h2>
@@ -265,14 +265,14 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
             {creators.map((c: any) => (
               <div
                 key={c.id}
-                className="group relative flex flex-col justify-between rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-4 transition-all duration-200 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-black/40"
+                className="group relative flex flex-col justify-between rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-4 transition-all duration-200 hover:border-white/[0.08] hover:bg-white/[0.02] hover:shadow-lg hover:shadow-black/40"
               >
                 <div>
                   <div className="flex items-start gap-3 mb-3">
                     <a
                       href={getCreatorPlatformUrl(c)}
                       {...EXTERNAL_LINK_PROPS}
-                      className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800 transition-transform hover:scale-105"
+                      className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-white/[0.08] bg-white/[0.06] transition-transform hover:scale-105"
                       title={`Open live profile for @${c.handle}`}
                     >
                       {c.avatarUrl ? (
@@ -314,7 +314,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
                         @{c.handle}
                       </a>
                       <div className="flex items-center gap-2 text-[11px] text-zinc-500 mt-0.5">
-                        <span className="rounded bg-zinc-800 px-1.5 py-0.2 text-[10px] text-zinc-300">
+                        <span className="rounded bg-white/[0.06] px-1.5 py-0.2 text-[10px] text-zinc-300">
                           {c.niche || 'Lifestyle'}
                         </span>
                         <span>•</span>
@@ -329,7 +329,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
                     </p>
                   )}
 
-                  <div className="grid grid-cols-3 gap-1 rounded-lg border border-zinc-800 bg-zinc-950/70 p-2 text-center mb-3">
+                  <div className="grid grid-cols-3 gap-1 rounded-lg border border-white/[0.06] bg-[#08090C] p-2 text-center mb-3">
                     <div>
                       <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium">
                         Followers
@@ -338,7 +338,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
                         {formatNumber(c.followerCount)}
                       </div>
                     </div>
-                    <div className="border-x border-zinc-800/80">
+                    <div className="border-x border-white/[0.08]/80">
                       <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium">
                         Engagement
                       </div>
@@ -365,7 +365,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between rounded-md border border-zinc-800 bg-zinc-950/40 px-2.5 py-1.5 text-xs">
+                    <div className="flex items-center justify-between rounded-md border border-white/[0.06] bg-[#08090C] px-2.5 py-1.5 text-xs">
                       <div className="flex items-center gap-1.5 text-zinc-400 font-mono truncate">
                         <Mail className="h-3 w-3 text-zinc-500 shrink-0" />
                         <span className="truncate">{c.businessEmail || 'Locked (Sign in to view)'}</span>
@@ -377,7 +377,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
 
                 <Link
                   href={`/register?redirect=/discover&creator=${encodeURIComponent(c.handle)}`}
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800/80 px-3 py-2 text-xs font-medium text-zinc-200 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.06]/80 px-3 py-2 text-xs font-medium text-zinc-200 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all"
                 >
                   <span>View Full Profile & Rates</span>
                   <ArrowRight className="h-3 w-3" />
@@ -388,7 +388,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
         </div>
 
         {/* Explore other cities */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/20 p-6 sm:p-8">
+        <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-2">
             <Building2 className="h-4 w-4 text-emerald-400" />
             Explore Influencers Across India
@@ -400,7 +400,7 @@ export default async function CityDirectoryHubPage({ params }: PageProps) {
                 <Link
                   key={cKey}
                   href={`/creators/${cKey}`}
-                  className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5 text-center transition-all hover:border-zinc-700 hover:bg-zinc-900"
+                  className="rounded-lg border border-white/[0.06] bg-[#08090C] p-2.5 text-center transition-all hover:border-white/[0.08] hover:bg-white/[0.02]"
                 >
                   <div className="text-xs font-semibold text-zinc-200">{cData.name}</div>
                   <div className="text-[10px] text-zinc-500 truncate">{cData.state}</div>

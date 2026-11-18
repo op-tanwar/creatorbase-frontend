@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function ShippingPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#08090B] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div className="min-h-screen bg-[#060709] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
       {/* Top Breadcrumb */}
-      <div className="border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md">
+      <div className="border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between text-xs font-mono">
           <Link
             href="/"
@@ -61,19 +61,19 @@ export default function ShippingPolicyPage() {
 
         {/* Fulfillment Metrics */}
         <div className="my-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <span className="text-[10px] font-mono text-zinc-500 uppercase block">Fulfillment Method</span>
             <p className="text-base font-bold text-white font-mono mt-1">Instant Electronic</p>
             <p className="text-xs text-zinc-400 mt-1">Direct workspace upgrade via Razorpay webhook confirmation.</p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <span className="text-[10px] font-mono text-zinc-500 uppercase block">Fulfillment SLA</span>
             <p className="text-base font-bold text-emerald-400 font-mono mt-1">0 – 5 Minutes</p>
             <p className="text-xs text-zinc-400 mt-1">Average activation latency is under 3 seconds upon payment completion.</p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <span className="text-[10px] font-mono text-zinc-500 uppercase block">Shipping &amp; Logistics Cost</span>
             <p className="text-base font-bold text-white font-mono mt-1">₹0.00 (NIL)</p>
             <p className="text-xs text-zinc-400 mt-1">No courier, packaging, or postal customs fees ever apply.</p>
@@ -105,7 +105,7 @@ export default function ShippingPolicyPage() {
             <p>
               Immediately upon successful payment authorization, the following digital confirmations are dispatched:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-950/80 p-4 font-mono text-xs space-y-2">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs space-y-2">
               <div className="flex items-center gap-2 text-white">
                 <FileCheck className="w-4 h-4 text-emerald-400" />
                 <span>1. Email Payment Confirmation &amp; Razorpay Receipt</span>
@@ -148,7 +148,7 @@ export default function ShippingPolicyPage() {
             <p>
               For any questions regarding your service fulfillment or digital delivery confirmation, please contact our support desk:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 font-mono text-xs space-y-1.5">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs space-y-1.5">
               <p className="text-white font-bold">Fulfillment &amp; Customer Support</p>
               <p className="text-zinc-400">Company: CreatorBase Technologies</p>
               <p className="text-zinc-400">Registered Office: Scheme 54, Vijay Nagar, Indore, Madhya Pradesh 452010, India</p>

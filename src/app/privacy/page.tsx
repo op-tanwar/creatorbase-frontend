@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#08090B] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div className="min-h-screen bg-[#060709] text-zinc-300 font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
       {/* Top Breadcrumb */}
-      <div className="border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md">
+      <div className="border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between text-xs font-mono">
           <Link
             href="/"
@@ -50,7 +50,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Data Protection Core Principles */}
         <div className="my-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 mb-1">
               <Shield className="w-4 h-4" />
               <span>ZERO PAYMENT RETENTION</span>
@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-indigo-400 mb-1">
               <Database className="w-4 h-4" />
               <span>ENCRYPTED IN TRANSIT &amp; REST</span>
@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div className="rounded-xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-teal-400 mb-1">
               <Eye className="w-4 h-4" />
               <span>NO DATA BROKERING</span>
@@ -124,7 +124,7 @@ export default function PrivacyPolicyPage() {
             <p>
               We partner with industry-leading cloud infrastructure providers that maintain strict data protection standards:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-950/80 p-4 space-y-3 font-mono text-xs">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 space-y-3 font-mono text-xs">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-zinc-800 gap-1">
                 <span className="text-white font-semibold">Razorpay Software Private Limited</span>
                 <span className="text-emerald-400">Payment Processing &amp; Webhooks (PCI-DSS Level 1)</span>
@@ -188,7 +188,7 @@ export default function PrivacyPolicyPage() {
             <p>
               If you have any questions, concerns, or grievances regarding the processing of your personal data or compliance with data privacy laws, please contact our designated Grievance Officer:
             </p>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 font-mono text-xs space-y-1.5">
+            <div className="rounded-xl border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs space-y-1.5">
               <p className="text-white font-bold">Grievance Officer: Mr. Rohan Sharma</p>
               <p className="text-zinc-400">Designation: Head of Compliance &amp; Information Security</p>
               <p className="text-zinc-400">Entity: CreatorBase Technologies</p>

@@ -11,9 +11,7 @@ import {
   Calendar,
   Layers,
   ChevronRight,
-  TrendingUp,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -37,10 +35,10 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
   const isActive = campaign.status === 'ACTIVE';
 
   return (
-    <div className="flex flex-col justify-between rounded-xl bg-[#121316] border border-[#24272E] p-5 shadow-md transition-all hover:border-zinc-700 hover:bg-[#16181D]">
+    <div className="flex flex-col justify-between rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl transition-all hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)]">
       <div>
         {/* Header: Status Indicator Dot, Date */}
-        <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#20232A]">
+        <div className="flex items-center justify-between gap-2 pb-3 border-b border-white/[0.06]">
           <div className="flex items-center gap-2">
             <span className="relative flex h-2.5 w-2.5">
               {isActive && (
@@ -72,7 +70,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           <h3 className="text-base font-bold text-white tracking-tight line-clamp-1 font-sans">
             {campaign.title}
           </h3>
-          <p className="mt-1 text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+          <p className="mt-1 text-xs text-zinc-400 line-clamp-2 leading-relaxed font-sans">
             {campaign.description}
           </p>
         </div>
@@ -80,19 +78,19 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
         {/* Target City & Linked Shortlists */}
         <div className="mt-3.5 flex flex-wrap items-center gap-1.5">
           {campaign.targetCity && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-[#181A1F] border border-[#2E333D] px-2 py-0.5 text-[11px] font-mono text-indigo-300">
+            <span className="inline-flex items-center gap-1 rounded-md bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 text-[11px] font-mono text-indigo-300">
               <MapPin className="w-3 h-3 text-indigo-400" />
               <span>{campaign.targetCity}</span>
             </span>
           )}
-          <span className="inline-flex items-center gap-1 rounded-md bg-[#181A1F] border border-[#2E333D] px-2 py-0.5 text-[11px] font-mono text-zinc-400">
+          <span className="inline-flex items-center gap-1 rounded-md bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 text-[11px] font-mono text-zinc-400">
             <Layers className="w-3 h-3 text-zinc-500" />
             <span>{campaign.shortlists?.length || 0} Shortlists</span>
           </span>
         </div>
 
         {/* Budget Progress Bar */}
-        <div className="mt-4 space-y-2 rounded-lg bg-[#0B0C0E] p-3 border border-[#20232A]">
+        <div className="mt-4 space-y-2 rounded-xl bg-[#08090C] p-3 border border-white/[0.06]">
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-400 font-mono text-[11px] flex items-center gap-1">
               <IndianRupee className="w-3 h-3 text-emerald-400" />
@@ -103,7 +101,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             </span>
           </div>
 
-          <div className="h-2 w-full rounded-full bg-zinc-800 overflow-hidden">
+          <div className="h-2 w-full rounded-full bg-white/[0.08] overflow-hidden">
             <div
               style={{ width: `${Math.min(100, analytics.budgetUtilizationPercent)}%` }}
               className={`h-full rounded-full transition-all duration-500 ${
@@ -122,7 +120,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
 
         {/* Key Reach & Creators Metrics */}
         <div className="mt-3 grid grid-cols-2 gap-2 text-center">
-          <div className="rounded-lg bg-[#0B0C0E] p-2 border border-[#20232A]">
+          <div className="rounded-xl bg-[#08090C] p-2 border border-white/[0.06]">
             <span className="text-[10px] font-mono text-zinc-500 flex items-center justify-center gap-1">
               <Users className="w-3 h-3 text-indigo-400" />
               Cohort Reach
@@ -132,7 +130,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             </span>
           </div>
 
-          <div className="rounded-lg bg-[#0B0C0E] p-2 border border-[#20232A]">
+          <div className="rounded-xl bg-[#08090C] p-2 border border-white/[0.06]">
             <span className="text-[10px] font-mono text-zinc-500 block">
               Active Talent
             </span>
@@ -143,7 +141,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
         </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-[#20232A] flex items-center justify-between text-xs">
+      <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs">
         <span className="text-zinc-500 font-mono text-[11px]">
           Balance: <strong className="text-zinc-200">{formatINR(analytics.remainingBudgetINR)}</strong>
         </span>

@@ -4,12 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { ShortlistItem, DeliverableStage } from '@/types';
 import { formatFollowers, formatINR, formatPercentage, getCreatorPlatformUrl, EXTERNAL_LINK_PROPS } from '@/lib/utils';
-import { InstagramIcon, YoutubeIcon } from '../ui/Icons';
 import {
-  CheckCircle2,
-  MapPin,
-  TrendingUp,
-  Users,
   IndianRupee,
   ExternalLink,
   Mail,
@@ -20,7 +15,6 @@ import {
   MoreVertical,
   Edit2,
   Trash2,
-  GripVertical,
   Check,
   ShieldCheck,
 } from 'lucide-react';
@@ -84,10 +78,10 @@ export function KanbanCard({
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      className={`group relative flex flex-col justify-between rounded-xl border bg-zinc-900/70 p-3.5 transition-all duration-150 cursor-grab active:cursor-grabbing select-none ${
+      className={`group relative flex flex-col justify-between rounded-xl border bg-[#0C0E12] p-3.5 transition-all duration-200 cursor-grab active:cursor-grabbing select-none shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] ${
         isDragging
           ? 'opacity-40 border-emerald-500 scale-95 shadow-xl'
-          : 'border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/95 hover:shadow-md'
+          : 'border-white/[0.07] hover:border-emerald-500/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.12)]'
       }`}
     >
       <div>
@@ -99,7 +93,7 @@ export function KanbanCard({
               href={getCreatorPlatformUrl(item.creator)}
               {...EXTERNAL_LINK_PROPS}
               onClick={(e) => e.stopPropagation()}
-              className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800 transition-transform hover:scale-105"
+              className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-white/[0.1] bg-white/[0.04] transition-transform hover:scale-105"
               title={`Visit @${item.creator.handle} on live platform`}
             >
               {item.creator.avatarUrl ? (
@@ -112,7 +106,7 @@ export function KanbanCard({
                   unoptimized
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center font-bold text-xs text-zinc-400">
+                <div className="flex h-full w-full items-center justify-center font-bold text-xs text-zinc-400 font-mono">
                   {item.creator.handle.slice(0, 2).toUpperCase()}
                 </div>
               )}
@@ -125,7 +119,7 @@ export function KanbanCard({
                   href={getCreatorPlatformUrl(item.creator)}
                   {...EXTERNAL_LINK_PROPS}
                   onClick={(e) => e.stopPropagation()}
-                  className="truncate text-xs font-bold text-zinc-100 group-hover:text-emerald-400 hover:underline transition-colors"
+                  className="truncate text-xs font-bold text-zinc-100 group-hover:text-emerald-400 hover:underline transition-colors font-sans"
                 >
                   {item.creator.fullName || item.creator.handle}
                 </a>
@@ -154,7 +148,7 @@ export function KanbanCard({
           <div className="relative">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="rounded-md p-1 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-200 transition-colors"
+              className="rounded-md p-1 text-zinc-500 hover:bg-white/[0.06] hover:text-zinc-200 transition-colors"
               aria-label="Creator actions"
             >
               <MoreVertical className="h-3.5 w-3.5" />
@@ -166,13 +160,13 @@ export function KanbanCard({
                   className="fixed inset-0 z-20"
                   onClick={() => setIsMenuOpen(false)}
                 />
-                <div className="absolute right-0 top-6 z-30 w-36 rounded-xl border border-zinc-700 bg-zinc-950 p-1 shadow-xl">
+                <div className="absolute right-0 top-6 z-30 w-36 rounded-xl border border-white/[0.08] bg-[#0C0E12] p-1 shadow-2xl backdrop-blur-2xl">
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
                       onEdit(item);
                     }}
-                    className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 hover:bg-zinc-800 transition-colors"
+                    className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 hover:bg-white/[0.06] transition-colors font-mono"
                   >
                     <Edit2 className="h-3.5 w-3.5 text-zinc-400" />
                     <span>Edit Details</span>
@@ -182,7 +176,7 @@ export function KanbanCard({
                       setIsMenuOpen(false);
                       onRemove(item.creatorId);
                     }}
-                    className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-rose-400 hover:bg-rose-950/40 transition-colors"
+                    className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-rose-400 hover:bg-rose-950/40 transition-colors font-mono"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     <span>Remove</span>
@@ -194,17 +188,17 @@ export function KanbanCard({
         </div>
 
         {/* 2-Column Metrics */}
-        <div className="grid grid-cols-2 gap-1.5 rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-2 text-center mb-2.5">
+        <div className="grid grid-cols-2 gap-1.5 rounded-lg border border-white/[0.06] bg-[#08090C] p-2 text-center mb-2.5">
           <div>
-            <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-medium">
+            <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono">
               Reach
             </div>
             <div className="text-xs font-mono font-bold text-zinc-200">
               {formatFollowers(item.creator.followerCount)}
             </div>
           </div>
-          <div className="border-l border-zinc-800">
-            <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-medium">
+          <div className="border-l border-white/[0.06]">
+            <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono">
               Engagement
             </div>
             <div className="text-xs font-mono font-bold text-emerald-400">
@@ -216,14 +210,14 @@ export function KanbanCard({
         {/* Agreed Commercial Fee Pill */}
         <div
           onClick={() => onEdit(item)}
-          className="flex items-center justify-between rounded-lg border border-zinc-800/80 bg-zinc-950/40 px-2.5 py-1.5 text-xs cursor-pointer hover:border-zinc-700 hover:bg-zinc-800/40 transition-all mb-2.5"
+          className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-[#08090C] px-2.5 py-1.5 text-xs cursor-pointer hover:border-emerald-500/30 hover:bg-white/[0.03] transition-all mb-2.5 font-mono"
           title="Click to edit agreed commercial fee"
         >
           <span className="text-[11px] text-zinc-400 flex items-center gap-1">
             <IndianRupee className="h-3 w-3 text-emerald-400" />
             <span>Commercial Fee:</span>
           </span>
-          <span className="font-mono font-bold text-zinc-100">
+          <span className="font-bold text-zinc-100">
             {fee ? formatINR(fee) : <span className="text-zinc-500 italic">+ Set Fee</span>}
           </span>
         </div>
@@ -233,7 +227,7 @@ export function KanbanCard({
           <div className="mb-2.5">
             <button
               onClick={handleOpenMailto}
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-sky-500/30 bg-sky-500/10 px-2.5 py-1.5 text-[11px] font-semibold text-sky-300 hover:bg-sky-500/20 transition-colors"
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-sky-500/30 bg-sky-500/10 px-2.5 py-1.5 text-[11px] font-mono font-semibold text-sky-300 hover:bg-sky-500/20 transition-colors"
             >
               <Mail className="h-3 w-3" />
               <span>Open Mailto Template</span>
@@ -249,7 +243,7 @@ export function KanbanCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1.5 text-[11px] font-semibold text-indigo-300 hover:bg-indigo-500/20 transition-colors"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1.5 text-[11px] font-mono font-semibold text-indigo-300 hover:bg-indigo-500/20 transition-colors"
               >
                 <FileVideo className="h-3 w-3" />
                 <span className="truncate">Review Video Draft</span>
@@ -258,7 +252,7 @@ export function KanbanCard({
             ) : (
               <button
                 onClick={() => onEdit(item)}
-                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800/60 px-2.5 py-1.5 text-[11px] font-medium text-zinc-300 hover:bg-zinc-800 transition-colors"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] px-2.5 py-1.5 text-[11px] font-mono font-medium text-zinc-300 hover:bg-white/[0.08] transition-colors"
               >
                 <LinkIcon className="h-3 w-3" />
                 <span>+ Attach Draft Link</span>
@@ -275,7 +269,7 @@ export function KanbanCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-1.5 text-[11px] font-bold text-emerald-300 hover:bg-emerald-500/20 transition-colors shadow-sm"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-1.5 text-[11px] font-mono font-bold text-emerald-300 hover:bg-emerald-500/20 transition-colors shadow-sm"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="truncate">View Live Post</span>
@@ -284,7 +278,7 @@ export function KanbanCard({
             ) : (
               <button
                 onClick={() => onEdit(item)}
-                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-950/30 px-2.5 py-1.5 text-[11px] font-medium text-emerald-400 hover:bg-emerald-950/50 transition-colors"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-950/30 px-2.5 py-1.5 text-[11px] font-mono font-medium text-emerald-400 hover:bg-emerald-950/50 transition-colors"
               >
                 <FileVideo className="h-3 w-3" />
                 <span>+ Attach Live Reel URL</span>
@@ -295,14 +289,14 @@ export function KanbanCard({
 
         {/* Deliverable Notes Snippet */}
         {(item.deliverableNotes || item.notes) && (
-          <p className="line-clamp-2 text-[11px] text-zinc-400 bg-zinc-950/40 rounded p-1.5 border border-zinc-800/60 mb-2.5">
+          <p className="line-clamp-2 text-[11px] text-zinc-400 bg-[#08090C] rounded p-1.5 border border-white/[0.06] mb-2.5 font-mono">
             {item.deliverableNotes || item.notes}
           </p>
         )}
       </div>
 
       {/* Bottom Stage Transition Bar */}
-      <div className="flex items-center justify-between pt-2 border-t border-zinc-800/80 text-[11px]">
+      <div className="flex items-center justify-between pt-2 border-t border-white/[0.06] text-[11px] font-mono">
         {prevStage ? (
           <button
             onClick={() => onMoveStage(item.creatorId, prevStage)}

@@ -5,7 +5,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { OrganizationJsonLd, SoftwareAppJsonLd } from '@/components/seo/JsonLd';
 
 export const viewport: Viewport = {
-  themeColor: '#08090B',
+  themeColor: '#060709',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,

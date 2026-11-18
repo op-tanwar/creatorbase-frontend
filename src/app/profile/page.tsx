@@ -286,7 +286,7 @@ export default function ProfilePage() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-12">
       {/* Top Banner / Hero Profile Card */}
-      <div className="rounded-2xl bg-[#121316] border border-[#24272E] p-6 sm:p-8 shadow-sm">
+      <div className="rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             {/* Glowing Emerald Avatar Ring */}
@@ -386,7 +386,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Settings Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-[#24272E] pb-2 overflow-x-auto scrollbar-none">
+      <div className="flex items-center gap-2 border-b border-white/[0.06] pb-2 overflow-x-auto scrollbar-none">
         {[
           { id: 'general', label: 'General & Profile', icon: UserIcon },
           { id: 'subscription', label: 'Subscription & Plan', icon: Zap },
@@ -402,7 +402,7 @@ export default function ProfilePage() {
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-mono font-medium transition-all shrink-0 ${
                 isActive
                   ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold shadow-xs'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#121316] border border-transparent'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#0C0E12] border border-transparent'
               }`}
             >
               <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
@@ -417,8 +417,8 @@ export default function ProfilePage() {
       ==================================================================== */}
       {activeTab === 'general' && (
         <div className="space-y-6">
-          <div className="rounded-2xl bg-[#121316] border border-[#24272E] p-6 sm:p-8 space-y-6">
-            <div className="space-y-1 pb-4 border-b border-[#20232A]">
+          <div className="rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8 space-y-6">
+            <div className="space-y-1 pb-4 border-b border-white/[0.06]">
               <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
                 <span>Personal & Organization Details</span>
               </h3>
@@ -455,7 +455,7 @@ export default function ProfilePage() {
                   type="email"
                   value={currentUser?.email || ''}
                   disabled
-                  className="opacity-75 cursor-not-allowed bg-[#0B0C0E]"
+                  className="opacity-75 cursor-not-allowed bg-[#08090C]"
                 />
                 <p className="text-[11px] font-mono text-zinc-500">
                   Email address cannot be modified as it is linked to your billing account.
@@ -511,7 +511,7 @@ export default function ProfilePage() {
                   <select
                     value={billingState}
                     onChange={(e) => setBillingState(e.target.value)}
-                    className="w-full rounded-xl bg-[#0B0C0E] border border-[#262930] px-3.5 py-2.5 text-xs font-mono text-zinc-200 focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-xl bg-[#08090C] border border-white/[0.08] px-3.5 py-2.5 text-xs font-mono text-zinc-200 focus:border-emerald-500 focus:outline-none"
                   >
                     <option value="Maharashtra (27)">Maharashtra (27)</option>
                     <option value="Delhi NCR (07)">Delhi NCR (07)</option>
@@ -543,7 +543,7 @@ export default function ProfilePage() {
                 <label className="text-xs font-mono font-medium text-zinc-300 uppercase tracking-wider">
                   Assigned Account Role
                 </label>
-                <div className="flex items-center gap-2 p-3 rounded-xl bg-[#0B0C0E] border border-[#24272E]">
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-[#08090C] border border-white/[0.06]">
                   <Shield className="w-4 h-4 text-emerald-400" />
                   <span className="text-xs font-mono text-zinc-200 font-semibold">
                     {currentUser?.role === 'BRAND_ADMIN'
@@ -577,7 +577,7 @@ export default function ProfilePage() {
         <div className="space-y-6">
           {/* Active Plan Overview Card */}
           <div className="rounded-2xl bg-gradient-to-br from-[#121316] via-[#121316] to-emerald-950/20 border-2 border-emerald-500/40 p-6 sm:p-8 space-y-6 shadow-xl shadow-emerald-950/20">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#24272E]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.06]">
               <div className="space-y-1">
                 <div className="flex items-center gap-2.5">
                   <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
@@ -619,7 +619,7 @@ export default function ProfilePage() {
                 Workspace Resources & Utilization
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                <div className="rounded-xl bg-[#0B0C0E] border border-[#24272E] p-4 space-y-1">
+                <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-4 space-y-1">
                   <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
                     <span>Shortlists Created</span>
                     <BookmarkCheck className="w-4 h-4 text-emerald-400" />
@@ -632,7 +632,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="rounded-xl bg-[#0B0C0E] border border-[#24272E] p-4 space-y-1">
+                <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-4 space-y-1">
                   <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
                     <span>Active Campaigns</span>
                     <Megaphone className="w-4 h-4 text-indigo-400" />
@@ -645,7 +645,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="rounded-xl bg-[#0B0C0E] border border-[#24272E] p-4 space-y-1">
+                <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-4 space-y-1">
                   <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
                     <span>CSV Export Allowance</span>
                     <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
@@ -693,8 +693,8 @@ export default function ProfilePage() {
       ==================================================================== */}
       {activeTab === 'billing' && (
         <div className="space-y-6">
-          <div className="rounded-2xl bg-[#121316] border border-[#24272E] p-6 sm:p-8 space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20232A]">
+          <div className="rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.06]">
               <div className="space-y-1">
                 <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
                   <CreditCard className="w-4 h-4 text-emerald-400" />
@@ -705,7 +705,7 @@ export default function ProfilePage() {
                 </p>
               </div>
 
-              <div className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 bg-[#0B0C0E] px-3 py-1.5 rounded-lg border border-[#24272E]">
+              <div className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 bg-[#08090C] px-3 py-1.5 rounded-lg border border-white/[0.06]">
                 <Shield className="w-3.5 h-3.5 text-emerald-400" />
                 <span>PCI-DSS Compliant • GST Invoicing</span>
               </div>
@@ -749,8 +749,8 @@ export default function ProfilePage() {
             </div>
 
             {payments.length === 0 ? (
-              <div className="text-center py-12 rounded-xl border border-dashed border-[#24272E] bg-[#0B0C0E] space-y-3">
-                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#16181D] text-emerald-400 font-mono text-base border border-zinc-800">
+              <div className="text-center py-12 rounded-xl border border-dashed border-white/[0.06] bg-[#08090C] space-y-3">
+                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#08090C] text-emerald-400 font-mono text-base border border-zinc-800">
                   ₹
                 </div>
                 <div className="space-y-1">
@@ -771,9 +771,9 @@ export default function ProfilePage() {
                 </div>
               </div>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-[#24272E] bg-[#0B0C0E]">
+              <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-[#08090C]">
                 <table className="w-full text-left text-xs font-mono">
-                  <thead className="bg-[#16181D] text-[11px] uppercase tracking-wider text-zinc-400 border-b border-[#24272E]">
+                  <thead className="bg-[#08090C] text-[11px] uppercase tracking-wider text-zinc-400 border-b border-white/[0.06]">
                     <tr>
                       <th className="px-4 py-3">Order ID</th>
                       <th className="px-4 py-3">Plan / Subscription</th>
@@ -867,8 +867,8 @@ export default function ProfilePage() {
       ==================================================================== */}
       {activeTab === 'security' && (
         <div className="space-y-6">
-          <div className="rounded-2xl bg-[#121316] border border-[#24272E] p-6 sm:p-8 space-y-6">
-            <div className="space-y-1 pb-4 border-b border-[#20232A]">
+          <div className="rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8 space-y-6">
+            <div className="space-y-1 pb-4 border-b border-white/[0.06]">
               <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
                 <KeyRound className="w-4 h-4 text-emerald-400" />
                 <span>Password & Authentication</span>
@@ -934,8 +934,8 @@ export default function ProfilePage() {
           </div>
 
           {/* Active Session & Danger Zone Card */}
-          <div className="rounded-2xl bg-[#121316] border border-[#24272E] p-6 sm:p-8 space-y-6">
-            <div className="space-y-1 pb-4 border-b border-[#20232A]">
+          <div className="rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-6 sm:p-8 space-y-6">
+            <div className="space-y-1 pb-4 border-b border-white/[0.06]">
               <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
                 <Shield className="w-4 h-4 text-indigo-400" />
                 <span>Active Session & Device Security</span>
@@ -945,7 +945,7 @@ export default function ProfilePage() {
               </p>
             </div>
 
-            <div className="rounded-xl bg-[#0B0C0E] border border-[#24272E] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2 text-xs font-mono font-semibold text-white">
                   <span className="h-2 w-2 rounded-full bg-emerald-400" />

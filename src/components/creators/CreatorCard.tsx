@@ -35,17 +35,17 @@ export function CreatorCard({ creator }: CreatorCardProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
+      initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 0.25 }}
       whileHover={{ y: -3 }}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-[#12141A]/70 border border-white/[0.08] p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:border-emerald-500/40 hover:bg-[#151820]/90 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)]"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] p-4 sm:p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl transition-all duration-300 hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.14)]"
     >
       {/* Top Header: Avatar, Name, Verified, Platform, Handle */}
       <div>
         <div className="flex items-start justify-between gap-2.5">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-[#2E333D] group-hover:border-emerald-500/60 transition-colors shrink-0 bg-gradient-to-tr from-emerald-950 via-zinc-900 to-indigo-950 flex items-center justify-center shadow-inner">
+            <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-white/[0.08] group-hover:border-emerald-500/60 transition-colors shrink-0 bg-gradient-to-tr from-emerald-950 via-zinc-900 to-indigo-950 flex items-center justify-center shadow-inner">
               {!imgError && creator.avatarUrl ? (
                 <Image
                   src={creator.avatarUrl}
@@ -65,7 +65,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-sm text-zinc-100 truncate tracking-tight">
+                <h3 className="font-bold text-sm text-zinc-100 truncate tracking-tight font-sans">
                   {creator.fullName}
                 </h3>
                 {creator.isVerified && (
@@ -86,7 +86,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
                   @{creator.handle}
                 </a>
                 <span className="text-[10px] text-zinc-600 font-mono">•</span>
-                <span className="text-[11px] text-zinc-400 flex items-center gap-0.5 shrink-0">
+                <span className="text-[11px] text-zinc-400 flex items-center gap-0.5 shrink-0 font-mono">
                   <MapPin className="w-3 h-3 text-emerald-400/80" />
                   {creator.city}
                 </span>
@@ -123,7 +123,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
         {/* Niche, Location & Authenticity Quality Badge */}
         <div className="mt-3 flex items-center justify-between gap-1.5 flex-wrap">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="font-mono text-[11px] font-medium px-2 py-0.5 rounded-md bg-[#181A1F] border border-[#2E333D] text-zinc-300">
+            <span className="font-mono text-[11px] font-medium px-2 py-0.5 rounded-md bg-[#08090C] border border-white/[0.08] text-zinc-300">
               {creator.niche}
             </span>
             {creator.state && (
@@ -142,13 +142,13 @@ export function CreatorCard({ creator }: CreatorCardProps) {
               title="Audience Authenticity & Quality Gatekeeper: Bot & ghost audience filtered"
             >
               <ShieldCheck className="w-3 h-3 text-emerald-400 shrink-0" />
-              <span>Authenticity Score: {creator.authenticityScore ?? 94}/100</span>
+              <span>{creator.authenticityScore ?? 94}% Auth</span>
             </span>
           </div>
         </div>
 
-        {/* 3-Column Monospace Metrics Bar (Apify High-Density) */}
-        <div className="mt-3.5 grid grid-cols-3 gap-1.5 rounded-lg bg-[#0B0C0E] p-2 border border-[#20232A]">
+        {/* 3-Column Monospace Metrics Bar */}
+        <div className="mt-3.5 grid grid-cols-3 gap-1.5 rounded-xl bg-[#08090C] p-2.5 border border-white/[0.06]">
           <div className="text-center">
             <span className="text-[10px] text-zinc-500 font-mono block">Followers</span>
             <p className="font-mono font-bold text-xs sm:text-sm text-zinc-100 tracking-tight mt-0.5">
@@ -156,7 +156,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
             </p>
           </div>
 
-          <div className="text-center border-x border-[#20232A]">
+          <div className="text-center border-x border-white/[0.06]">
             <span className="text-[10px] text-zinc-500 font-mono block">Eng. Rate</span>
             <div className="flex items-center justify-center gap-0.5 mt-0.5">
               <span
@@ -171,7 +171,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
           </div>
 
           <div className="text-center">
-            <span className="text-[10px] text-zinc-500 font-mono block">Avg Reel Views</span>
+            <span className="text-[10px] text-zinc-500 font-mono block">Avg Views</span>
             <p className="font-mono font-semibold text-xs sm:text-sm text-zinc-200 tracking-tight mt-0.5">
               {formatFollowers(creator.avgReelViews)}
             </p>
@@ -184,11 +184,11 @@ export function CreatorCard({ creator }: CreatorCardProps) {
           {creator.businessEmail ? (
             <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded">
               <Mail className="w-3 h-3 text-emerald-400" />
-              <span>Verified Collab Email</span>
+              <span>Verified Email</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">
-              <span>Direct Platform DM</span>
+            <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 bg-white/[0.03] border border-white/[0.06] px-2 py-0.5 rounded">
+              <span>Direct DM</span>
             </span>
           )}
         </div>
@@ -196,12 +196,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
         {/* Compact Audience Demographic Mini-Bar */}
         <div className="mt-3 space-y-1">
           <div className="flex justify-between text-[10px] font-mono text-zinc-400">
-            <span
-              className="cursor-help hover:text-zinc-200 transition-colors"
-              title="Audience demographics estimated via category heuristics and interaction sampling."
-            >
-              Audience Split (Est.) *:
-            </span>
+            <span>Audience Split:</span>
             <span>
               <strong className="text-emerald-400">{femaleRatio}% F</strong> /{' '}
               <strong className="text-indigo-400">{maleRatio}% M</strong>
@@ -219,18 +214,15 @@ export function CreatorCard({ creator }: CreatorCardProps) {
               title={`Male: ${maleRatio}%`}
             />
           </div>
-          <p className="text-[9px] font-mono text-zinc-500/80 leading-tight">
-            * Audience demographics estimated via category heuristics and interaction sampling.
-          </p>
         </div>
       </div>
 
       {/* Action Footer */}
-      <div className="mt-4 flex items-center gap-2 pt-3 border-t border-[#20232A]">
+      <div className="mt-4 flex items-center gap-2 pt-3 border-t border-white/[0.06]">
         <button
           type="button"
           onClick={() => dispatch(setDetailModalCreator(creator))}
-          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-[#2E333D] bg-[#181A1F] py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:bg-zinc-800 hover:text-white"
+          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-white/[0.2] hover:bg-white/[0.08] hover:text-white"
         >
           <BarChart2 className="w-3.5 h-3.5 text-zinc-400" />
           <span>Analytics</span>
@@ -239,7 +231,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
         <button
           type="button"
           onClick={() => dispatch(setQuickAddCreator(creator))}
-          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-500 py-2 text-xs font-bold text-zinc-950 shadow-sm transition-all hover:bg-emerald-400 active:scale-[0.98]"
+          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 py-2 text-xs font-bold text-black shadow-md shadow-emerald-500/20 transition-all hover:bg-emerald-400 active:scale-[0.98]"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Shortlist</span>

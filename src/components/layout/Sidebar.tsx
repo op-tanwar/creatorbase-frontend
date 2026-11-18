@@ -12,7 +12,6 @@ import {
   FileSpreadsheet,
   Zap,
   LogOut,
-  Sparkles,
   Building2,
   Settings,
   X,
@@ -82,31 +81,47 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
   };
 
   return (
-    <aside className="flex flex-col h-full w-64 bg-[#0E1014] border-r border-[#24272E] text-zinc-200 select-none">
+    <aside className="flex flex-col h-full w-64 bg-[#060709] border-r border-white/[0.06] text-zinc-200 select-none">
       {/* Brand Header */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-[#24272E]">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
         <Link href="/discover" className="flex items-center gap-2.5 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-indigo-600 text-white shadow-md shadow-emerald-950 group-hover:scale-105 transition-transform">
-            <Sparkles className="w-5 h-5 text-emerald-200" />
+          <div className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-950/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-transform duration-200 group-hover:scale-105">
+            <svg
+              className="h-4 w-4 text-emerald-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            <span className="absolute -top-1 -right-1 flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-base tracking-tight text-white font-sans">
                 CreatorBase
               </span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/50">
-                IN
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                IND
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 font-medium tracking-wide">
-              Influencer Intelligence
+            <p className="text-[10px] font-mono text-zinc-500 tracking-wide">
+              OPERATING SYSTEM
             </p>
           </div>
         </Link>
         {onCloseMobile && (
           <button
             onClick={onCloseMobile}
-            className="lg:hidden p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors"
+            className="lg:hidden p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-white/[0.05] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -115,8 +130,8 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
 
       {/* Navigation Links */}
       <div className="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
-        <div className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-          Platform Modules
+        <div className="px-3 mb-2 text-[10px] font-mono font-semibold uppercase tracking-wider text-zinc-500">
+          Core Engine
         </div>
         {navItems.map((item) => {
           const isActive = pathname.startsWith(item.href);
@@ -128,14 +143,14 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
               key={item.href}
               href={item.href}
               onClick={onCloseMobile}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-mono transition-all group ${
                 isAdmin
                   ? isActive
                     ? 'bg-amber-500/15 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-950/40'
                     : 'text-amber-400/90 hover:text-amber-200 hover:bg-amber-950/30 border border-amber-500/25'
                   : isActive
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-transparent'
+                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.12)]'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/[0.04] border border-transparent'
               }`}
             >
               <div
@@ -143,17 +158,17 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
                   isAdmin
                     ? isActive
                       ? 'bg-amber-500/25 text-amber-300'
-                      : 'text-amber-400 group-hover:text-amber-200 group-hover:bg-amber-950/50'
+                      : 'text-amber-400 group-hover:text-amber-200'
                     : isActive
                     ? 'bg-emerald-500/20 text-emerald-400'
-                    : 'text-slate-400 group-hover:text-slate-200 group-hover:bg-slate-800'
+                    : 'text-zinc-400 group-hover:text-zinc-200'
                 }`}
               >
                 <Icon className="w-4 h-4" />
               </div>
-              <div className="flex-1 leading-tight">
-                <div className="font-semibold text-sm">{item.name}</div>
-                <div className="text-[11px] text-slate-400 font-normal">
+              <div className="flex-1 leading-tight min-w-0">
+                <div className="font-semibold text-xs truncate">{item.name}</div>
+                <div className="text-[10px] text-zinc-500 font-normal truncate mt-0.5">
                   {item.description}
                 </div>
               </div>
@@ -162,28 +177,28 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
         })}
       </div>
 
-      {/* User Section */}
-      <div className="p-3 border-t border-slate-800/80 bg-slate-950/50">
-        <div className="rounded-xl bg-slate-900/90 border border-slate-800 p-3 space-y-3">
+      {/* User Section Footer */}
+      <div className="p-3 border-t border-white/[0.06] bg-[#08090C]">
+        <div className="rounded-xl bg-[#0C0E12] border border-white/[0.07] p-3 space-y-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
           <Link
             href="/profile"
             onClick={onCloseMobile}
-            className="flex items-center gap-3 p-1 -m-1 rounded-lg hover:bg-slate-800/50 transition-colors group"
+            className="flex items-center gap-3 p-1 -m-1 rounded-lg hover:bg-white/[0.03] transition-colors group"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800/50 font-bold text-xs uppercase group-hover:scale-105 transition-transform">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-950 to-zinc-900 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs uppercase group-hover:scale-105 transition-transform">
               {user?.name ? user.name.slice(0, 2) : 'CB'}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <p className="text-xs font-semibold text-white truncate group-hover:text-emerald-400 transition-colors">
-                  {user?.name || 'Account'}
+                <p className="text-xs font-semibold text-white truncate group-hover:text-emerald-400 transition-colors font-sans">
+                  {user?.name || 'Agency Account'}
                 </p>
-                <Badge variant="emerald" size="sm" className="text-[10px] py-0 px-1.5">
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                   {user?.planType || 'PRO'}
-                </Badge>
+                </span>
               </div>
-              <p className="text-[11px] text-slate-400 truncate flex items-center gap-1 mt-0.5">
-                <Building2 className="w-3 h-3 shrink-0" />
+              <p className="text-[10px] text-zinc-400 truncate flex items-center gap-1 mt-0.5 font-mono">
+                <Building2 className="w-3 h-3 shrink-0 text-emerald-400" />
                 <span className="truncate">{user?.companyName || 'Agency'}</span>
               </p>
             </div>
@@ -191,10 +206,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-medium text-slate-300 hover:text-rose-400 hover:bg-rose-950/30 border border-slate-700/60 hover:border-rose-900/40 transition-all"
+            className="w-full flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-mono font-medium text-zinc-400 hover:text-rose-400 hover:bg-rose-950/20 border border-white/[0.06] hover:border-rose-900/40 transition-all"
           >
             <LogOut className="w-3.5 h-3.5" />
-            Sign Out
+            <span>Sign Out</span>
           </button>
         </div>
       </div>

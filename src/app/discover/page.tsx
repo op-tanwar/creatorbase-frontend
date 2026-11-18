@@ -46,8 +46,6 @@ export default function DiscoverPage() {
     setTotal((prev) => prev + 1);
   };
 
-
-  // Fetch initial shortlists for modal selection
   useEffect(() => {
     const fetchShortlists = async () => {
       try {
@@ -62,7 +60,6 @@ export default function DiscoverPage() {
     fetchShortlists();
   }, [dispatch]);
 
-  // Fetch creators based on filter states
   const fetchCreators = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -74,7 +71,6 @@ export default function DiscoverPage() {
       if (filters.platform && filters.platform !== 'ALL') {
         params.platform = filters.platform;
       }
-
       if (filters.city && filters.city !== 'All') {
         params.city = filters.city;
       }
@@ -108,7 +104,6 @@ export default function DiscoverPage() {
   }, [filters]);
 
   useEffect(() => {
-    // Debounce search slightly
     const timer = setTimeout(() => {
       fetchCreators();
     }, 250);
@@ -118,23 +113,23 @@ export default function DiscoverPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Filter Bar */}
-      <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 bg-[#08090B]/95 backdrop-blur-xl border-b border-white/[0.08]">
+      {/* Top Command-Bar Filter Header */}
+      <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3.5 bg-[#060709]/85 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
         <CreatorFilters />
       </div>
 
       {/* Results Header Info Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-950/80 text-emerald-400 border border-emerald-800/40">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]">
             <Users className="w-3.5 h-3.5" />
           </div>
           <div>
-            <span className="text-xs sm:text-sm font-mono font-bold text-zinc-100">
+            <span className="text-xs sm:text-sm font-mono font-bold text-white">
               {total.toLocaleString('en-IN')} verified creator{total === 1 ? '' : 's'} indexed
             </span>
             <span className="text-[11px] font-mono text-zinc-500 block">
-              PAGE {filters.page} OF {totalPages}
+              PAGE {filters.page} OF {totalPages} • REAL-TIME AP-SOUTH-1
             </span>
           </div>
         </div>
@@ -142,7 +137,7 @@ export default function DiscoverPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/enrich"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-900 text-xs font-mono font-semibold text-zinc-300 hover:text-white hover:border-zinc-500 transition-all shadow-sm active:scale-[0.98]"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/[0.08] bg-[#0C0E12] text-xs font-mono font-semibold text-zinc-300 hover:text-white hover:border-emerald-500/40 transition-all shadow-sm active:scale-[0.98]"
           >
             <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
             <span>Bulk CSV Enrich</span>
@@ -151,7 +146,7 @@ export default function DiscoverPage() {
           <button
             type="button"
             onClick={() => setApifyModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/40 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-900/50 hover:border-emerald-500 transition-all shadow-sm active:scale-[0.98]"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)] active:scale-[0.98]"
           >
             <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
             <span>Import Live Creator (Apify)</span>
@@ -164,16 +159,16 @@ export default function DiscoverPage() {
         </div>
       </div>
 
-      {/* Creator Grid or Empty State or Skeleton */}
+      {/* Creator Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 xl:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
           {Array.from({ length: 8 }).map((_, i) => (
             <CreatorCardSkeleton key={i} />
           ))}
         </div>
       ) : creators.length === 0 ? (
-        <div className="rounded-xl border border-[#24272E] bg-[#121316] p-12 text-center space-y-4">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#181A1F] text-amber-400 border border-[#2E333D] font-mono text-lg font-bold">
+        <div className="rounded-2xl border border-white/[0.08] bg-[#0C0E12]/90 p-12 text-center space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 font-mono text-lg font-bold shadow-[0_0_20px_rgba(16,185,129,0.2)]">
             &gt;_
           </div>
           <div className="space-y-1">
@@ -185,14 +180,14 @@ export default function DiscoverPage() {
           <div>
             <button
               onClick={() => dispatch(resetFilters())}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/30 px-3 py-1.5 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-900/40 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)]"
             >
               <span>reset_filters()</span>
             </button>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 xl:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
           {creators.map((creator) => (
             <CreatorCard key={creator.id} creator={creator} />
           ))}
@@ -201,18 +196,19 @@ export default function DiscoverPage() {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-4 pt-6 border-t border-slate-800">
+        <div className="flex items-center justify-center gap-4 pt-6 border-t border-white/[0.06]">
           <Button
             variant="outline"
             size="sm"
             disabled={filters.page <= 1 || isLoading}
             onClick={() => dispatch(setPage(filters.page - 1))}
             leftIcon={<ChevronLeft className="w-4 h-4" />}
+            className="font-mono text-xs border-white/[0.08] bg-[#0C0E12] hover:bg-white/[0.06]"
           >
             Previous
           </Button>
 
-          <span className="text-xs text-slate-400 font-medium">
+          <span className="text-xs font-mono text-zinc-400">
             Page <span className="text-white font-bold">{filters.page}</span> of {totalPages}
           </span>
 
@@ -222,6 +218,7 @@ export default function DiscoverPage() {
             disabled={filters.page >= totalPages || isLoading}
             onClick={() => dispatch(setPage(filters.page + 1))}
             rightIcon={<ChevronRight className="w-4 h-4" />}
+            className="font-mono text-xs border-white/[0.08] bg-[#0C0E12] hover:bg-white/[0.06]"
           >
             Next
           </Button>

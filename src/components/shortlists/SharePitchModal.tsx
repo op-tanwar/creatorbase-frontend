@@ -2,18 +2,12 @@
 
 import React, { useState } from 'react';
 import { Modal } from '../ui/Modal';
-import { Button } from '../ui/Button';
 import {
-  Share2,
   Copy,
   Check,
   ExternalLink,
-  ShieldCheck,
   Lock,
-  Globe,
   Sparkles,
-  Building2,
-  CheckCircle2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -61,13 +55,13 @@ export function SharePitchModal({ isOpen, onClose, shortlist }: SharePitchModalP
     >
       <div className="space-y-5">
         {/* White-Label Agency Header Preview */}
-        <div className="rounded-xl bg-gradient-to-br from-[#121316] to-emerald-950/20 border border-emerald-500/30 p-4 space-y-2">
+        <div className="rounded-xl bg-gradient-to-br from-[#0C0E12] to-emerald-950/20 border border-emerald-500/30 p-4 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              White-Label Client Portal
+              <span>White-Label Client Portal</span>
             </span>
-            <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">
+            <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 rounded">
               Zero Login Required
             </span>
           </div>
@@ -87,12 +81,12 @@ export function SharePitchModal({ isOpen, onClose, shortlist }: SharePitchModalP
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="e.g. Mamaearth Brand Team"
-              className="w-full rounded-xl bg-[#0B0C0E] border border-[#2E333D] px-3.5 py-2 text-xs font-mono text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
+              className="w-full rounded-xl bg-[#08090C] border border-white/[0.08] px-3.5 py-2 text-xs font-mono text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
             />
           </div>
 
           {/* Optional Password Protection Toggle */}
-          <div className="rounded-xl bg-[#0B0C0E] border border-[#24272E] p-3 space-y-2.5">
+          <div className="rounded-xl bg-[#08090C] border border-white/[0.06] p-3 space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Lock className="w-4 h-4 text-emerald-400" />
@@ -107,7 +101,7 @@ export function SharePitchModal({ isOpen, onClose, shortlist }: SharePitchModalP
                   onChange={(e) => setIsPasscodeEnabled(e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-9 h-5 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500" />
+                <div className="w-9 h-5 bg-white/[0.08] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500" />
               </label>
             </div>
 
@@ -119,7 +113,7 @@ export function SharePitchModal({ isOpen, onClose, shortlist }: SharePitchModalP
                   placeholder="Set 4-8 character PIN (e.g. 2026)"
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
-                  className="w-full rounded-lg bg-[#121316] border border-zinc-700 px-3 py-1.5 text-xs font-mono text-emerald-400 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-lg bg-[#08090C] border border-white/[0.08] px-3 py-1.5 text-xs font-mono text-emerald-400 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
             )}
@@ -137,7 +131,7 @@ export function SharePitchModal({ isOpen, onClose, shortlist }: SharePitchModalP
               type="text"
               readOnly
               value={shareUrl}
-              className="flex-1 rounded-xl bg-[#0B0C0E] border border-[#262930] px-3.5 py-2.5 text-xs font-mono text-emerald-400 select-all focus:outline-none"
+              className="flex-1 rounded-xl bg-[#08090C] border border-white/[0.08] px-3.5 py-2.5 text-xs font-mono text-emerald-400 select-all focus:outline-none"
             />
             <button
               type="button"
@@ -151,7 +145,7 @@ export function SharePitchModal({ isOpen, onClose, shortlist }: SharePitchModalP
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between pt-4 border-t border-zinc-800 text-xs font-mono">
+        <div className="flex items-center justify-between pt-4 border-t border-white/[0.06] text-xs font-mono">
           <span className="text-zinc-500">
             Roster: <strong className="text-zinc-300">{shortlist.name}</strong>
           </span>

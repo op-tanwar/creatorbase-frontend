@@ -13,7 +13,6 @@ import {
   Users2,
   LogOut,
   ExternalLink,
-  ChevronRight,
   ShieldCheck,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -47,7 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (isLoading || !authorized) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#0B0C0E] text-zinc-400">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#060709] text-zinc-400">
         <div className="flex items-center gap-3">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />
           <span className="font-mono text-sm tracking-wide text-amber-400">
@@ -83,9 +82,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-[#090A0C] text-zinc-100 flex flex-col font-sans selection:bg-amber-500/20 selection:text-amber-300">
+    <div className="min-h-screen bg-[#060709] text-zinc-100 flex flex-col font-sans selection:bg-amber-500/20 selection:text-amber-300">
+      {/* Background ambient spotlight & dot grid */}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_40%_at_50%_-10%,rgba(245,158,11,0.07),transparent)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
+
       {/* Top Root Admin Navigation Bar */}
-      <header className="sticky top-0 z-40 w-full border-b border-[#22252C] bg-[#0E1014]/95 backdrop-blur-md px-4 sm:px-8">
+      <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#060709]/85 backdrop-blur-2xl px-4 sm:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Brand & Admin Badge */}
           <div className="flex items-center gap-4">
@@ -110,7 +113,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
 
             {/* Desktop Navigation Tabs */}
-            <nav className="hidden lg:flex items-center gap-1 pl-6 ml-4 border-l border-[#24272E]">
+            <nav className="hidden lg:flex items-center gap-1 pl-6 ml-4 border-l border-white/[0.06]">
               {adminNav.map((item) => {
                 const isActive = item.exact
                   ? pathname === item.href
@@ -121,10 +124,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
                       isActive
-                        ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm shadow-amber-950/40 font-semibold'
-                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 border border-transparent'
+                        ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm font-semibold'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] border border-transparent'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -139,15 +142,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-3">
             <Link
               href="/discover"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:text-white transition-all"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-zinc-300 bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] hover:text-white transition-all"
             >
               <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
               <span>Agency View</span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-zinc-900/80 border border-zinc-800 text-xs">
+            <div className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08] text-xs">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="font-medium text-zinc-200">{user?.name}</span>
+              <span className="font-mono text-xs text-zinc-200">{user?.name}</span>
               <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-950 text-amber-400 border border-amber-800/40">
                 ROOT
               </span>
@@ -155,7 +158,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-400 hover:text-rose-400 hover:bg-rose-950/30 border border-zinc-800 hover:border-rose-900/40 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono font-medium text-zinc-400 hover:text-rose-400 hover:bg-rose-950/30 border border-white/[0.08] hover:border-rose-900/40 transition-colors"
               title="Sign out of Admin Console"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -165,7 +168,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Mobile Sub-Navigation Bar */}
-        <div className="flex lg:hidden items-center gap-1 overflow-x-auto py-2 border-t border-[#22252C] scrollbar-none">
+        <div className="flex lg:hidden items-center gap-1 overflow-x-auto py-2 border-t border-white/[0.06] scrollbar-none">
           {adminNav.map((item) => {
             const isActive = item.exact
               ? pathname === item.href
@@ -176,7 +179,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all ${
                   isActive
                     ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold'
                     : 'text-zinc-400 hover:text-zinc-200'

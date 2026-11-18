@@ -165,7 +165,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
   return (
     <div className="space-y-4">
       {/* Header bar: Shortlist Summary & CSV Export */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl bg-[#121316] border border-[#24272E] p-4 sm:p-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl bg-[#0C0E12]/90 border border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-4 sm:p-5">
         <div>
           <div className="flex items-center gap-2.5">
             <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
@@ -220,8 +220,8 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
 
       {/* Table Container */}
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-12 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400">
+        <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] p-12 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.04] text-zinc-400 border border-white/[0.08]">
             <FileSpreadsheet className="w-6 h-6" />
           </div>
           <h3 className="mt-4 text-base font-bold text-white">No creators in this shortlist yet</h3>
@@ -240,11 +240,11 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
               return (
                 <div
                   key={item.id}
-                  className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 space-y-3 shadow-md"
+                  className="rounded-2xl bg-[#0C0E12] border border-white/[0.07] p-4 space-y-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="relative h-10 w-10 rounded-full overflow-hidden border border-zinc-700 shrink-0">
+                      <div className="relative h-10 w-10 rounded-full overflow-hidden border border-white/[0.1] bg-white/[0.04] shrink-0">
                         <Image
                           src={c.avatarUrl}
                           alt={c.fullName}
@@ -299,7 +299,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                   </div>
 
                   {/* Fee & Notes Editable Block */}
-                  <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800/80 space-y-2">
+                  <div className="rounded-xl bg-[#08090C] p-3 border border-white/[0.06] space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-[11px] font-medium text-zinc-400">
                         Assigned Fee (INR)
@@ -327,7 +327,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') handleSaveEdit(item);
                             }}
-                            className="w-full rounded-lg bg-zinc-900 border border-emerald-500 pl-7 pr-2 py-1.5 text-xs text-white"
+                            className="w-full rounded-lg bg-[#08090C] border border-emerald-500/60 font-mono pl-7 pr-2 py-1.5 text-xs text-white"
                             placeholder="Amount in INR"
                             autoFocus
                           />
@@ -340,7 +340,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') handleSaveEdit(item);
                           }}
-                          className="w-full rounded-lg bg-zinc-900 border border-emerald-500 px-2.5 py-1.5 text-xs text-white"
+                          className="w-full rounded-lg bg-[#08090C] border border-emerald-500/60 font-mono px-2.5 py-1.5 text-xs text-white"
                           placeholder="Deliverable notes (e.g. 1 Reel + 2 Stories)"
                         />
 
@@ -379,9 +379,9 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
           </div>
 
           {/* Desktop Table View (>= 768px) */}
-          <div className="hidden md:block overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-900/80 backdrop-blur-sm">
+          <div className="hidden md:block overflow-x-auto rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <table className="w-full text-left text-sm text-zinc-200">
-              <thead className="bg-zinc-950/80 text-[11px] uppercase tracking-wider text-zinc-400 border-b border-zinc-800">
+              <thead className="bg-[#08090C] text-[11px] font-mono uppercase tracking-wider text-zinc-400 border-b border-white/[0.06]">
                 <tr>
                   <th className="px-5 py-3.5">Creator</th>
                   <th className="px-4 py-3.5">Niche & City</th>
@@ -391,7 +391,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                   <th className="px-4 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800/70">
+              <tbody className="divide-y divide-white/[0.05]">
                 {items.map((item) => {
                   const c = item.creator;
                   const isEditing = editingItemId === item.id;
@@ -399,7 +399,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                   return (
                     <tr
                       key={item.id}
-                      className="hover:bg-zinc-800/40 transition-colors group"
+                      className="hover:bg-white/[0.02] transition-colors group"
                     >
                       {/* Creator Identity */}
                       <td className="px-5 py-4">
@@ -407,7 +407,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                           <a
                             href={getCreatorPlatformUrl(c)}
                             {...EXTERNAL_LINK_PROPS}
-                            className="relative h-11 w-11 rounded-full overflow-hidden border border-zinc-700 shrink-0 transition-transform hover:scale-105"
+                            className="relative h-11 w-11 rounded-full overflow-hidden border border-white/[0.1] bg-white/[0.04] shrink-0 transition-transform hover:scale-105"
                             title={`Open live profile on ${c.platform === 'YOUTUBE' ? 'YouTube' : 'Instagram'}`}
                           >
                             <Image
@@ -494,7 +494,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter') handleSaveEdit(item);
                               }}
-                              className="w-full rounded-lg bg-zinc-950 border border-emerald-500 pl-7 pr-2 py-1 text-xs text-white focus:outline-none"
+                              className="w-full rounded-lg bg-[#08090C] border border-emerald-500/60 font-mono pl-7 pr-2 py-1 text-xs text-white focus:outline-none"
                               placeholder="Amount"
                               autoFocus
                             />
@@ -536,7 +536,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter') handleSaveEdit(item);
                               }}
-                              className="w-full rounded-lg bg-zinc-950 border border-emerald-500 px-2.5 py-1 text-xs text-white focus:outline-none"
+                              className="w-full rounded-lg bg-[#08090C] border border-emerald-500/60 font-mono px-2.5 py-1 text-xs text-white focus:outline-none"
                               placeholder="e.g. 1x Reel + 2x Stories"
                             />
                           ) : (
@@ -632,7 +632,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
         maxWidth="lg"
       >
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-[#0B0C0E] border border-[#24272E] space-y-2">
+          <div className="p-4 rounded-xl bg-[#08090C] border border-white/[0.06] space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-semibold text-zinc-300">
                 Interactive Client Review Link
@@ -654,7 +654,7 @@ export function ShortlistTable({ shortlist, onRefresh }: ShortlistTableProps) {
                 type="text"
                 readOnly
                 value={shareUrl}
-                className="flex-1 rounded-xl bg-[#0B0C0E] border border-[#262930] px-3.5 py-2.5 text-xs font-mono text-emerald-400 select-all focus:outline-none"
+                className="flex-1 rounded-xl bg-[#08090C] border border-white/[0.08] px-3.5 py-2.5 text-xs font-mono text-emerald-400 select-all focus:outline-none"
               />
               <button
                 type="button"

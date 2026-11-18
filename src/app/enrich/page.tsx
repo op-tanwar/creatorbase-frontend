@@ -369,7 +369,7 @@ export default function BulkEnrichmentPage() {
 
         {/* Quota Counter Pill */}
         {quota && (
-          <div className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-zinc-950/80 p-3 shadow-sm">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl p-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
               <Zap className="h-5 w-5" />
             </div>
@@ -378,11 +378,11 @@ export default function BulkEnrichmentPage() {
                 <span className="text-xs font-bold font-mono text-zinc-100">
                   {quota.remaining} / {quota.limit} Credits Remaining
                 </span>
-                <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-mono text-zinc-400 uppercase">
+                <span className="rounded-full bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 text-[10px] font-mono text-zinc-400 uppercase">
                   {quota.planType}
                 </span>
               </div>
-              <div className="mt-1 w-48 bg-zinc-800 rounded-full h-1.5 overflow-hidden">
+              <div className="mt-1 w-48 bg-white/[0.08] rounded-full h-1.5 overflow-hidden">
                 <div
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     quota.remaining > 100
@@ -403,7 +403,7 @@ export default function BulkEnrichmentPage() {
 
       {/* STATE 1: UPLOAD ZONE (Show if no active job or if user wants to upload another) */}
       {!activeJob && (
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 sm:p-10 backdrop-blur-md">
+        <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-6 sm:p-10 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
           <div className="max-w-2xl mx-auto text-center">
             {/* Drag & Drop Area */}
             <div
@@ -415,8 +415,8 @@ export default function BulkEnrichmentPage() {
                 isDragging
                   ? 'border-emerald-500 bg-emerald-950/20 shadow-xl shadow-emerald-950/40'
                   : selectedFile
-                  ? 'border-emerald-500/60 bg-zinc-950/80'
-                  : 'border-zinc-700/80 hover:border-zinc-500 bg-zinc-950/40'
+                  ? 'border-emerald-500/60 bg-[#08090C]'
+                  : 'border-white/[0.08] hover:border-emerald-500/40 bg-[#08090C]'
               }`}
             >
               <input
@@ -427,7 +427,7 @@ export default function BulkEnrichmentPage() {
                 className="hidden"
               />
 
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 text-emerald-400 group-hover:scale-105 transition-transform mb-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/[0.04] border border-white/[0.08] text-emerald-400 group-hover:scale-105 transition-transform mb-4">
                 <UploadCloud className="h-8 w-8" />
               </div>
 
@@ -488,7 +488,7 @@ export default function BulkEnrichmentPage() {
       {activeJob && (
         <div className="space-y-6">
           {/* Progress Header Card */}
-          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/80 p-5 sm:p-6 backdrop-blur-md">
+          <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-5 sm:p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
               <div>
                 <div className="flex items-center gap-2">
@@ -516,7 +516,7 @@ export default function BulkEnrichmentPage() {
 
               {/* Progress Summary Pill */}
               <div className="flex items-center gap-4 text-xs font-mono">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-3 py-1.5">
+                <div className="rounded-xl border border-white/[0.08] bg-[#08090C] px-3 py-1.5">
                   <span className="text-zinc-500">Processed: </span>
                   <span className="font-bold text-zinc-100">
                     {activeJob.processedRows} / {activeJob.totalRows}
@@ -638,7 +638,7 @@ export default function BulkEnrichmentPage() {
                     placeholder="Search by handle or email..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/60 pl-9 pr-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/[0.08] bg-[#08090C] pl-9 pr-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
                   />
                 </div>
 
@@ -664,9 +664,9 @@ export default function BulkEnrichmentPage() {
               </div>
 
               {/* Data Table */}
-              <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-md">
+              <div className="overflow-x-auto rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                 <table className="w-full text-left text-xs text-zinc-300">
-                  <thead className="bg-zinc-950/80 uppercase tracking-wider text-[10px] text-zinc-400 border-b border-zinc-800">
+                  <thead className="bg-[#08090C] font-mono uppercase tracking-wider text-[10px] text-zinc-400 border-b border-white/[0.06]">
                     <tr>
                       <th className="px-4 py-3">Creator</th>
                       <th className="px-4 py-3">City &amp; Niche</th>
@@ -680,7 +680,7 @@ export default function BulkEnrichmentPage() {
                   </thead>
                   <tbody className="divide-y divide-zinc-800/60">
                     {filteredResults.map((r) => (
-                      <tr key={r.handle} className="hover:bg-zinc-800/40 transition-colors">
+                      <tr key={r.handle} className="hover:bg-white/[0.02] transition-colors">
                         {/* Creator */}
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2.5">
@@ -789,7 +789,7 @@ export default function BulkEnrichmentPage() {
       {/* SAVE TO SHORTLIST MODAL */}
       {isShortlistModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md rounded-2xl border border-white/[0.08] bg-[#0C0E12]/95 backdrop-blur-2xl p-6 shadow-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] space-y-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <FolderPlus className="h-5 w-5 text-emerald-400" />
@@ -812,7 +812,7 @@ export default function BulkEnrichmentPage() {
                       setSelectedShortlistId(e.target.value);
                       setNewShortlistName('');
                     }}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-100 focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/[0.08] bg-[#08090C] px-3 py-2 text-xs text-zinc-100 focus:border-emerald-500 focus:outline-none"
                   >
                     <option value="">-- Or create a new shortlist below --</option>
                     {shortlists.map((sl) => (
@@ -836,7 +836,7 @@ export default function BulkEnrichmentPage() {
                     setNewShortlistName(e.target.value);
                     setSelectedShortlistId('');
                   }}
-                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-xl border border-white/[0.08] bg-[#08090C] px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
             </div>

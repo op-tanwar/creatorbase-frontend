@@ -126,7 +126,7 @@ function FollowersSlider({ value, onChange, onPreset }: FollowersSliderProps) {
               className={`px-2 py-0.5 rounded-md font-mono text-[10px] sm:text-[11px] border transition-all ${
                 isActive
                   ? 'bg-zinc-800 text-emerald-400 border-emerald-500/40 font-semibold shadow-xs'
-                  : 'bg-[#181A1F] text-zinc-400 border-[#2E333D] hover:bg-zinc-800 hover:text-zinc-200'
+                  : 'bg-[#08090C] text-zinc-400 border-white/[0.08] hover:bg-zinc-800 hover:text-zinc-200'
               }`}
             >
               {preset.label}
@@ -204,7 +204,7 @@ function EngagementSlider({ value, onChange, onPreset }: EngagementSliderProps) 
               className={`px-2 py-0.5 rounded-md font-mono text-[10px] sm:text-[11px] border transition-all ${
                 isActive
                   ? 'bg-zinc-800 text-emerald-400 border-emerald-500/40 font-semibold shadow-xs'
-                  : 'bg-[#181A1F] text-zinc-400 border-[#2E333D] hover:bg-zinc-800 hover:text-zinc-200'
+                  : 'bg-[#08090C] text-zinc-400 border-white/[0.08] hover:bg-zinc-800 hover:text-zinc-200'
               }`}
             >
               {preset.label}
@@ -327,7 +327,7 @@ export function CreatorFilters() {
             placeholder="Search creators by handle, name, city or niche keyword..."
             value={filters.search}
             onChange={(e) => dispatch(setSearch(e.target.value))}
-            className="w-full rounded-xl bg-[#121316] border border-[#262930] pl-10 pr-20 py-2.5 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-mono shadow-sm transition-all focus:border-emerald-500 focus:bg-[#16181D] focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-xl bg-[#0C0E12] border border-white/[0.08] pl-10 pr-20 py-2.5 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-mono shadow-sm transition-all focus:border-emerald-500 focus:bg-[#16181D] focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
 
           {/* Shortcut badge or clear button */}
@@ -342,7 +342,7 @@ export function CreatorFilters() {
                 <X className="w-3.5 h-3.5" />
               </button>
             ) : (
-              <span className="hidden sm:inline-flex items-center gap-0.5 rounded border border-[#2E333D] bg-[#181A1F] px-1.5 py-0.5 text-[10px] font-mono text-zinc-500">
+              <span className="hidden sm:inline-flex items-center gap-0.5 rounded border border-white/[0.08] bg-[#08090C] px-1.5 py-0.5 text-[10px] font-mono text-zinc-500">
                 <Command className="w-2.5 h-2.5" />
                 <span>K</span>
               </span>
@@ -351,7 +351,7 @@ export function CreatorFilters() {
         </div>
 
         {/* Platform Selector Segmented Control (All / Instagram / YouTube) */}
-        <div className="flex items-center rounded-xl bg-[#121316] border border-[#262930] p-1 gap-1 shrink-0">
+        <div className="flex items-center rounded-xl bg-[#0C0E12] border border-white/[0.08] p-1 gap-1 shrink-0">
           <button
             type="button"
             onClick={() => dispatch(setPlatform('ALL'))}
@@ -395,10 +395,10 @@ export function CreatorFilters() {
           <select
             value={filters.city}
             onChange={(e) => dispatch(setCity(e.target.value))}
-            className="w-full appearance-none rounded-xl bg-[#121316] border border-[#262930] pl-9 pr-8 py-2.5 text-xs sm:text-sm text-zinc-200 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer font-mono"
+            className="w-full appearance-none rounded-xl bg-[#0C0E12] border border-white/[0.08] pl-9 pr-8 py-2.5 text-xs sm:text-sm text-zinc-200 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer font-mono"
           >
             {INDIAN_CITIES.map((c) => (
-              <option key={c} value={c} className="bg-[#121316] text-zinc-200">
+              <option key={c} value={c} className="bg-[#0C0E12] text-zinc-200">
                 {c === 'All' ? 'Pan-India (All Cities)' : c}
               </option>
             ))}
@@ -409,7 +409,7 @@ export function CreatorFilters() {
         <Button
           variant="secondary"
           size="md"
-          className="relative shrink-0 md:hidden border-[#262930] bg-[#121316]"
+          className="relative shrink-0 md:hidden border-white/[0.08] bg-[#0C0E12]"
           leftIcon={<SlidersHorizontal className="w-4 h-4 text-emerald-400" />}
           onClick={() => setMobileDrawerOpen(true)}
         >
@@ -426,7 +426,7 @@ export function CreatorFilters() {
           <button
             type="button"
             onClick={handleResetAll}
-            className="hidden md:inline-flex items-center gap-1.5 shrink-0 rounded-xl border border-[#262930] bg-[#121316] px-3 py-2 text-xs font-mono text-zinc-400 hover:text-zinc-100 hover:border-zinc-600 transition-colors"
+            className="hidden md:inline-flex items-center gap-1.5 shrink-0 rounded-xl border border-white/[0.08] bg-[#0C0E12] px-3 py-2 text-xs font-mono text-zinc-400 hover:text-zinc-100 hover:border-zinc-600 transition-colors"
             title="Reset all active filters"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -455,7 +455,7 @@ export function CreatorFilters() {
           className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
             filters.city === 'Indore'
               ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-sm'
-              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-emerald-500/50 hover:bg-[#181A1F]'
+              : 'bg-[#0C0E12] text-zinc-300 border-white/[0.08] hover:border-emerald-500/50 hover:bg-[#08090C]'
           }`}
         >
           <span>📍 Top Indore Creators</span>
@@ -474,7 +474,7 @@ export function CreatorFilters() {
           className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
             filters.niche === 'Beauty'
               ? 'bg-pink-500 text-zinc-950 font-bold border-pink-400 shadow-sm'
-              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-pink-500/50 hover:bg-[#181A1F]'
+              : 'bg-[#0C0E12] text-zinc-300 border-white/[0.08] hover:border-pink-500/50 hover:bg-[#08090C]'
           }`}
         >
           <span>💄 Beauty &amp; Skincare</span>
@@ -493,7 +493,7 @@ export function CreatorFilters() {
           className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
             filters.minEngagement >= 4.0
               ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-sm'
-              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-emerald-500/50 hover:bg-[#181A1F]'
+              : 'bg-[#0C0E12] text-zinc-300 border-white/[0.08] hover:border-emerald-500/50 hover:bg-[#08090C]'
           }`}
         >
           <span>📈 High ER (&gt;4%)</span>
@@ -513,7 +513,7 @@ export function CreatorFilters() {
           className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all ${
             filters.maxFollowers === 50000
               ? 'bg-indigo-500 text-zinc-950 font-bold border-indigo-400 shadow-sm'
-              : 'bg-[#121316] text-zinc-300 border-[#262930] hover:border-indigo-500/50 hover:bg-[#181A1F]'
+              : 'bg-[#0C0E12] text-zinc-300 border-white/[0.08] hover:border-indigo-500/50 hover:bg-[#08090C]'
           }`}
         >
           <span>⚡ Micro-Influencers (&lt;50k)</span>
@@ -590,7 +590,7 @@ export function CreatorFilters() {
       )}
 
       {/* Desktop Horizontal Controls Panel */}
-      <div className="hidden md:block rounded-xl bg-[#121316] border border-[#24272E] p-4 space-y-4 shadow-sm">
+      <div className="hidden md:block rounded-xl bg-[#0C0E12] border border-white/[0.06] p-4 space-y-4 shadow-sm">
         {/* Niche Pills */}
         <div>
           <div className="flex flex-wrap items-center gap-1.5">
@@ -608,7 +608,7 @@ export function CreatorFilters() {
                   className={`text-xs px-2.5 py-1 rounded-lg font-mono transition-all ${
                     isSelected
                       ? 'bg-emerald-500 text-zinc-950 font-bold shadow-sm'
-                      : 'bg-[#181A1F] text-zinc-300 hover:bg-zinc-800 hover:text-white border border-[#2E333D]'
+                      : 'bg-[#08090C] text-zinc-300 hover:bg-zinc-800 hover:text-white border border-white/[0.08]'
                   }`}
                 >
                   {n === 'All' ? 'All Niches' : n}
@@ -619,7 +619,7 @@ export function CreatorFilters() {
         </div>
 
         {/* Sliders Grid: Followers & Engagement */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-3.5 border-t border-[#20232A]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-3.5 border-t border-white/[0.06]">
           <FollowersSlider
             value={localFollowers}
             onChange={handleFollowersChange}
@@ -640,10 +640,10 @@ export function CreatorFilters() {
             className="fixed inset-0 bg-black/80 backdrop-blur-sm"
             onClick={() => setMobileDrawerOpen(false)}
           />
-          <div className="relative w-full max-w-sm bg-[#121316] border-l border-[#262930] p-5 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-in slide-in-from-right duration-250">
+          <div className="relative w-full max-w-sm bg-[#0C0E12] border-l border-white/[0.08] p-5 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-in slide-in-from-right duration-250">
             <div className="space-y-6">
               {/* Drawer Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-[#24272E]">
+              <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.06]">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="w-4 h-4 text-emerald-400" />
                   <h3 className="font-bold text-white text-sm font-sans">Filter Influencers</h3>
@@ -674,7 +674,7 @@ export function CreatorFilters() {
                     className={`py-2 rounded-lg text-xs font-mono font-medium border text-center transition-all ${
                       filters.platform === 'ALL'
                         ? 'bg-zinc-800 text-zinc-100 border-zinc-600'
-                        : 'bg-[#121316] text-zinc-400 border-[#262930]'
+                        : 'bg-[#0C0E12] text-zinc-400 border-white/[0.08]'
                     }`}
                   >
                     All
@@ -685,7 +685,7 @@ export function CreatorFilters() {
                     className={`py-2 flex items-center justify-center gap-1 rounded-lg text-xs font-mono font-medium border text-center transition-all ${
                       filters.platform === 'INSTAGRAM'
                         ? 'bg-pink-950/60 text-pink-300 border-pink-700/60'
-                        : 'bg-[#121316] text-zinc-400 border-[#262930]'
+                        : 'bg-[#0C0E12] text-zinc-400 border-white/[0.08]'
                     }`}
                   >
                     <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
@@ -697,7 +697,7 @@ export function CreatorFilters() {
                     className={`py-2 flex items-center justify-center gap-1 rounded-lg text-xs font-mono font-medium border text-center transition-all ${
                       filters.platform === 'YOUTUBE'
                         ? 'bg-rose-950/60 text-rose-300 border-rose-700/60'
-                        : 'bg-[#121316] text-zinc-400 border-[#262930]'
+                        : 'bg-[#0C0E12] text-zinc-400 border-white/[0.08]'
                     }`}
                   >
                     <YoutubeIcon className="w-3.5 h-3.5 text-rose-400" />
@@ -715,10 +715,10 @@ export function CreatorFilters() {
                 <select
                   value={filters.city}
                   onChange={(e) => dispatch(setCity(e.target.value))}
-                  className="w-full appearance-none rounded-xl bg-[#0B0C0E] border border-[#2E333D] p-2.5 text-xs font-mono text-zinc-200"
+                  className="w-full appearance-none rounded-xl bg-[#0B0C0E] border border-white/[0.08] p-2.5 text-xs font-mono text-zinc-200"
                 >
                   {INDIAN_CITIES.map((c) => (
-                    <option key={c} value={c} className="bg-[#121316]">
+                    <option key={c} value={c} className="bg-[#0C0E12]">
                       {c === 'All' ? 'Pan-India (All Cities)' : c}
                     </option>
                   ))}
@@ -742,7 +742,7 @@ export function CreatorFilters() {
                         className={`text-xs px-2.5 py-1.5 rounded-lg font-mono transition-all ${
                           isSelected
                             ? 'bg-emerald-500 text-zinc-950 font-bold'
-                            : 'bg-[#181A1F] text-zinc-300 border border-[#2E333D]'
+                            : 'bg-[#08090C] text-zinc-300 border border-white/[0.08]'
                         }`}
                       >
                         {n === 'All' ? 'All Niches' : n}
@@ -768,7 +768,7 @@ export function CreatorFilters() {
             </div>
 
             {/* Bottom Actions */}
-            <div className="pt-6 border-t border-[#24272E] flex items-center gap-2.5 mt-6">
+            <div className="pt-6 border-t border-white/[0.06] flex items-center gap-2.5 mt-6">
               <Button
                 variant="outline"
                 size="md"

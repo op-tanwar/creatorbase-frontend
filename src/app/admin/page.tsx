@@ -50,7 +50,7 @@ export default function AdminOverviewPage() {
   return (
     <div className="space-y-8">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#24272E] pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/[0.06] pb-6">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold tracking-tight text-white font-sans">
@@ -70,7 +70,7 @@ export default function AdminOverviewPage() {
           <button
             onClick={() => fetchMetrics(true)}
             disabled={isRefreshing}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:text-white transition-all disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-zinc-300 bg-white/[0.04] border border-white/[0.08] hover:border-zinc-700 hover:text-white transition-all disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span>Sync Stats</span>
@@ -89,7 +89,7 @@ export default function AdminOverviewPage() {
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Platform Revenue */}
-        <div className="rounded-xl bg-[#111317] border border-[#24272E] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-amber-500/40 transition-colors">
+        <div className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-amber-500/40 transition-colors">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-mono uppercase tracking-wider">Gross Platform Revenue</span>
             <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -112,7 +112,7 @@ export default function AdminOverviewPage() {
         </div>
 
         {/* Total Registered Agencies */}
-        <div className="rounded-xl bg-[#111317] border border-[#24272E] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-indigo-500/40 transition-colors">
+        <div className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-indigo-500/40 transition-colors">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-mono uppercase tracking-wider">Registered Agencies</span>
             <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
@@ -134,7 +134,7 @@ export default function AdminOverviewPage() {
         </div>
 
         {/* Active Paid Subscriptions */}
-        <div className="rounded-xl bg-[#111317] border border-[#24272E] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
+        <div className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-mono uppercase tracking-wider">Active Paid Subs</span>
             <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -156,7 +156,7 @@ export default function AdminOverviewPage() {
         </div>
 
         {/* Total Creators Indexed */}
-        <div className="rounded-xl bg-[#111317] border border-[#24272E] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-cyan-500/40 transition-colors">
+        <div className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 shadow-sm space-y-3 relative overflow-hidden group hover:border-cyan-500/40 transition-colors">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-mono uppercase tracking-wider">Verified Creators</span>
             <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
@@ -181,8 +181,8 @@ export default function AdminOverviewPage() {
       {/* Subscription Breakdown & Quick Navigation */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Tier Distribution Card */}
-        <div className="lg:col-span-1 rounded-xl bg-[#111317] border border-[#24272E] p-6 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#24272E] pb-3">
+        <div className="lg:col-span-1 rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
             <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
               Agency Tier Distribution
             </h2>
@@ -225,15 +225,15 @@ export default function AdminOverviewPage() {
             })}
           </div>
 
-          <div className="pt-4 border-t border-[#24272E] flex items-center justify-between text-xs font-mono text-zinc-400">
+          <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-zinc-400">
             <span>Total Shortlists: <strong>{metrics?.totalShortlists ?? 0}</strong></span>
             <span>Total Campaigns: <strong>{metrics?.totalCampaigns ?? 0}</strong></span>
           </div>
         </div>
 
         {/* Live System Activity Feed */}
-        <div className="lg:col-span-2 rounded-xl bg-[#111317] border border-[#24272E] p-6 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#24272E] pb-3">
+        <div className="lg:col-span-2 rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-amber-400" />
               <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
@@ -246,7 +246,7 @@ export default function AdminOverviewPage() {
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-12 bg-zinc-900/60 animate-pulse rounded-lg" />
+                <div key={i} className="h-12 bg-white/[0.04]/60 animate-pulse rounded-lg" />
               ))}
             </div>
           ) : recentActivities.length === 0 ? (
@@ -298,7 +298,7 @@ export default function AdminOverviewPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
         <Link
           href="/admin/agencies"
-          className="rounded-xl bg-[#111317] border border-[#24272E] p-5 hover:border-amber-500/50 hover:bg-[#15171C] transition-all group"
+          className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 hover:border-amber-500/50 hover:bg-[#15171C] transition-all group"
         >
           <div className="flex items-center justify-between mb-2">
             <Building2 className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform" />
@@ -312,7 +312,7 @@ export default function AdminOverviewPage() {
 
         <Link
           href="/admin/revenue"
-          className="rounded-xl bg-[#111317] border border-[#24272E] p-5 hover:border-amber-500/50 hover:bg-[#15171C] transition-all group"
+          className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 hover:border-amber-500/50 hover:bg-[#15171C] transition-all group"
         >
           <div className="flex items-center justify-between mb-2">
             <Receipt className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
@@ -326,7 +326,7 @@ export default function AdminOverviewPage() {
 
         <Link
           href="/admin/creators"
-          className="rounded-xl bg-[#111317] border border-[#24272E] p-5 hover:border-amber-500/50 hover:bg-[#15171C] transition-all group"
+          className="rounded-xl bg-[#0C0E12]/90 border-white/[0.07] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] border border-white/[0.06] p-5 hover:border-amber-500/50 hover:bg-[#15171C] transition-all group"
         >
           <div className="flex items-center justify-between mb-2">
             <Users className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform" />

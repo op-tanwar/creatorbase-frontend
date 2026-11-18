@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -10,7 +11,7 @@ export interface ModalProps {
   title?: string;
   description?: string;
   children: React.ReactNode;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 }
 
 export function Modal({
@@ -44,39 +45,40 @@ export function Modal({
     xl: 'max-w-xl',
     '2xl': 'max-w-2xl',
     '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+      {/* Backdrop with ambient blur */}
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
         onClick={onClose}
       />
 
-      {/* Modal Dialog */}
+      {/* Modal Dialog with Obsidian Glass */}
       <div
         className={cn(
-          'relative w-full overflow-hidden rounded-xl bg-[#121316] border border-[#262930] p-5 sm:p-6 shadow-2xl transition-all z-10 max-h-[85vh] flex flex-col',
+          'relative w-full overflow-hidden rounded-2xl bg-[#0C0E12]/95 border border-white/[0.08] p-5 sm:p-7 shadow-[0_25px_70px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-2xl transition-all z-10 max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200',
           maxWidthClasses[maxWidth]
         )}
       >
-        <div className="flex items-start justify-between pb-3.5 border-b border-[#24272E]">
+        <div className="flex items-start justify-between pb-4 border-b border-white/[0.06]">
           <div>
             {title && (
-              <h3 className="text-lg font-semibold text-white tracking-tight">
+              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight font-sans">
                 {title}
               </h3>
             )}
             {description && (
-              <p className="mt-1 text-xs text-slate-400">{description}</p>
+              <p className="mt-1 text-xs text-zinc-400 font-sans leading-relaxed">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="rounded-lg p-1.5 text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0 ml-2"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
