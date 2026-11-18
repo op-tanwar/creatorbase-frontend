@@ -5,10 +5,10 @@ export interface CreatorUrlTarget {
   fullName?: string;
 }
 
-// Canonical marquee overrides for verified Indian creators
-const MARQUEE_CANONICAL_YT_MAP: Record<string, string> = {
-  totalgaming: 'totalgaming',
-  totalgaming093: 'totalgaming',
+// Canonical marquee overrides for verified Indian YouTube creators
+export const MARQUEE_CANONICAL_YT_MAP: Record<string, string> = {
+  totalgaming: 'TotalGaming093',
+  totalgaming093: 'TotalGaming093',
   technogamerz: 'technogamerz',
   carryminati: 'CarryMinati',
   carryislive: 'CarryisLive',
@@ -59,9 +59,11 @@ const MARQUEE_CANONICAL_YT_MAP: Record<string, string> = {
   rohitkhatrifitness: 'RohitKhatriFitness',
   techbar: 'TechBar',
   tanmaybhat: 'TanmayBhatYT',
+  tanmaybhatyt: 'TanmayBhatYT',
   scoutop: 'scoutop',
   swadofficial: 'SwadOfficial',
   samayraina: 'SamayRainaOfficial',
+  samayrainaofficial: 'SamayRainaOfficial',
   labourlawadvisor: 'LabourLawAdvisor',
   rachanaranade: 'rachanaranade',
   geekyranjit_yt: 'geekyranjit',
@@ -70,6 +72,7 @@ const MARQUEE_CANONICAL_YT_MAP: Record<string, string> = {
 
 /**
  * Sanitizes raw handle by stripping URLs, leading @, query parameters, and unwanted symbols.
+ * Returns empty string if invalid, avoiding broken links.
  */
 export function sanitizePlatformHandle(
   rawHandle: string | undefined | null,
@@ -80,7 +83,12 @@ export function sanitizePlatformHandle(
   let clean = String(rawHandle).trim();
 
   // Guard against null / undefined string literals
-  if (clean === 'undefined' || clean === 'null' || clean === '[object Object]') {
+  if (
+    clean === 'undefined' ||
+    clean === 'null' ||
+    clean === '[object Object]' ||
+    clean === 'NaN'
+  ) {
     return '';
   }
 
@@ -108,7 +116,7 @@ export function sanitizePlatformHandle(
     // Only valid Instagram username characters: letters, digits, periods, underscores
     clean = clean.replace(/[^a-zA-Z0-9._]/g, '');
   } else if (normPlatform === 'YOUTUBE') {
-    // Valid YouTube handle / ID characters
+    // Valid YouTube handle / channel ID characters
     clean = clean.replace(/[^a-zA-Z0-9._-]/g, '');
   }
 
@@ -116,50 +124,64 @@ export function sanitizePlatformHandle(
 }
 
 /**
- * Generates bulletproof, verified live external profile URL for Instagram and YouTube.
- * Handles existing full profile URLs, channel IDs (UC...), custom handles, and removes double-@ errors.
+ * Direct canonical URL resolver function enforcing:
+ * Instagram: https://www.instagram.com/${handle.replace(/^@/, '').trim()}/
+ * YouTube: If handle.startsWith('UC') && handle.length === 24 -> https://www.youtube.com/channel/${handle}
+ *          Else -> https://www.youtube.com/@${handle.replace(/^@/, '').trim()}
  */
-export function getCreatorPlatformUrl(creator: CreatorUrlTarget | null | undefined): string {
-  if (!creator) return 'https://www.instagram.com/';
+export function getCanonicalProfileUrl(
+  handle: string | undefined | null,
+  platform: string = 'INSTAGRAM'
+): string {
+  const normPlatform = (platform || 'INSTAGRAM').toUpperCase();
+  const clean = sanitizePlatformHandle(handle, normPlatform);
 
-  const normPlatform = (creator.platform || 'INSTAGRAM').toUpperCase();
-
-  // 1. If creator.profileUrl is already a valid full URL matching the platform domain, return it
-  if (creator.profileUrl && typeof creator.profileUrl === 'string') {
-    const rawUrl = creator.profileUrl.trim();
-    if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
-      if (normPlatform === 'INSTAGRAM' && /instagram\.com/i.test(rawUrl)) {
-        return rawUrl;
-      }
-      if (normPlatform === 'YOUTUBE' && /(?:youtube\.com|youtu\.be)/i.test(rawUrl)) {
-        return rawUrl;
-      }
-    }
-  }
-
-  // 2. Clean the handle
-  const cleanHandle = sanitizePlatformHandle(creator.handle, normPlatform);
-
-  if (!cleanHandle || cleanHandle === 'undefined' || cleanHandle === 'null') {
+  if (!clean) {
     return normPlatform === 'YOUTUBE' ? 'https://www.youtube.com' : 'https://www.instagram.com';
   }
 
-  // 3. Platform specific formatting
   if (normPlatform === 'YOUTUBE') {
-    // Resolve marquee alias
-    const lower = cleanHandle.toLowerCase();
-    const verifiedCanonical = MARQUEE_CANONICAL_YT_MAP[lower] || cleanHandle;
-
     // If it's a 24-character YouTube Channel ID starting with UC...
-    if (verifiedCanonical.startsWith('UC') && verifiedCanonical.length === 24) {
-      return `https://www.youtube.com/channel/${verifiedCanonical}`;
+    if (clean.startsWith('UC') && clean.length === 24) {
+      return `https://www.youtube.com/channel/${clean}`;
     }
-    // Standard YouTube channel @handle
-    return `https://www.youtube.com/@${verifiedCanonical}`;
+    // Resolve marquee alias if present
+    const mapped = MARQUEE_CANONICAL_YT_MAP[clean.toLowerCase()] || clean;
+    return `https://www.youtube.com/@${mapped}`;
   }
 
-  // Default to Instagram
-  return `https://www.instagram.com/${cleanHandle}/`;
+  // Instagram canonical URL
+  return `https://www.instagram.com/${clean}/`;
+}
+
+/**
+ * Generates bulletproof, verified live external profile URL for Instagram and YouTube.
+ * Handles existing full profile URLs, channel IDs (UC...), custom handles, and removes double-@ errors.
+ * Never renders broken links ('undefined', 'null', empty strings).
+ */
+export function getCreatorPlatformUrl(creator: CreatorUrlTarget | null | undefined): string {
+  if (!creator) return 'https://www.instagram.com';
+
+  const normPlatform = (creator.platform || 'INSTAGRAM').toUpperCase();
+
+  // 1. If creator.profileUrl is already a valid canonical URL matching the platform domain, return it
+  if (creator.profileUrl && typeof creator.profileUrl === 'string') {
+    const rawUrl = creator.profileUrl.trim();
+    if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
+      if (normPlatform === 'INSTAGRAM' && /instagram\.com\/[a-zA-Z0-9._]+\/?/i.test(rawUrl)) {
+        return rawUrl.endsWith('/') ? rawUrl : `${rawUrl}/`;
+      }
+      if (
+        normPlatform === 'YOUTUBE' &&
+        /(?:youtube\.com\/(?:@|channel\/)[a-zA-Z0-9._-]+)/i.test(rawUrl)
+      ) {
+        return rawUrl;
+      }
+    }
+  }
+
+  // 2. Resolve via canonical rules
+  return getCanonicalProfileUrl(creator.handle, normPlatform);
 }
 
 /**

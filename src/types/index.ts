@@ -57,6 +57,10 @@ export interface Creator {
   avgReelViews: number;
   businessEmail: string | null;
   isVerified: boolean;
+  isVerifiedAuthentic?: boolean;
+  lastVerifiedAt?: string | null;
+  profileUrl?: string | null;
+  channelId?: string | null;
   authenticityScore?: number;
   bio?: string | null;
   postsCount?: number | null;

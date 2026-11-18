@@ -147,6 +147,23 @@ export function CreatorCard({ creator }: CreatorCardProps) {
           </div>
         </div>
 
+        {/* Live Audited Data Badge & Timestamp */}
+        <div className="mt-2.5 flex items-center justify-between gap-2 px-2.5 py-1 rounded-lg bg-emerald-950/30 border border-emerald-500/20 text-[10px] font-mono">
+          <span className="flex items-center gap-1 font-semibold text-emerald-400">
+            <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+            <span>✓ Live Audited Data</span>
+          </span>
+          <span className="text-zinc-400 text-[10px]">
+            {creator.lastVerifiedAt
+              ? new Date(creator.lastVerifiedAt).toLocaleDateString('en-IN', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                })
+              : 'Verified Real'}
+          </span>
+        </div>
+
         {/* 3-Column Monospace Metrics Bar */}
         <div className="mt-3.5 grid grid-cols-3 gap-1.5 rounded-xl bg-[#08090C] p-2.5 border border-white/[0.06]">
           <div className="text-center">
