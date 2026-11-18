@@ -1,358 +1,537 @@
 'use client';
 
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  MapPin,
   ShieldCheck,
-  Calculator,
-  CheckCircle2,
+  Check,
+  Copy,
+  ExternalLink,
+  Kanban,
+  TrendingUp,
   FileSpreadsheet,
+  Download,
+  Mail,
+  Zap,
+  ArrowRight,
+  Eye,
+  Lock,
+  Layers,
+  Sparkles,
+  CheckCircle2,
 } from 'lucide-react';
-import { REGIONAL_RADAR_HUBS } from './mockData';
+import { SpotlightCard } from '@/components/ui/SpotlightCard';
+import { toast } from 'sonner';
 
 export function BentoFeatures() {
-  // State for Card 1: Hovered Regional Hub
-  const [hoveredHub, setHoveredHub] = useState(REGIONAL_RADAR_HUBS[0]);
+  // State for Card 1: 1-Click Client Pitch Portal
+  const [pitchCreators, setPitchCreators] = useState([
+    { id: 'p1', name: 'Rahul Agrawal', niche: 'Food', rate: 14000, approved: true },
+    { id: 'p2', name: 'Aarav Mehta', niche: 'Tech', rate: 35000, approved: true },
+    { id: 'p3', name: 'Kritika Verma', niche: 'Fashion', rate: 15000, approved: false },
+  ]);
 
-  // State for Card 4: Dynamic Budget Allocator Slider (Default ₹2.5L)
-  const [budget, setBudget] = useState<number>(250000);
+  const togglePitchCreator = (id: string) => {
+    setPitchCreators((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, approved: !c.approved } : c))
+    );
+  };
 
-  // Dynamic live calculations based on current budget
-  const totalCreators = Math.max(1, Math.floor(budget / 18000));
-  const estimatedReach = Math.round(budget * 4.2).toLocaleString('en-IN');
-  const reelsCount = totalCreators;
-  const storiesCount = totalCreators * 2;
+  const currentPitchBudget = pitchCreators
+    .filter((c) => c.approved)
+    .reduce((sum, c) => sum + c.rate, 0);
 
-  // Indian Rupee currency formatter for badge
-  const formattedBudget = new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
-  }).format(budget);
+  // State for Card 3: Masked vs Unlocked Email
+  const [unmaskedEmail, setUnmaskedEmail] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
-  // Mock table rows for Card 3 (Spreadsheet Engine)
-  const mockSpreadsheetRows = [
-    { handle: '@indori_foodie_rahul', city: 'Indore', followers: '148K', fee: '₹14,000' },
-    { handle: '@mumbai_tech_review', city: 'Mumbai', followers: '385K', fee: '₹35,000' },
-    { handle: '@jaipur_vlogs_vikram', city: 'Jaipur', followers: '190K', fee: '₹18,500' },
+  // State for Card 4: 5-Stage Kanban Slide
+  const [activeKanbanStage, setActiveKanbanStage] = useState(2);
+  const kanbanStages = [
+    { label: 'Outreach Sent', count: 12, creator: '@tech_indore' },
+    { label: 'Commercials Agreed', count: 8, creator: '@foodie_rahul' },
+    { label: 'Draft Review', count: 5, creator: '@mumbai_gadgets' },
+    { label: 'Live & Paid', count: 19, creator: '@style_delhi' },
   ];
 
+  // State for Card 5: Rate Intelligence CPM Vertical
+  const [selectedVertical, setSelectedVertical] = useState<'Finance' | 'Tech' | 'Food' | 'Fashion'>('Tech');
+  const cpmData = {
+    Finance: { cpm: 240, avgDeal: '₹45,000', er: '3.8%' },
+    Tech: { cpm: 210, avgDeal: '₹35,000', er: '4.5%' },
+    Food: { cpm: 180, avgDeal: '₹18,000', er: '5.6%' },
+    Fashion: { cpm: 155, avgDeal: '₹15,000', er: '6.2%' },
+  };
+
+  const handleCopyDirectEmail = () => {
+    navigator.clipboard.writeText('collabs@indorifoodie.in');
+    setCopiedEmail(true);
+    toast.success('Copied direct creator email!');
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
   return (
-    <section id="features" className="mx-auto max-w-7xl w-full px-4 py-20 sm:py-24 lg:py-32 sm:px-6 lg:px-8">
+    <section id="pitch-portals" className="mx-auto max-w-7xl w-full px-4 py-20 sm:py-28 lg:py-36 sm:px-6 lg:px-8">
       {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
-        <span className="inline-block text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-4">
-          High-Density Engineering Architecture
-        </span>
-        <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white font-sans mb-4">
-          Purpose-built for Indian media buyers &amp; performance agencies.
-        </h2>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-          Eliminate broker markups, bot scams, and spreadsheet formatting hell with deterministic data.
-        </p>
+      <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-1 text-xs font-mono uppercase tracking-widest text-emerald-400 mb-4"
+        >
+          <Sparkles className="h-3.5 w-3.5" />
+          <span>BUILT FOR SPEED &amp; AGENCY SCALE</span>
+        </motion.span>
+        <motion.h2
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ delay: 0.1 }}
+          className="text-3xl sm:text-5xl font-extrabold tracking-[-0.035em] text-white font-sans leading-[1.08] mb-4"
+        >
+          Replace 6 Fragmented Tools With One
+          <br />
+          <span className="bg-gradient-to-b from-white via-white to-zinc-500 bg-clip-text text-transparent">
+            Deterministic Engine.
+          </span>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ delay: 0.2 }}
+          className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed"
+        >
+          Engineered for performance agencies handling 10+ concurrent brand campaigns across Tier 1, 2, and 3 Indian cities.
+        </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      {/* 6-Card Asymmetric Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
         {/* ================================================================= */}
-        {/* CARD 1 (Span 2 cols): Hyper-Local Geo Intelligence               */}
+        {/* CARD 1 (Large - 7 cols): 1-Click Client Pitch Portals             */}
         {/* ================================================================= */}
-        <div className="md:col-span-2 rounded-2xl border border-zinc-800/80 bg-[#0E1013]/90 p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.1)] transition-all duration-300 backdrop-blur-sm">
-          <div className="flex items-center justify-between">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-              <MapPin className="h-5 w-5" />
-            </div>
-            <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
-              HUB_RADAR_GEO.V2
-            </span>
-          </div>
-
-          <h3 className="mt-5 text-xl sm:text-2xl font-bold text-white tracking-tight">
-            Hyper-Local Regional Geo Intelligence
-          </h3>
-          <p className="mt-2 text-sm text-zinc-400 max-w-xl leading-relaxed">
-            Index authentic vernacular creators in Tier 2 &amp; Tier 3 hubs across central, western, and northern India. Hover over any regional hub to inspect live index density.
-          </p>
-
-          {/* Interactive Radar Hub Matrix */}
-          <div className="mt-6 sm:mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {REGIONAL_RADAR_HUBS.map((hub) => {
-              const isSelected = hoveredHub.city === hub.city;
-              return (
-                <div
-                  key={hub.city}
-                  onMouseEnter={() => setHoveredHub(hub)}
-                  className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
-                    isSelected
-                      ? 'border-emerald-500/60 bg-emerald-950/30 shadow-md shadow-emerald-950/40'
-                      : 'border-zinc-800/80 bg-zinc-950/60 hover:border-zinc-700'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-white text-xs">📍 {hub.city}</span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-semibold">{hub.growth}</span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-[11px] font-mono text-zinc-400">
-                    <span>{hub.creators.toLocaleString()} talent</span>
-                    <span className="text-zinc-300 font-semibold">{hub.avgEr} ER</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Live Telemetry Bar for Selected Hub */}
-          <div className="mt-5 rounded-xl border border-zinc-800 bg-[#08090B] p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-zinc-400">
-            <span>
-              Active Hub: <strong className="text-white">{hoveredHub.city}, {hoveredHub.state}</strong>
-            </span>
-            <span className="text-emerald-400">
-              {hoveredHub.creators.toLocaleString()} Indexed Talent • {hoveredHub.avgEr} Mean Regional Engagement
-            </span>
-          </div>
-        </div>
-
-        {/* ================================================================= */}
-        {/* CARD 2: Fake Follower Bot Sieve                                   */}
-        {/* ================================================================= */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-[#0E1013]/90 p-6 sm:p-8 group hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.1)] transition-all duration-300 backdrop-blur-sm flex flex-col justify-between">
+        <SpotlightCard className="md:col-span-12 lg:col-span-7 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-                <ShieldCheck className="h-5 w-5" />
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  WHITE-LABEL PITCH PORTAL
+                </span>
               </div>
-              <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
-                BOT_SIEVE.EXE
+              <span className="text-[11px] font-mono text-zinc-500">
+                /pitch/tok_cb_9921
               </span>
             </div>
 
-            <h3 className="mt-5 text-xl font-bold text-white tracking-tight">
-              Bot Pod &amp; Fake Audience Sieve
+            <h3 className="mt-5 text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+              1-Click Client Pitch Portals
             </h3>
-            <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
-              Algorithmic verification flags comment pods, purchased Russian/Turkish bots, and generic spam strings before you wire a single rupee.
+            <p className="mt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans max-w-xl">
+              Send branded, no-login approval decks directly to brand CMOs. Clients review creator profiles, preview past reels, and click approve in real-time.
             </p>
 
-            {/* Visual SVG Gauge Meter */}
-            <div className="mt-6 flex flex-col items-center justify-center p-5 rounded-xl border border-zinc-800 bg-[#08090B]">
-              <div className="relative flex items-center justify-center">
-                <svg className="w-32 h-32 transform -rotate-90">
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="52"
-                    stroke="currentColor"
-                    strokeWidth="10"
-                    fill="transparent"
-                    className="text-zinc-800"
-                  />
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="52"
-                    stroke="currentColor"
-                    strokeWidth="10"
-                    fill="transparent"
-                    strokeDasharray={2 * Math.PI * 52}
-                    strokeDashoffset={2 * Math.PI * 52 * (1 - 0.948)}
-                    strokeLinecap="round"
-                    className="text-emerald-500 transition-all duration-1000"
-                  />
-                </svg>
-
-                <div className="absolute flex flex-col items-center">
-                  <span className="font-mono text-2xl font-extrabold text-white">94.8%</span>
-                  <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">
-                    Clean
+            {/* Interactive Pitch Deck Simulator */}
+            <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#08090C] p-4 sm:p-5">
+              <div className="flex items-center justify-between text-xs font-mono text-zinc-400 pb-3 border-b border-white/[0.06]">
+                <div className="flex items-center gap-2">
+                  <span className="text-white font-bold">Client:</span>
+                  <span className="text-zinc-300">D2C Nutrition Co.</span>
+                </div>
+                <div className="flex items-center gap-2 text-emerald-400">
+                  <span className="text-zinc-500">Total Approved:</span>
+                  <span className="font-bold text-sm">
+                    ₹{currentPitchBudget.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
 
-              <div className="mt-5 w-full flex items-center justify-between text-[11px] font-mono pt-3 border-t border-zinc-900">
-                <span className="flex items-center gap-1.5 text-zinc-300">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                  Real Users: 94.8%
-                </span>
-                <span className="flex items-center gap-1.5 text-rose-400">
-                  <span className="h-2 w-2 rounded-full bg-rose-500" />
-                  Ghost/Pod: 5.2%
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+              {/* Creator Approval Rows */}
+              <div className="mt-3 space-y-2.5">
+                {pitchCreators.map((creator) => (
+                  <div
+                    key={creator.id}
+                    className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-[#0E1014] p-3 text-xs"
+                  >
+                    <div>
+                      <span className="font-semibold text-white block">
+                        {creator.name}
+                      </span>
+                      <span className="text-[11px] font-mono text-zinc-400">
+                        {creator.niche} • ₹{creator.rate.toLocaleString('en-IN')}
+                      </span>
+                    </div>
 
-        {/* ================================================================= */}
-        {/* CARD 3: 1-Click RFC-4180 CSV Engine                               */}
-        {/* ================================================================= */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-[#0E1013]/90 p-6 sm:p-8 group hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.1)] transition-all duration-300 backdrop-blur-sm flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500/10 border border-teal-500/30 text-teal-400">
-                <FileSpreadsheet className="h-5 w-5" />
-              </div>
-              <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
-                RFC-4180.CSV
-              </span>
-            </div>
-
-            <h3 className="mt-5 text-xl font-bold text-white tracking-tight">
-              1-Click RFC-4180 CSV Engine
-            </h3>
-            <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
-              Export client-ready spreadsheets formatted with UTF-8 BOM so Indian Rupee (₹) amounts render cleanly in Excel &amp; Google Sheets with zero encoding errors.
-            </p>
-
-            {/* Mock Spreadsheet Preview */}
-            <div className="mt-6 rounded-xl border border-zinc-800 bg-[#08090B] overflow-hidden text-[11px] font-mono">
-              <div className="bg-zinc-900/80 px-3.5 py-2 border-b border-zinc-800 text-zinc-400 flex items-center justify-between">
-                <span>cohort_indore_q2.csv</span>
-                <span className="text-emerald-400 font-semibold">UTF-8 BOM</span>
-              </div>
-
-              <div className="divide-y divide-zinc-900">
-                {mockSpreadsheetRows.map((row) => (
-                  <div key={row.handle} className="px-3.5 py-2.5 flex items-center justify-between text-zinc-300">
-                    <span className="truncate max-w-[120px] text-zinc-200">{row.handle}</span>
-                    <span className="text-zinc-400">{row.city}</span>
-                    <span className="text-emerald-400 font-bold">{row.fee}</span>
+                    <button
+                      onClick={() => togglePitchCreator(creator.id)}
+                      className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-medium transition-all ${
+                        creator.approved
+                          ? 'bg-emerald-500 text-black font-bold shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                          : 'border border-white/[0.08] bg-white/[0.05] text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      {creator.approved ? (
+                        <>
+                          <Check className="h-3.5 w-3.5 stroke-[3]" />
+                          <span>Approved ✅</span>
+                        </>
+                      ) : (
+                        <span>Click to Approve</span>
+                      )}
+                    </button>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="mt-6 pt-3 border-t border-zinc-900 flex items-center justify-between">
-            <span className="font-mono text-xs text-zinc-400 flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-              Auto-calibrated
-            </span>
-            <span className="rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-xs px-3 py-1 font-semibold">
-              Export.csv ⬇
-            </span>
+          <div className="mt-6 flex items-center justify-between text-[11px] font-mono text-zinc-500 pt-4 border-t border-white/[0.04]">
+            <span>ZERO CLIENT LOGIN REQUIRED</span>
+            <span className="text-emerald-400">INSTANT LINK SHARE ↗</span>
           </div>
-        </div>
+        </SpotlightCard>
 
         {/* ================================================================= */}
-        {/* CARD 4 (Span 2 cols): Live Deliverables Budget Allocator          */}
+        {/* CARD 2 (Medium - 5 cols): Anti-Fraud Authenticity Engine         */}
         {/* ================================================================= */}
-        <div className="md:col-span-2 rounded-2xl border border-zinc-800/80 bg-[#0E1013]/90 p-6 sm:p-8 lg:p-10 group hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.1)] transition-all duration-300 backdrop-blur-sm relative">
-          <div className="flex items-center justify-between">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-              <Calculator className="h-5 w-5" />
+        <SpotlightCard className="md:col-span-12 lg:col-span-5 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  ANTI-FRAUD AUDIT
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-emerald-400">PASS 94.8%</span>
             </div>
-            <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
-              BUDGET_SIMULATOR.SYS
-            </span>
+
+            <h3 className="mt-5 text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+              Anti-Fraud Authenticity
+            </h3>
+            <p className="mt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans">
+              Eliminate fake Indian follower rings. We audit engagement velocity and follower-to-following ratios down to individual comments.
+            </p>
+
+            {/* Visual Gauge Scanner */}
+            <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#08090C] p-5 text-center">
+              <div className="relative mx-auto flex h-28 w-28 items-center justify-center">
+                <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    className="stroke-zinc-800"
+                    strokeWidth="8"
+                    fill="transparent"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    className="stroke-emerald-400 transition-all duration-1000"
+                    strokeWidth="8"
+                    strokeDasharray={2 * Math.PI * 40}
+                    strokeDashoffset={2 * Math.PI * 40 * (1 - 0.948)}
+                    strokeLinecap="round"
+                    fill="transparent"
+                  />
+                </svg>
+                <div className="absolute text-center">
+                  <span className="text-2xl font-extrabold font-mono text-white">94.8%</span>
+                  <span className="text-[9px] font-mono text-zinc-500 block">REAL HUMAN</span>
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-2 text-left text-xs font-mono">
+                <div className="rounded-lg border border-white/[0.04] bg-[#0C0E12] p-2.5">
+                  <span className="text-zinc-500 block text-[10px]">BOT VELOCITY</span>
+                  <span className="text-emerald-400 font-bold">&lt; 1.8% Risk</span>
+                </div>
+                <div className="rounded-lg border border-white/[0.04] bg-[#0C0E12] p-2.5">
+                  <span className="text-zinc-500 block text-[10px]">GEO CONCENTRATION</span>
+                  <span className="text-white font-bold">82% Bharat</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <h3 className="mt-5 text-xl sm:text-2xl font-bold text-white tracking-tight">
-            Live Deliverables Budget Allocator
-          </h3>
-          <p className="mt-2 text-sm text-zinc-400 max-w-xl leading-relaxed">
-            Drag the slider to test your planned campaign budget. The simulator calculates optimal creator cohort sizing and total reach based on authentic Indian market benchmarks.
-          </p>
+          <div className="mt-6 text-[11px] font-mono text-zinc-500 pt-4 border-t border-white/[0.04]">
+            CONTINUOUS 24-HOUR TELEMETRY SCAN
+          </div>
+        </SpotlightCard>
 
-          {/* Dynamic Budget Slider Box */}
-          <div className="mt-6 sm:mt-8 rounded-xl border border-zinc-800 bg-[#08090B] p-5 sm:p-6 space-y-5 relative z-10">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold block">
-                  Target Campaign Budget (INR):
-                </span>
-                <span className="text-[11px] text-zinc-500 font-mono">
-                  Drag slider or select a quick preset below
+        {/* ================================================================= */}
+        {/* CARD 3 (Medium - 5 cols): Verified Business Emails Only           */}
+        {/* ================================================================= */}
+        <SpotlightCard className="md:col-span-12 lg:col-span-5 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-emerald-400" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  ZERO MIDDLEMAN
                 </span>
               </div>
-              <span className="text-xl sm:text-2xl font-mono font-extrabold text-emerald-400">
-                {formattedBudget}
-              </span>
+              <span className="text-[11px] font-mono text-zinc-500">535+ UNLOCKED</span>
             </div>
 
-            {/* Slider Bar */}
-            <div className="space-y-2 relative">
-              <input
-                type="range"
-                min={50000}
-                max={2000000}
-                step={25000}
-                value={budget}
-                onChange={(e) => setBudget(Number(e.target.value))}
-                className="w-full h-2.5 bg-zinc-800 rounded-full appearance-none cursor-pointer accent-emerald-500 relative z-20 pointer-events-auto"
-              />
+            <h3 className="mt-5 text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+              Verified Business Emails Only
+            </h3>
+            <p className="mt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans">
+              No dead DM inboxes. Get audited direct collaboration emails and WhatsApp manager contacts with zero broker fee inflation.
+            </p>
 
-              <div className="flex justify-between text-[11px] font-mono text-zinc-500 pt-1">
-                <span>₹50,000 (Min)</span>
-                <span>₹10,00,000</span>
-                <span>₹20,00,000 (Max)</span>
+            {/* Email Masked / Unmasked Mockup */}
+            <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#08090C] p-4">
+              <div className="flex items-center justify-between mb-3 text-xs font-mono text-zinc-400">
+                <span>DIRECT COLLAB INBOX</span>
+                <span className="text-emerald-400">ACTIVE &amp; VERIFIED</span>
+              </div>
+
+              <div className="flex items-center justify-between gap-3 rounded-lg border border-white/[0.06] bg-[#0C0E12] p-3">
+                <div className="min-w-0">
+                  <span className="text-xs font-mono text-zinc-200 block truncate">
+                    {unmaskedEmail ? 'collabs@indorifoodie.in' : 'collabs••••••••••@indori.in'}
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400">
+                    Response SLA: &lt; 4 Hours
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    onClick={() => setUnmaskedEmail(!unmaskedEmail)}
+                    className="rounded-md border border-white/[0.08] bg-white/[0.05] p-2 text-zinc-400 hover:text-white transition-colors"
+                    title={unmaskedEmail ? 'Mask email' : 'Reveal email'}
+                  >
+                    <Eye className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={handleCopyDirectEmail}
+                    className="rounded-md bg-emerald-500/20 border border-emerald-500/40 p-2 text-emerald-300 hover:bg-emerald-500/30 transition-colors"
+                    title="Copy direct email"
+                  >
+                    {copiedEmail ? (
+                      <Check className="h-3.5 w-3.5" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Quick Budget Preset Pills */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider mr-1">
-                Presets:
-              </span>
-              {[
-                { label: '₹50K', value: 50000 },
-                { label: '₹2.5L', value: 250000 },
-                { label: '₹5L', value: 500000 },
-                { label: '₹10L', value: 1000000 },
-              ].map((preset) => (
-                <button
-                  key={preset.label}
-                  type="button"
-                  onClick={() => setBudget(preset.value)}
-                  className={`px-3 py-1 rounded-md text-xs font-mono font-semibold transition-all relative z-20 pointer-events-auto ${
-                    budget === preset.value
-                      ? 'bg-emerald-500 text-zinc-950 shadow-sm shadow-emerald-500/20'
-                      : 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
+          <div className="mt-6 flex items-center justify-between text-[11px] font-mono text-zinc-500 pt-4 border-t border-white/[0.04]">
+            <span>DIRECT INFLUENCER COMMERCIALS</span>
+            <span className="text-emerald-400">NO 30% AGENT CUT</span>
+          </div>
+        </SpotlightCard>
+
+        {/* ================================================================= */}
+        {/* CARD 4 (Large - 7 cols): 5-Stage Deliverables Kanban              */}
+        {/* ================================================================= */}
+        <SpotlightCard className="md:col-span-12 lg:col-span-7 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <Kanban className="h-4 w-4 text-emerald-400" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  LIVE WORKFLOW KANBAN
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-zinc-500">AUTO-SYNCED</span>
+            </div>
+
+            <h3 className="mt-5 text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+              5-Stage Deliverables Kanban
+            </h3>
+            <p className="mt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans max-w-xl">
+              Track creator deliverables from initial outreach to contract signoff, script draft, live Instagram reel verification, and automated GST billing.
+            </p>
+
+            {/* Mini Kanban Columns */}
+            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {kanbanStages.map((stage, i) => (
+                <div
+                  key={stage.label}
+                  onClick={() => setActiveKanbanStage(i)}
+                  className={`cursor-pointer rounded-xl border p-3 transition-all ${
+                    activeKanbanStage === i
+                      ? 'border-emerald-500/40 bg-emerald-950/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+                      : 'border-white/[0.06] bg-[#08090C] hover:border-white/[0.12]'
                   }`}
                 >
-                  {preset.label}
-                </button>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono uppercase text-zinc-400 truncate">
+                      {stage.label}
+                    </span>
+                    <span className="h-4 w-4 rounded-full bg-white/[0.08] text-[9px] font-mono text-zinc-300 flex items-center justify-center">
+                      {stage.count}
+                    </span>
+                  </div>
+
+                  <div className="rounded-md border border-white/[0.06] bg-[#0E1014] p-2">
+                    <span className="text-[11px] font-mono text-white block truncate">
+                      {stage.creator}
+                    </span>
+                    <span className="text-[9px] font-mono text-emerald-400">
+                      Active SLA
+                    </span>
+                  </div>
+                </div>
               ))}
             </div>
+          </div>
 
-            {/* Dynamic Results Trio: Standard p-3.5 sm:p-4 */}
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-4 border-t border-zinc-900">
-              <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-3.5 sm:p-4 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block">
-                  Total Talent Count
-                </span>
-                <span className="text-lg font-mono font-bold text-white block">
-                  {totalCreators} Creators
-                </span>
-                <span className="text-[10px] font-mono text-zinc-500 block">
-                  65% Tier-2/3 Regional
+          <div className="mt-6 flex items-center justify-between text-[11px] font-mono text-zinc-500 pt-4 border-t border-white/[0.04]">
+            <span>ELIMINATES 40+ WHATSAPP FOLLOW-UP CHATS</span>
+            <span className="text-emerald-400">AUTO REEL URL DETECTION</span>
+          </div>
+        </SpotlightCard>
+
+        {/* ================================================================= */}
+        {/* CARD 5 (Half - 6 cols): Real-Time INR Rate Card Intelligence      */}
+        {/* ================================================================= */}
+        <SpotlightCard className="md:col-span-12 lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-emerald-400" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  BENCHMARK INTELLIGENCE
                 </span>
               </div>
+              <span className="text-[11px] font-mono text-zinc-400">UPDATED DAILY</span>
+            </div>
 
-              <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-3.5 sm:p-4 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block">
-                  Estimated Impressions
-                </span>
-                <span className="text-lg font-mono font-bold text-emerald-400 block">
-                  {estimatedReach}
-                </span>
-                <span className="text-[10px] font-mono text-zinc-500 block">
-                  Authentic reach projection
-                </span>
+            <h3 className="mt-5 text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+              Real-Time INR Rate Card Intelligence
+            </h3>
+            <p className="mt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans">
+              Stop guessing creator rates. Calibrated against ₹1.8Cr+ of audited Indian agency campaign spend across 4 core verticals.
+            </p>
+
+            {/* Interactive CPM Chart Selector */}
+            <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#08090C] p-4">
+              <div className="flex items-center justify-between gap-1 mb-4">
+                {(['Tech', 'Food', 'Fashion', 'Finance'] as const).map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setSelectedVertical(v)}
+                    className={`rounded-lg px-2.5 py-1 text-xs font-mono transition-all ${
+                      selectedVertical === v
+                        ? 'bg-emerald-500 text-black font-bold'
+                        : 'text-zinc-400 hover:text-white bg-[#0E1014]'
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
               </div>
 
-              <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-3.5 sm:p-4 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block">
-                  Deliverables Mix
-                </span>
-                <span className="text-lg font-mono font-bold text-indigo-300 block">
-                  {reelsCount} Reels + {storiesCount} Stories
-                </span>
-                <span className="text-[10px] font-mono text-zinc-500 block">
-                  Agreed scope benchmark
-                </span>
+              {/* CPM Bar Chart */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-zinc-400">Benchmark CPM:</span>
+                  <span className="text-emerald-400 font-bold">
+                    ₹{cpmData[selectedVertical].cpm} / 1K Impressions
+                  </span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-zinc-800 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                    animate={{ width: `${(cpmData[selectedVertical].cpm / 260) * 100}%` }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-2 text-xs font-mono">
+                  <div className="rounded-lg bg-[#0E1014] p-2.5 border border-white/[0.04]">
+                    <span className="text-zinc-500 text-[10px] block">AVG DEAL SIZE</span>
+                    <span className="text-white font-bold">{cpmData[selectedVertical].avgDeal}</span>
+                  </div>
+                  <div className="rounded-lg bg-[#0E1014] p-2.5 border border-white/[0.04]">
+                    <span className="text-zinc-500 text-[10px] block">NICHE ER MEDIAN</span>
+                    <span className="text-emerald-400 font-bold">{cpmData[selectedVertical].er}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <div className="mt-6 text-[11px] font-mono text-zinc-500 pt-4 border-t border-white/[0.04]">
+            ZERO BROKER SPREADS • REAL HISTORICAL DEALS
+          </div>
+        </SpotlightCard>
+
+        {/* ================================================================= */}
+        {/* CARD 6 (Half - 6 cols): RFC-4180 CSV Export & GST Invoicing       */}
+        {/* ================================================================= */}
+        <SpotlightCard className="md:col-span-12 lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <FileSpreadsheet className="h-4 w-4 text-emerald-400" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  GST &amp; DATA EXPORT
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-zinc-400">SAC 998314</span>
+            </div>
+
+            <h3 className="mt-5 text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+              RFC-4180 CSV &amp; GST Invoicing
+            </h3>
+            <p className="mt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans">
+              Export pristine, client-ready spreadsheets formatted for Excel &amp; Google Sheets. Plus full 18% GST Input Tax Credit compliance.
+            </p>
+
+            {/* Invoicing Breakdown Preview */}
+            <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#08090C] p-4 text-xs font-mono">
+              <div className="space-y-1.5 pb-3 border-b border-white/[0.06] text-zinc-400">
+                <div className="flex justify-between">
+                  <span>Agency Subscription (Starter):</span>
+                  <span className="text-white font-bold">₹2,999.00</span>
+                </div>
+                <div className="flex justify-between text-[11px]">
+                  <span>CGST (9.0%):</span>
+                  <span>₹269.91</span>
+                </div>
+                <div className="flex justify-between text-[11px]">
+                  <span>SGST (9.0%):</span>
+                  <span>₹269.91</span>
+                </div>
+              </div>
+
+              <div className="pt-3 flex justify-between items-center text-sm">
+                <span className="text-emerald-400 font-bold">Total (18% ITC Eligible):</span>
+                <span className="text-white font-extrabold font-mono">₹3,538.82</span>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between gap-2">
+                <span className="text-[10px] text-zinc-500">
+                  EXPORT FORMAT: UTF-8 BOM CSV
+                </span>
+                <button
+                  onClick={() => toast.success('Downloaded Sample RFC-4180 CSV!')}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-1.5 text-xs text-zinc-300 hover:text-white hover:bg-white/[0.1] transition-colors"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Download CSV</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 text-[11px] font-mono text-zinc-500 pt-4 border-t border-white/[0.04]">
+            100% AUDIT-READY TAX INVOICES POWERED BY RAZORPAY
+          </div>
+        </SpotlightCard>
       </div>
     </section>
   );

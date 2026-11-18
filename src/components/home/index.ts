@@ -1,9 +1,12 @@
 export { HeroSection } from './HeroSection';
-export { InteractiveMockTerminal } from './InteractiveMockTerminal';
+export { HeroInteractiveStage } from './HeroInteractiveStage';
 export { SocialProofMarquee } from './SocialProofMarquee';
 export { BentoFeatures } from './BentoFeatures';
-export { LiveDemoWidget } from './LiveDemoWidget';
+export { WorkflowStepper } from './WorkflowStepper';
 export { ComparisonTable } from './ComparisonTable';
+export { PricingSection } from './PricingSection';
 export { TestimonialsSection } from './TestimonialsSection';
 export { FAQAccordion } from './FAQAccordion';
 export { FinalCtaBanner } from './FinalCtaBanner';
+export { InteractiveMockTerminal } from './InteractiveMockTerminal';
+export { LiveDemoWidget } from './LiveDemoWidget';

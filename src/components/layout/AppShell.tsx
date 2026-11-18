@@ -36,7 +36,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (isPublicMarketingPage) {
     return (
-      <div className="flex min-h-screen flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-emerald-500 selection:text-white">
+      <div className="flex min-h-screen flex-col bg-[#060709] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-white overflow-x-hidden">
         <PublicNavbar />
         <main className="flex-1">{children}</main>
         <PublicFooter />

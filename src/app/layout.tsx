@@ -102,7 +102,7 @@ export default function RootLayout({
         <SoftwareAppJsonLd />
       </head>
       <body
-        className="min-h-screen bg-[#0B0C0E] text-zinc-100 font-sans antialiased selection:bg-emerald-500 selection:text-white overflow-x-hidden"
+        className="min-h-screen bg-[#060709] text-zinc-100 font-sans antialiased selection:bg-emerald-500 selection:text-white overflow-x-hidden"
         suppressHydrationWarning
       >
         <StoreProvider>
