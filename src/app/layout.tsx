@@ -39,6 +39,11 @@ export const metadata: Metadata = {
   publisher: 'CreatorBase Technologies',
   applicationName: 'CreatorBase',
   category: 'Business Software',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   alternates: {
     canonical: 'https://creatorbase.in',
   },
