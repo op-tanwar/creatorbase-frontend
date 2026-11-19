@@ -105,7 +105,10 @@ export function AttributionTrackerTab({
 
   const handleCopyLink = (item: any) => {
     // Generate public redirect URL
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    const origin =
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_APP_URL || 'https://creatorbase-one.vercel.app';
     // Redirect through API or full URL
     const fullLink = `${origin}/api/r/${item.campaignCode}/${item.creatorSlug}`;
     navigator.clipboard.writeText(fullLink);

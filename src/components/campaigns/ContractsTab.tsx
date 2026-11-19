@@ -91,7 +91,10 @@ export function ContractsTab({ campaignId, campaignTitle, creators }: ContractsT
   };
 
   const handleCopySigningLink = (contract: any) => {
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    const origin =
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_APP_URL || 'https://creatorbase-one.vercel.app';
     const link = `${origin}/contracts/${contract.shareToken}`;
     navigator.clipboard.writeText(link);
     setCopiedId(contract.id);

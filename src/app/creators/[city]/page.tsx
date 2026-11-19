@@ -21,6 +21,7 @@ import {
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
 import { getCreatorPlatformUrl, EXTERNAL_LINK_PROPS } from '@/utils/url';
 import { PAN_INDIA_CITY_MAP } from '@/lib/constants';
+import { getApiBaseUrl } from '@/lib/api';
 
 export const revalidate = 86400; // ISR cache for 24 hours
 
@@ -115,7 +116,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 async function getPublicCityCreators(city: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = getApiBaseUrl();
     const res = await fetch(
       `${apiUrl}/creators/public/directory?city=${encodeURIComponent(city)}&limit=16`,
       {
