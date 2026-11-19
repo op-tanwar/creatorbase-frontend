@@ -3,49 +3,74 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Creator } from '@/types';
-import { formatFollowers, formatPercentage, getCreatorPlatformUrl, EXTERNAL_LINK_PROPS } from '@/lib/utils';
+import {
+  formatFollowers,
+  formatPercentage,
+  formatCompactINR,
+  estimateReelCost,
+  getCreatorPlatformUrl,
+  EXTERNAL_LINK_PROPS,
+} from '@/lib/utils';
 import { InstagramIcon, YoutubeIcon } from '../ui/Icons';
 import {
-  CheckCircle2,
-  Users,
-  Activity,
-  PlaySquare,
+  ShieldCheck,
+  MapPin,
+  Check,
+  Copy,
   Plus,
   BarChart2,
-  MapPin,
-  TrendingUp,
-  ShieldCheck,
+  ExternalLink,
   Mail,
+  Zap,
 } from 'lucide-react';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setQuickAddCreator, setDetailModalCreator } from '@/store/slices/shortlistSlice';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface CreatorCardProps {
   creator: Creator;
+  isSelected?: boolean;
+  onToggleSelect?: (id: string) => void;
 }
 
-export function CreatorCard({ creator }: CreatorCardProps) {
+export function CreatorCard({ creator, isSelected = false, onToggleSelect }: CreatorCardProps) {
   const dispatch = useAppDispatch();
-  const [imgError, setImgError] = useState(false);
+  const shortlists = useAppSelector((state) => state.shortlists.shortlists);
 
-  const isHighEngagement = creator.engagementRate >= 3.5;
-  const femaleRatio = creator.audienceFemalePercentage || 50;
-  const maleRatio = creator.audienceMalePercentage || (100 - femaleRatio);
+  const [imgError, setImgError] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  // Check if creator is already added to any shortlist
+  const isShortlisted = shortlists.some((s) =>
+    s.items?.some((item) => item.creatorId === creator.id)
+  );
+
+  const estimatedReelFee = estimateReelCost(creator);
+  const platformUrl = getCreatorPlatformUrl(creator);
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!creator.businessEmail) return;
+    navigator.clipboard.writeText(creator.businessEmail);
+    setCopiedEmail(true);
+    toast.success(`Copied ${creator.businessEmail} to clipboard!`);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+      initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      transition={{ duration: 0.25 }}
-      whileHover={{ y: -3 }}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-[#0C0E12]/90 border border-white/[0.07] p-4 sm:p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl transition-all duration-300 hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.14)]"
+      transition={{ duration: 0.2 }}
+      className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#0C0E12] border border-white/[0.07] p-4 hover:border-emerald-500/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.6)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl"
     >
-      {/* Top Header: Avatar, Name, Verified, Platform, Handle */}
       <div>
+        {/* 1. Header Row: Avatar, Name, Handle, City & External Platform Icon */}
         <div className="flex items-start justify-between gap-2.5">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-white/[0.08] group-hover:border-emerald-500/60 transition-colors shrink-0 bg-gradient-to-tr from-emerald-950 via-zinc-900 to-indigo-950 flex items-center justify-center shadow-inner">
+            {/* 44px circular avatar with crisp ring border */}
+            <div className="relative h-11 w-11 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 bg-gradient-to-tr from-emerald-950 via-zinc-900 to-indigo-950 flex items-center justify-center">
               {!imgError && creator.avatarUrl ? (
                 <Image
                   src={creator.avatarUrl}
@@ -57,202 +82,174 @@ export function CreatorCard({ creator }: CreatorCardProps) {
                   onError={() => setImgError(true)}
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-tr from-emerald-600 to-indigo-600 text-white font-mono text-xs font-bold tracking-tight">
-                  {creator.fullName.slice(0, 2).toUpperCase()}
-                </div>
+                <span className="font-mono text-xs font-bold text-white uppercase tracking-tight">
+                  {creator.fullName.slice(0, 2)}
+                </span>
               )}
             </div>
 
+            {/* Creator Identity & City */}
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-sm text-zinc-100 truncate tracking-tight font-sans">
+                <h3 className="font-bold text-sm text-white truncate font-sans tracking-tight">
                   {creator.fullName}
                 </h3>
                 {creator.isVerified && (
-                  <span title="Audience & Platform Verified Reach" className="inline-flex items-center text-emerald-400">
-                    <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                  <span title="Verified Audience Reach" className="text-emerald-400 shrink-0">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                   </span>
                 )}
               </div>
 
               <div className="flex items-center gap-1.5 mt-0.5">
                 <a
-                  href={getCreatorPlatformUrl(creator)}
+                  href={platformUrl}
                   {...EXTERNAL_LINK_PROPS}
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs text-zinc-400 font-mono truncate hover:text-emerald-400 hover:underline"
-                  title={`Open live ${creator.platform === 'YOUTUBE' ? 'YouTube' : 'Instagram'} profile`}
+                  className="text-xs text-zinc-400 font-mono truncate hover:text-emerald-400 transition-colors"
+                  title={`Open canonical @${creator.handle}`}
                 >
                   @{creator.handle}
                 </a>
                 <span className="text-[10px] text-zinc-600 font-mono">•</span>
-                <span className="text-[11px] text-zinc-400 flex items-center gap-0.5 shrink-0 font-mono">
+                <span className="text-[11px] text-zinc-400 font-mono flex items-center gap-0.5 shrink-0">
                   <MapPin className="w-3 h-3 text-emerald-400/80" />
-                  {creator.city}
+                  <span>{creator.city}</span>
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Platform Badge with Verified Link */}
-          <a
-            href={getCreatorPlatformUrl(creator)}
-            {...EXTERNAL_LINK_PROPS}
-            onClick={(e) => e.stopPropagation()}
-            className="shrink-0 transition-transform hover:scale-105"
-            title={`Visit ${creator.fullName} on ${creator.platform === 'YOUTUBE' ? 'YouTube' : 'Instagram'}`}
-          >
-            {creator.platform === 'INSTAGRAM' ? (
-              <div
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-pink-950/40 text-pink-400 border border-pink-800/40 hover:border-pink-500/60 transition-colors"
-                title="Instagram Creator"
-              >
-                <InstagramIcon className="w-3.5 h-3.5" />
-              </div>
-            ) : (
-              <div
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-950/40 text-rose-400 border border-rose-800/40 hover:border-rose-500/60 transition-colors"
-                title="YouTube Creator"
-              >
-                <YoutubeIcon className="w-3.5 h-3.5" />
-              </div>
+          {/* Top-Right Controls: Selection Checkbox & Platform Icon */}
+          <div className="flex items-center gap-2 shrink-0">
+            {onToggleSelect && (
+              <input
+                type="checkbox"
+                checked={isSelected}
+                onChange={() => onToggleSelect(creator.id)}
+                onClick={(e) => e.stopPropagation()}
+                className="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-emerald-500/20 cursor-pointer h-4 w-4 shrink-0"
+                aria-label={`Select ${creator.fullName}`}
+              />
             )}
-          </a>
-        </div>
-
-        {/* Niche, Location & Authenticity Quality Badge */}
-        <div className="mt-3 flex items-center justify-between gap-1.5 flex-wrap">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="font-mono text-[11px] font-medium px-2 py-0.5 rounded-md bg-[#08090C] border border-white/[0.08] text-zinc-300">
-              {creator.niche}
-            </span>
-            {creator.state && (
-              <span className="text-[10px] font-mono text-zinc-500 truncate max-w-[110px]">
-                {creator.state}
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span
-              className={`text-[10px] font-mono font-semibold flex items-center gap-1 px-2 py-0.5 rounded-md border ${
-                (creator.authenticityScore ?? 94) >= 90
-                  ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
-                  : 'bg-zinc-800/80 border-zinc-700 text-zinc-300'
-              }`}
-              title="Audience Authenticity & Quality Gatekeeper: Bot & ghost audience filtered"
+            <a
+              href={platformUrl}
+              {...EXTERNAL_LINK_PROPS}
+              onClick={(e) => e.stopPropagation()}
+              className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/[0.08] bg-[#08090C] hover:border-white/20 transition-all shrink-0 hover:scale-105"
+              title={`Open verified ${creator.platform === 'YOUTUBE' ? 'YouTube' : 'Instagram'} profile`}
             >
-              <ShieldCheck className="w-3 h-3 text-emerald-400 shrink-0" />
-              <span>{creator.authenticityScore ?? 94}% Auth</span>
-            </span>
+              {creator.platform === 'INSTAGRAM' ? (
+                <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
+              ) : (
+                <YoutubeIcon className="w-3.5 h-3.5 text-rose-400" />
+              )}
+            </a>
           </div>
         </div>
 
-        {/* Live Audited Data Badge & Timestamp */}
-        <div className="mt-2.5 flex items-center justify-between gap-2 px-2.5 py-1 rounded-lg bg-emerald-950/30 border border-emerald-500/20 text-[10px] font-mono">
-          <span className="flex items-center gap-1 font-semibold text-emerald-400">
-            <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
-            <span>✓ Live Audited Data</span>
-          </span>
-          <span className="text-zinc-400 text-[10px]">
-            {creator.lastVerifiedAt
-              ? new Date(creator.lastVerifiedAt).toLocaleDateString('en-IN', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                })
-              : 'Verified Real'}
-          </span>
-        </div>
-
-        {/* 3-Column Monospace Metrics Bar */}
-        <div className="mt-3.5 grid grid-cols-3 gap-1.5 rounded-xl bg-[#08090C] p-2.5 border border-white/[0.06]">
-          <div className="text-center">
-            <span className="text-[10px] text-zinc-500 font-mono block">Followers</span>
-            <p className="font-mono font-bold text-xs sm:text-sm text-zinc-100 tracking-tight mt-0.5">
+        {/* 2. Three-Column Key Telemetry Strip (Linear / Stripe Caliber) */}
+        <div className="bg-white/[0.02] rounded-lg p-2.5 border border-white/[0.05] my-3 grid grid-cols-3 gap-1 text-center">
+          {/* Column 1: Followers */}
+          <div className="pr-1 border-r border-white/[0.04]">
+            <span className="text-[9px] font-mono uppercase tracking-wider text-zinc-500 block">
+              Followers
+            </span>
+            <span className="font-mono font-semibold text-white text-xs sm:text-sm block mt-0.5">
               {formatFollowers(creator.followerCount)}
-            </p>
+            </span>
           </div>
 
-          <div className="text-center border-x border-white/[0.06]">
-            <span className="text-[10px] text-zinc-500 font-mono block">Eng. Rate</span>
-            <div className="flex items-center justify-center gap-0.5 mt-0.5">
-              <span
-                className={`font-mono font-bold text-xs sm:text-sm ${
-                  isHighEngagement ? 'text-emerald-400' : 'text-amber-400'
-                }`}
-              >
-                {formatPercentage(creator.engagementRate)}
-              </span>
-              {isHighEngagement && <TrendingUp className="w-2.5 h-2.5 text-emerald-400" />}
-            </div>
+          {/* Column 2: Engagement */}
+          <div className="px-1 border-r border-white/[0.04]">
+            <span className="text-[9px] font-mono uppercase tracking-wider text-zinc-500 block">
+              Eng. Rate
+            </span>
+            <span className="font-mono font-semibold text-emerald-400 text-xs sm:text-sm block mt-0.5">
+              {formatPercentage(creator.engagementRate)}
+            </span>
           </div>
 
-          <div className="text-center">
-            <span className="text-[10px] text-zinc-500 font-mono block">Avg Views</span>
-            <p className="font-mono font-semibold text-xs sm:text-sm text-zinc-200 tracking-tight mt-0.5">
-              {formatFollowers(creator.avgReelViews)}
-            </p>
+          {/* Column 3: Est. Reel INR Rate */}
+          <div className="pl-1">
+            <span className="text-[9px] font-mono uppercase tracking-wider text-zinc-500 block">
+              Est. Reel
+            </span>
+            <span className="font-mono font-semibold text-zinc-200 text-xs sm:text-sm block mt-0.5">
+              {formatCompactINR(estimatedReelFee)}
+            </span>
           </div>
         </div>
+      </div>
 
-        {/* Verified Collab Email Status Strip */}
-        <div className="mt-2.5 flex items-center justify-between text-[11px] font-mono">
-          <span className="text-zinc-500 text-[10px]">Collab Channel:</span>
+      {/* 3. Footer Action Row: Direct Email Status + Action Buttons */}
+      <div className="pt-2 border-t border-white/[0.05] flex items-center justify-between gap-2">
+        {/* Left: Direct Collab Email pill with 1-click copy */}
+        <div>
           {creator.businessEmail ? (
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded">
-              <Mail className="w-3 h-3 text-emerald-400" />
-              <span>Verified Email</span>
-            </span>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className={`inline-flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded-md border transition-all ${
+                copiedEmail
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold'
+                  : 'bg-emerald-950/40 text-emerald-400 border-emerald-500/20 hover:bg-emerald-900/40 hover:text-emerald-300'
+              }`}
+              title={`Click to copy: ${creator.businessEmail}`}
+            >
+              {copiedEmail ? (
+                <>
+                  <Check className="w-3 h-3 text-emerald-400" />
+                  <span>Copied</span>
+                </>
+              ) : (
+                <>
+                  <Zap className="w-3 h-3 text-emerald-400" />
+                  <span>⚡ Email Ready</span>
+                </>
+              )}
+            </button>
           ) : (
-            <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 bg-white/[0.03] border border-white/[0.06] px-2 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-500 bg-white/[0.02] border border-white/[0.04] px-2 py-1 rounded-md">
               <span>Direct DM</span>
             </span>
           )}
         </div>
 
-        {/* Compact Audience Demographic Mini-Bar */}
-        <div className="mt-3 space-y-1">
-          <div className="flex justify-between text-[10px] font-mono text-zinc-400">
-            <span>Audience Split:</span>
-            <span>
-              <strong className="text-emerald-400">{femaleRatio}% F</strong> /{' '}
-              <strong className="text-indigo-400">{maleRatio}% M</strong>
-            </span>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden flex">
-            <div
-              className="h-full bg-emerald-500"
-              style={{ width: `${femaleRatio}%` }}
-              title={`Female: ${femaleRatio}%`}
-            />
-            <div
-              className="h-full bg-indigo-500"
-              style={{ width: `${maleRatio}%` }}
-              title={`Male: ${maleRatio}%`}
-            />
-          </div>
+        {/* Right: Inspect & Shortlist CTAs */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => dispatch(setDetailModalCreator(creator))}
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] text-[11px] font-mono font-medium text-zinc-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all active:scale-98"
+            title="Inspect full analytics & demographic breakdown"
+          >
+            <BarChart2 className="w-3 h-3 text-zinc-400" />
+            <span>Inspect</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => dispatch(setQuickAddCreator(creator))}
+            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all active:scale-98 shadow-sm ${
+              isShortlisted
+                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-500/30'
+                : 'bg-emerald-500 text-black hover:bg-emerald-400 shadow-emerald-500/20'
+            }`}
+          >
+            {isShortlisted ? (
+              <>
+                <Check className="w-3 h-3 stroke-[3]" />
+                <span>Added</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-3 h-3 stroke-[2.5]" />
+                <span>Shortlist</span>
+              </>
+            )}
+          </button>
         </div>
-      </div>
-
-      {/* Action Footer */}
-      <div className="mt-4 flex items-center gap-2 pt-3 border-t border-white/[0.06]">
-        <button
-          type="button"
-          onClick={() => dispatch(setDetailModalCreator(creator))}
-          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-white/[0.2] hover:bg-white/[0.08] hover:text-white"
-        >
-          <BarChart2 className="w-3.5 h-3.5 text-zinc-400" />
-          <span>Analytics</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => dispatch(setQuickAddCreator(creator))}
-          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 py-2 text-xs font-bold text-black shadow-md shadow-emerald-500/20 transition-all hover:bg-emerald-400 active:scale-[0.98]"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>Shortlist</span>
-        </button>
       </div>
     </motion.div>
   );

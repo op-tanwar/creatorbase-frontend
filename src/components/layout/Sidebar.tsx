@@ -16,6 +16,7 @@ import {
   Settings,
   X,
   ShieldAlert,
+  Mail,
 } from 'lucide-react';
 import { Badge } from '../ui/Badge';
 import { toast } from 'sonner';
@@ -42,6 +43,12 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
       href: '/shortlists',
       icon: BookmarkCheck,
       description: 'Curate, price & export',
+    },
+    {
+      name: 'Outreach CRM',
+      href: '/outreach',
+      icon: Mail,
+      description: 'Automated pitches & threads',
     },
     {
       name: 'Bulk CSV Enrichment',

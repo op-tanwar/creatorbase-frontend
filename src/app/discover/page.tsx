@@ -1,29 +1,55 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setShortlists } from '@/store/slices/shortlistSlice';
-import { setPage, resetFilters } from '@/store/slices/filterSlice';
+import {
+  setPage,
+  setPlatform,
+  setCity,
+  setNiche,
+  setMinFollowers,
+  setMinEngagement,
+  setSearch,
+  setVerifiedEmailOnly,
+  setSortBy,
+  resetFilters,
+} from '@/store/slices/filterSlice';
 import api from '@/lib/api';
 import { Creator } from '@/types';
-import { CreatorFilters } from '@/components/creators/CreatorFilters';
 import { CreatorCard } from '@/components/creators/CreatorCard';
+import { CreatorTableView } from '@/components/creators/CreatorTableView';
+import { CreatorSplitView } from '@/components/creators/CreatorSplitView';
+import { DiscoverCommandBar } from '@/components/creators/DiscoverCommandBar';
+import { BulkAddToShortlistModal } from '@/components/creators/BulkAddToShortlistModal';
 import { CreatorCardSkeleton } from '@/components/ui/Skeleton';
 import { Button } from '@/components/ui/Button';
 import {
   Users,
-  Compass,
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  AlertCircle,
-  FileSpreadsheet,
+  X,
+  RotateCcw,
+  Mail,
+  MapPin,
+  Activity,
+  Bookmark,
+  Share2,
+  Download,
+  IndianRupee,
+  Bot,
+  ExternalLink,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { ApifySyncModal } from '@/components/creators/ApifySyncModal';
+import { formatFollowers, formatCompactINR, estimateReelCost } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DiscoverPage() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const filters = useAppSelector((state) => state.filters);
 
@@ -32,7 +58,22 @@ export default function DiscoverPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [apifyModalOpen, setApifyModalOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'grid' | 'table' | 'split'>('grid');
+  const [selectedBudgetBracket, setSelectedBudgetBracket] = useState<string | null>(null);
+  const [minCredibilityOnly, setMinCredibilityOnly] = useState(false);
 
+  // AI Brief Matcher State
+  const [isAIMatching, setIsAIMatching] = useState(false);
+  const [smartRoster, setSmartRoster] = useState<any | null>(null);
+
+  // Bulk Selection State
+  const [selectedCreatorIds, setSelectedCreatorIds] = useState<string[]>([]);
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
+  const [isGeneratingPitch, setIsGeneratingPitch] = useState(false);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync creator handler from Apify modal
   const handleCreatorSynced = (newCreator: Creator) => {
     setCreators((prev) => {
       const exists = prev.some((c) => c.id === newCreator.id || c.handle === newCreator.handle);
@@ -46,6 +87,7 @@ export default function DiscoverPage() {
     setTotal((prev) => prev + 1);
   };
 
+  // Pre-load user shortlists for quick-add dropdowns
   useEffect(() => {
     const fetchShortlists = async () => {
       try {
@@ -53,13 +95,14 @@ export default function DiscoverPage() {
         if (res.data.success) {
           dispatch(setShortlists(res.data.data));
         }
-      } catch (err) {
+      } catch (_err) {
         // user might not have created any shortlists yet
       }
     };
     fetchShortlists();
   }, [dispatch]);
 
+  // Fetch creators from backend API with debouncing
   const fetchCreators = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -96,7 +139,7 @@ export default function DiscoverPage() {
         setTotal(res.data.data.total || 0);
         setTotalPages(res.data.data.totalPages || 1);
       }
-    } catch (err: any) {
+    } catch (_err: any) {
       toast.error('Failed to load creators');
     } finally {
       setIsLoading(false);
@@ -106,97 +149,614 @@ export default function DiscoverPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchCreators();
-    }, 250);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, [fetchCreators]);
 
+  // Global Keyboard shortcuts: Cmd+K / Ctrl+K or / focuses search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      } else if (e.key === '/' && document.activeElement !== searchInputRef.current) {
+        if (!['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) {
+          e.preventDefault();
+          searchInputRef.current?.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // AI Brief Match Execution
+  const handleExecuteAIBrief = async (brief: string) => {
+    try {
+      setIsAIMatching(true);
+      const res = await api.post('/ai/match-brief', { brief });
+      if (res.data.success) {
+        setSmartRoster(res.data.data);
+        toast.success(`Matched ${res.data.data.totalCreators} creators for your campaign brief!`);
+      }
+    } catch (err: any) {
+      const msg = err.response?.data?.message || 'Failed to match campaign brief';
+      toast.error(msg);
+    } finally {
+      setIsAIMatching(false);
+    }
+  };
+
+  // Client-side instant filter & sorting
+  let displayedCreators = creators;
+
+  if (filters.verifiedEmailOnly) {
+    displayedCreators = displayedCreators.filter(
+      (c) => Boolean(c.businessEmail && c.businessEmail.trim() !== '')
+    );
+  }
+
+  if (minCredibilityOnly) {
+    displayedCreators = displayedCreators.filter(
+      (c: any) => (c.audienceCredibilityScore || 85) >= 80
+    );
+  }
+
+  // Budget Bracket filtering
+  if (selectedBudgetBracket) {
+    displayedCreators = displayedCreators.filter((c) => {
+      const fee = estimateReelCost(c);
+      if (selectedBudgetBracket.startsWith('< ₹15K')) return fee < 15000;
+      if (selectedBudgetBracket.includes('15K - ₹50K')) return fee >= 15000 && fee <= 50000;
+      if (selectedBudgetBracket.includes('50K - ₹1.5L')) return fee > 50000 && fee <= 150000;
+      if (selectedBudgetBracket.startsWith('₹1.5L+')) return fee > 150000;
+      return true;
+    });
+  }
+
+  if (filters.sortBy === 'engagement') {
+    displayedCreators = [...displayedCreators].sort(
+      (a, b) => (b.engagementRate || 0) - (a.engagementRate || 0)
+    );
+  } else if (filters.sortBy === 'authenticity') {
+    displayedCreators = [...displayedCreators].sort(
+      (a, b) => (b.authenticityScore || 0) - (a.authenticityScore || 0)
+    );
+  } else {
+    displayedCreators = [...displayedCreators].sort(
+      (a, b) => (b.followerCount || 0) - (a.followerCount || 0)
+    );
+  }
+
+  const finalTotal = filters.verifiedEmailOnly || selectedBudgetBracket ? displayedCreators.length : total;
+
+  // Active filter count calculation
+  const activeCount =
+    (filters.platform !== 'ALL' ? 1 : 0) +
+    (filters.city !== 'All' ? 1 : 0) +
+    (filters.niche !== 'All' ? 1 : 0) +
+    (filters.minFollowers > 5000 ? 1 : 0) +
+    (filters.minEngagement > 1.0 ? 1 : 0) +
+    (filters.verifiedEmailOnly ? 1 : 0) +
+    (selectedBudgetBracket ? 1 : 0) +
+    (filters.search.trim() !== '' ? 1 : 0);
+
+  // Bulk Selection Handlers
+  const handleToggleSelect = (id: string) => {
+    setSelectedCreatorIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedCreatorIds.length === displayedCreators.length) {
+      setSelectedCreatorIds([]);
+    } else {
+      setSelectedCreatorIds(displayedCreators.map((c) => c.id));
+    }
+  };
+
+  const handleClearSelection = () => {
+    setSelectedCreatorIds([]);
+  };
+
+  const selectedCreatorsList = displayedCreators.filter((c) =>
+    selectedCreatorIds.includes(c.id)
+  );
+
+  const totalSelectedBudget = selectedCreatorsList.reduce(
+    (sum, c) => sum + estimateReelCost(c),
+    0
+  );
+
+  // Export Selected as RFC-4180 CSV
+  const handleExportCSV = () => {
+    if (selectedCreatorsList.length === 0) return;
+    const headers = [
+      'Handle',
+      'Full Name',
+      'Platform',
+      'City',
+      'Niche',
+      'Followers',
+      'Engagement Rate %',
+      'Est Reel Cost INR',
+      'Business Email',
+      'Profile URL',
+    ];
+
+    const rows = selectedCreatorsList.map((c) => [
+      `"${c.handle}"`,
+      `"${c.fullName.replace(/"/g, '""')}"`,
+      `"${c.platform}"`,
+      `"${c.city}"`,
+      `"${c.niche}"`,
+      c.followerCount,
+      c.engagementRate,
+      estimateReelCost(c),
+      `"${c.businessEmail || ''}"`,
+      `"${c.profileUrl || ''}"`,
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `CreatorBase_Roster_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success(`Exported ${selectedCreatorsList.length} creators to CSV!`);
+  };
+
+  // Instant 1-Click Client Pitch Portal Generator
+  const handleGeneratePitchPortal = async () => {
+    if (selectedCreatorsList.length === 0) return;
+    try {
+      setIsGeneratingPitch(true);
+      const name = `Campaign Cohort (${new Date().toLocaleDateString('en-IN', {
+        month: 'short',
+        day: 'numeric',
+      })})`;
+
+      const createRes = await api.post('/shortlists', { name });
+      if (!createRes.data.success) throw new Error('Failed to create shortlist');
+
+      const shortlistId = createRes.data.data.id;
+      const shareToken = createRes.data.data.shareToken;
+
+      // Add each creator
+      await Promise.all(
+        selectedCreatorsList.map((creator) =>
+          api.post(`/shortlists/${shortlistId}/creators`, {
+            creatorId: creator.id,
+            assignedFeeINR: estimateReelCost(creator),
+          })
+        )
+      );
+
+      toast.success('Generated White-Label Client Pitch Portal!');
+      if (shareToken) {
+        router.push(`/pitch/${shareToken}`);
+      } else {
+        router.push(`/shortlists/${shortlistId}`);
+      }
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to generate client pitch');
+    } finally {
+      setIsGeneratingPitch(false);
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Top Command-Bar Filter Header */}
-      <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3.5 bg-[#060709]/85 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-        <CreatorFilters />
-      </div>
+    <div className="w-full max-w-[1600px] mx-auto overflow-x-hidden space-y-3.5 pb-20">
+      {/* ================================================================= */}
+      {/* 1. SLEEK COMMAND BAR (h-13, Sticky Top)                          */}
+      {/* ================================================================= */}
+      <DiscoverCommandBar
+        totalCount={finalTotal}
+        onOpenApifyModal={() => setApifyModalOpen(true)}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        searchInputRef={searchInputRef}
+        selectedBudgetBracket={selectedBudgetBracket}
+        onBudgetChange={setSelectedBudgetBracket}
+        minCredibilityOnly={minCredibilityOnly}
+        onToggleMinCredibility={() => setMinCredibilityOnly((prev) => !prev)}
+        onExecuteAIBrief={handleExecuteAIBrief}
+        isAIMatching={isAIMatching}
+      />
 
-      {/* Results Header Info Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]">
-            <Users className="w-3.5 h-3.5" />
-          </div>
-          <div>
-            <span className="text-xs sm:text-sm font-mono font-bold text-white">
-              {total.toLocaleString('en-IN')} verified creator{total === 1 ? '' : 's'} indexed
-            </span>
-            <span className="text-[11px] font-mono text-zinc-500 block">
-              PAGE {filters.page} OF {totalPages} • REAL-TIME AP-SOUTH-1
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Link
-            href="/enrich"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/[0.08] bg-[#0C0E12] text-xs font-mono font-semibold text-zinc-300 hover:text-white hover:border-emerald-500/40 transition-all shadow-sm active:scale-[0.98]"
+      {/* ================================================================= */}
+      {/* 2. AI SMART ROSTER BANNER (If Active)                             */}
+      {/* ================================================================= */}
+      <AnimatePresence>
+        {smartRoster && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mx-2 sm:mx-4 p-4 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-[#0C0E12] to-indigo-950/50 border border-emerald-500/40 shadow-[0_12px_36px_rgba(16,185,129,0.15)] space-y-3"
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Bulk CSV Enrich</span>
-          </Link>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-500 text-black text-xs font-bold shadow-xs">
+                  ✨
+                </span>
+                <div>
+                  <div className="text-xs font-mono font-bold text-white flex items-center gap-2">
+                    <span>AI Campaign Smart Roster</span>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono border border-emerald-500/30">
+                      {smartRoster.totalCreators} Matched Creators
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-zinc-400 mt-0.5">
+                    Query: &ldquo;{smartRoster.queryBrief}&rdquo;
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSmartRoster(null)}
+                className="text-zinc-400 hover:text-white p-1"
+                title="Dismiss smart roster"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Smart Roster Telemetry Strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono bg-black/40 rounded-xl p-3 border border-white/[0.05]">
+              <div>
+                <span className="text-[10px] text-zinc-500 uppercase">Allocated Budget</span>
+                <div className="text-sm font-bold text-emerald-400">
+                  {formatCompactINR(smartRoster.allocatedBudgetINR)}
+                </div>
+                <div className="text-[10px] text-zinc-500">
+                  Ceiling: {formatCompactINR(smartRoster.budgetCeilingINR)}
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-zinc-500 uppercase">Projected Reach</span>
+                <div className="text-sm font-bold text-white">
+                  {formatFollowers(smartRoster.projectedReach)}
+                </div>
+                <div className="text-[10px] text-emerald-400">Verified Audience</div>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-zinc-500 uppercase">Projected Impressions</span>
+                <div className="text-sm font-bold text-white">
+                  {formatFollowers(smartRoster.projectedImpressions)}
+                </div>
+                <div className="text-[10px] text-zinc-400">Reels + Shorts</div>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-zinc-500 uppercase">Effective CPM</span>
+                <div className="text-sm font-bold text-emerald-400">
+                  ₹{smartRoster.effectiveCPM}
+                </div>
+                <div className="text-[10px] text-zinc-500">Per 1,000 Views</div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-1">
+              <p className="text-xs font-mono text-zinc-300 leading-relaxed max-w-3xl">
+                {smartRoster.executiveSummary}
+              </p>
+              <div className="flex items-center gap-2 shrink-0">
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setSelectedCreatorIds(smartRoster.creators.map((c: any) => c.id));
+                    toast.success('Selected all AI Smart Roster creators!');
+                  }}
+                  className="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-black font-semibold"
+                >
+                  Select All {smartRoster.totalCreators}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ================================================================= */}
+      {/* 3. ACTIVE FILTERS MICRO-CHIPS ROW                                 */}
+      {/* ================================================================= */}
+      {activeCount > 0 && (
+        <div className="flex items-center gap-1.5 flex-wrap px-2 sm:px-4 text-xs font-mono">
+          <span className="text-[10px] uppercase text-zinc-500 mr-1 tracking-wider">
+            Active Filters ({activeCount}):
+          </span>
+
+          {filters.search.trim() && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <span>Search: &ldquo;{filters.search}&rdquo;</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setSearch(''))}
+                className="hover:text-white"
+                title="Clear search"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.platform !== 'ALL' && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <span>Platform: {filters.platform}</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setPlatform('ALL'))}
+                className="hover:text-white"
+                title="Clear platform"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.city !== 'All' && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <MapPin className="w-3 h-3 text-emerald-400" />
+              <span>City: {filters.city}</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setCity('All'))}
+                className="hover:text-white"
+                title="Clear city"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.niche !== 'All' && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <Sparkles className="w-3 h-3 text-emerald-400" />
+              <span>Niche: {filters.niche}</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setNiche('All'))}
+                className="hover:text-white"
+                title="Clear niche"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {selectedBudgetBracket && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <IndianRupee className="w-3 h-3 text-emerald-400" />
+              <span>Rate: {selectedBudgetBracket}</span>
+              <button
+                type="button"
+                onClick={() => setSelectedBudgetBracket(null)}
+                className="hover:text-white"
+                title="Clear budget filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.minFollowers > 5000 && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <span>&ge; {formatFollowers(filters.minFollowers)} Followers</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setMinFollowers(5000))}
+                className="hover:text-white"
+                title="Reset follower filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.minEngagement > 1.0 && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <Activity className="w-3 h-3 text-emerald-400" />
+              <span>&ge; {filters.minEngagement}% ER</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setMinEngagement(1.0))}
+                className="hover:text-white"
+                title="Reset engagement filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.verifiedEmailOnly && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <Mail className="w-3 h-3 text-emerald-400" />
+              <span>Verified Email Only</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setVerifiedEmailOnly(false))}
+                className="hover:text-white"
+                title="Clear verified email filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
 
           <button
             type="button"
-            onClick={() => setApifyModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)] active:scale-[0.98]"
+            onClick={() => {
+              dispatch(resetFilters());
+              setSelectedBudgetBracket(null);
+            }}
+            className="text-[11px] font-mono text-zinc-400 hover:text-white underline ml-1 cursor-pointer transition-colors"
           >
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Import Live Creator (Apify)</span>
+            Clear all
           </button>
-
-          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-zinc-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Apify sync active</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Creator Grid */}
-      {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <CreatorCardSkeleton key={i} />
-          ))}
-        </div>
-      ) : creators.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.08] bg-[#0C0E12]/90 p-12 text-center space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 font-mono text-lg font-bold shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-            &gt;_
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-base font-bold text-white font-mono">0 Creators Matched Query</h3>
-            <p className="text-xs text-zinc-400 font-mono max-w-md mx-auto leading-relaxed">
-              No indexed profiles meet your current city, follower range, or engagement thresholds.
-            </p>
-          </div>
-          <div>
-            <button
-              onClick={() => dispatch(resetFilters())}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)]"
-            >
-              <span>reset_filters()</span>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
-          {creators.map((creator) => (
-            <CreatorCard key={creator.id} creator={creator} />
-          ))}
         </div>
       )}
 
-      {/* Pagination Controls */}
+      {/* ================================================================= */}
+      {/* 4. MAIN RESULTS CANVAS (Grid, Table, or Split Inspector)          */}
+      {/* ================================================================= */}
+      <div className="px-2 sm:px-4">
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <CreatorCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : displayedCreators.length === 0 ? (
+          <div className="rounded-2xl border border-white/[0.08] bg-[#0C0E12]/90 p-8 sm:p-12 text-center space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 font-mono text-lg font-bold shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              &gt;_
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-base font-bold text-white font-mono">
+                0 Creators Matched Query
+              </h3>
+              <p className="text-xs text-zinc-400 font-mono max-w-md mx-auto leading-relaxed">
+                No indexed profiles meet your current city, follower range, or engagement thresholds.
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(resetFilters());
+                  setSelectedBudgetBracket(null);
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>reset_filters()</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setApifyModalOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-mono font-semibold text-zinc-200 hover:bg-white/[0.08] transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Import via Apify</span>
+              </button>
+            </div>
+          </div>
+        ) : viewMode === 'grid' ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {displayedCreators.map((creator) => (
+              <CreatorCard
+                key={creator.id}
+                creator={creator}
+                isSelected={selectedCreatorIds.includes(creator.id)}
+                onToggleSelect={handleToggleSelect}
+              />
+            ))}
+          </div>
+        ) : viewMode === 'table' ? (
+          <CreatorTableView
+            creators={displayedCreators}
+            isLoading={isLoading}
+            selectedIds={selectedCreatorIds}
+            onToggleSelect={handleToggleSelect}
+            onSelectAll={handleSelectAll}
+            onClearSelection={handleClearSelection}
+            onBulkShortlist={() => setBulkModalOpen(true)}
+          />
+        ) : (
+          <CreatorSplitView
+            creators={displayedCreators}
+            selectedIds={selectedCreatorIds}
+            onToggleSelect={handleToggleSelect}
+          />
+        )}
+      </div>
+
+      {/* ================================================================= */}
+      {/* 5. MULTI-SELECT FLOATING BOTTOM GLASS DOCK                         */}
+      {/* ================================================================= */}
+      <AnimatePresence>
+        {selectedCreatorIds.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 30, scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[#0C0E12]/95 backdrop-blur-2xl border border-emerald-500/40 rounded-full px-5 py-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.8),0_0_24px_rgba(16,185,129,0.25)] flex items-center gap-3.5 text-xs font-mono max-w-[95vw] overflow-x-auto"
+          >
+            <div className="flex items-center gap-2 whitespace-nowrap">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-black text-[10px] font-bold">
+                ✓
+              </span>
+              <span className="text-white font-bold">
+                {selectedCreatorIds.length} Selected
+              </span>
+              <span className="text-zinc-400">•</span>
+              <span className="text-emerald-400 font-semibold">
+                Est. Budget: {formatCompactINR(totalSelectedBudget)}
+              </span>
+            </div>
+
+            <div className="h-4 w-px bg-white/[0.15] shrink-0" />
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => setBulkModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)] whitespace-nowrap"
+              >
+                <Bookmark className="w-3.5 h-3.5" />
+                <span>+ Add to Campaign</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleGeneratePitchPortal}
+                disabled={isGeneratingPitch}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-zinc-100 font-medium transition-all whitespace-nowrap"
+                title="Create white-label client pitch portal link"
+              >
+                <Share2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{isGeneratingPitch ? 'Generating...' : 'Client Pitch'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleExportCSV}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-zinc-100 font-medium transition-all whitespace-nowrap"
+                title="Download client-ready CSV"
+              >
+                <Download className="w-3.5 h-3.5 text-zinc-400" />
+                <span>CSV</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleClearSelection}
+                className="text-zinc-400 hover:text-white p-1 rounded-full hover:bg-white/[0.08] transition-colors ml-1"
+                title="Clear selection"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ================================================================= */}
+      {/* 6. PAGINATION CONTROLS                                            */}
+      {/* ================================================================= */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-4 pt-6 border-t border-white/[0.06]">
+        <div className="flex items-center justify-center gap-4 pt-6 pb-2 border-t border-white/[0.06] px-4">
           <Button
             variant="outline"
             size="sm"
@@ -225,11 +785,20 @@ export default function DiscoverPage() {
         </div>
       )}
 
-      {/* Apify Live Sync Modal */}
+      {/* ================================================================= */}
+      {/* 7. MODALS                                                         */}
+      {/* ================================================================= */}
       <ApifySyncModal
         isOpen={apifyModalOpen}
         onClose={() => setApifyModalOpen(false)}
         onCreatorSynced={handleCreatorSynced}
+      />
+
+      <BulkAddToShortlistModal
+        isOpen={bulkModalOpen}
+        onClose={() => setBulkModalOpen(false)}
+        selectedCreators={selectedCreatorsList}
+        onSuccess={() => setSelectedCreatorIds([])}
       />
     </div>
   );

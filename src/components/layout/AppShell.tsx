@@ -83,6 +83,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         subtitle: 'Review cohorts, assign commercial fees, and export data in clean CSV format',
       };
     }
+    if (pathname.startsWith('/outreach')) {
+      return {
+        title: 'Outreach CRM & Pitch Pipeline',
+        subtitle: 'Send direct brand collaboration pitches, track negotiations, and manage creator email threads',
+      };
+    }
     if (pathname.startsWith('/enrich')) {
       return {
         title: 'Bulk CSV & Handle Enrichment',

@@ -67,7 +67,8 @@ export const MARQUEE_CANONICAL_YT_MAP: Record<string, string> = {
   samayraina: 'SamayRainaOfficial',
   samayrainaofficial: 'SamayRainaOfficial',
   labourlawadvisor: 'LabourLawAdvisor',
-  rachanaranade: 'rachanaranade',
+  rachanaranade: 'CARachanaRanade',
+  carachanaranade: 'CARachanaRanade',
   geekyranjit_yt: 'geekyranjit',
   geekyranjit: 'geekyranjit',
 };

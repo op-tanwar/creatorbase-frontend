@@ -8,6 +8,8 @@ export interface FilterState {
   maxFollowers: number;
   minEngagement: number;
   search: string;
+  verifiedEmailOnly: boolean;
+  sortBy: 'followers' | 'engagement' | 'authenticity';
   page: number;
   limit: number;
 }
@@ -20,6 +22,8 @@ const initialState: FilterState = {
   maxFollowers: 500000,
   minEngagement: 1.0,
   search: '',
+  verifiedEmailOnly: false,
+  sortBy: 'followers',
   page: 1,
   limit: 12,
 };
@@ -56,6 +60,13 @@ export const filterSlice = createSlice({
       state.search = action.payload;
       state.page = 1;
     },
+    setVerifiedEmailOnly: (state, action: PayloadAction<boolean>) => {
+      state.verifiedEmailOnly = action.payload;
+      state.page = 1;
+    },
+    setSortBy: (state, action: PayloadAction<'followers' | 'engagement' | 'authenticity'>) => {
+      state.sortBy = action.payload;
+    },
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
@@ -67,6 +78,8 @@ export const filterSlice = createSlice({
       state.maxFollowers = 500000;
       state.minEngagement = 1.0;
       state.search = '';
+      state.verifiedEmailOnly = false;
+      state.sortBy = 'followers';
       state.page = 1;
     },
   },
@@ -80,6 +93,8 @@ export const {
   setMaxFollowers,
   setMinEngagement,
   setSearch,
+  setVerifiedEmailOnly,
+  setSortBy,
   setPage,
   resetFilters,
 } = filterSlice.actions;

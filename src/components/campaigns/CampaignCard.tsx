@@ -147,10 +147,10 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
         </span>
 
         <Link
-          href="/shortlists"
+          href={`/campaigns/${campaign.id}`}
           className="text-xs font-mono font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
         >
-          <span>Open Shortlists</span>
+          <span>Command Center</span>
           <ChevronRight className="w-3 h-3" />
         </Link>
       </div>
