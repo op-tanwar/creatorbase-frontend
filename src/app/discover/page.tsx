@@ -134,11 +134,26 @@ export default function DiscoverPage() {
       }
 
       const res = await api.get('/creators', { params });
-      if (res.data.success && res.data.data) {
-        setCreators(res.data.data.creators || []);
-        setTotal(res.data.data.total || 0);
-        setTotalPages(res.data.data.totalPages || 1);
-      }
+      const payload = res.data?.data || res.data;
+      const creatorsList: Creator[] = Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload?.creators)
+        ? payload.creators
+        : Array.isArray(res.data?.creators)
+        ? res.data.creators
+        : [];
+      const totalCount =
+        typeof payload?.total === 'number'
+          ? payload.total
+          : typeof res.data?.total === 'number'
+          ? res.data.total
+          : creatorsList.length;
+      const pages =
+        payload?.totalPages || Math.max(1, Math.ceil(totalCount / (filters.limit || 12)));
+
+      setCreators(creatorsList);
+      setTotal(totalCount);
+      setTotalPages(pages);
     } catch (_err: any) {
       toast.error('Failed to load creators');
     } finally {
@@ -230,7 +245,10 @@ export default function DiscoverPage() {
     );
   }
 
-  const finalTotal = filters.verifiedEmailOnly || selectedBudgetBracket ? displayedCreators.length : total;
+  const hasClientFilters = Boolean(
+    filters.verifiedEmailOnly || selectedBudgetBracket || minCredibilityOnly
+  );
+  const finalTotal = hasClientFilters ? displayedCreators.length : total;
 
   // Active filter count calculation
   const activeCount =
@@ -598,6 +616,7 @@ export default function DiscoverPage() {
             onClick={() => {
               dispatch(resetFilters());
               setSelectedBudgetBracket(null);
+              setMinCredibilityOnly(false);
             }}
             className="text-[11px] font-mono text-zinc-400 hover:text-white underline ml-1 cursor-pointer transition-colors"
           >
@@ -635,11 +654,12 @@ export default function DiscoverPage() {
                 onClick={() => {
                   dispatch(resetFilters());
                   setSelectedBudgetBracket(null);
+                  setMinCredibilityOnly(false);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)] cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>reset_filters()</span>
+                <span>Reset Filters</span>
               </button>
               <button
                 type="button"
