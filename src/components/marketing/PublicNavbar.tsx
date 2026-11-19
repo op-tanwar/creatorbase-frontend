@@ -57,13 +57,12 @@ export function PublicNavbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isScrolled
           ? 'bg-[#060709]/85 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.5)]'
           : 'bg-[#060709]/60 backdrop-blur-md border-b border-white/[0.05]'
-      }`}
+        }`}
     >
-      <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-12 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left: Crisp Geometric Logo Mark + Brand Wordmark */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0">
           <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-transform duration-200 group-hover:scale-105">
