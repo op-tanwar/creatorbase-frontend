@@ -219,7 +219,7 @@ export function DiscoverCommandBar({
             {/* ============================================================= */}
             <div className="flex items-center gap-2 shrink-0">
               {/* Standard Search Bar */}
-              <div className="relative w-full sm:w-64 lg:w-64 xl:w-72">
+              <div className="relative w-full sm:w-60 lg:w-56 xl:w-64 shrink-0">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
                 <input
                   ref={searchInputRef}
@@ -256,7 +256,7 @@ export function DiscoverCommandBar({
                   setAiBriefOpen(!aiBriefOpen);
                   setActivePopover(null);
                 }}
-                className={`h-9 px-3 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 border transition-all cursor-pointer ${
+                className={`h-9 px-3 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   aiBriefOpen
                     ? 'bg-emerald-500 text-black border-emerald-500 font-bold shadow-[0_0_15px_rgba(16,185,129,0.3)]'
                     : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20'
@@ -270,12 +270,12 @@ export function DiscoverCommandBar({
             {/* ============================================================= */}
             {/* CENTER: INTERACTIVE FILTER PILLS (Raycast Style)              */}
             {/* ============================================================= */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap 2xl:flex-nowrap py-1 sm:py-1.5">
               {/* 1. Platform Pill */}
               <button
                 type="button"
                 onClick={(e) => togglePopover('platform', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   isPlatformActive
                     ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                     : activePopover === 'platform'
@@ -284,11 +284,11 @@ export function DiscoverCommandBar({
                 }`}
               >
                 {filters.platform === 'INSTAGRAM' ? (
-                  <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
+                  <InstagramIcon className="w-3.5 h-3.5 text-pink-400 shrink-0" />
                 ) : filters.platform === 'YOUTUBE' ? (
-                  <YoutubeIcon className="w-3.5 h-3.5 text-rose-400" />
+                  <YoutubeIcon className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 ) : null}
-                <span>
+                <span className="whitespace-nowrap">
                   {filters.platform === 'INSTAGRAM'
                     ? 'Instagram'
                     : filters.platform === 'YOUTUBE'
@@ -302,13 +302,13 @@ export function DiscoverCommandBar({
                       dispatch(setPlatform('ALL'));
                       setActivePopover(null);
                     }}
-                    className="hover:text-white ml-0.5 p-0.5"
+                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
                     title="Clear platform"
                   >
                     <X className="w-3 h-3" />
                   </span>
                 ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400" />
+                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
                 )}
               </button>
 
@@ -316,7 +316,7 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={(e) => togglePopover('city', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   isCityActive
                     ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                     : activePopover === 'city'
@@ -324,8 +324,8 @@ export function DiscoverCommandBar({
                     : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
                 }`}
               >
-                <MapPin className={`w-3.5 h-3.5 ${isCityActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="max-w-[110px] truncate">
+                <MapPin className={`w-3.5 h-3.5 shrink-0 ${isCityActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                <span className="max-w-[120px] truncate whitespace-nowrap">
                   {isCityActive ? filters.city : '50+ Cities'}
                 </span>
                 {isCityActive ? (
@@ -335,13 +335,13 @@ export function DiscoverCommandBar({
                       dispatch(setCity('All'));
                       setActivePopover(null);
                     }}
-                    className="hover:text-white ml-0.5 p-0.5"
+                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
                     title="Clear city"
                   >
                     <X className="w-3 h-3" />
                   </span>
                 ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400" />
+                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
                 )}
               </button>
 
@@ -349,7 +349,7 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={(e) => togglePopover('niche', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   isNicheActive
                     ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                     : activePopover === 'niche'
@@ -357,8 +357,8 @@ export function DiscoverCommandBar({
                     : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
                 }`}
               >
-                <Sparkles className={`w-3.5 h-3.5 ${isNicheActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="max-w-[110px] truncate">
+                <Sparkles className={`w-3.5 h-3.5 shrink-0 ${isNicheActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                <span className="max-w-[120px] truncate whitespace-nowrap">
                   {isNicheActive ? filters.niche : 'All Niches'}
                 </span>
                 {isNicheActive ? (
@@ -368,13 +368,13 @@ export function DiscoverCommandBar({
                       dispatch(setNiche('All'));
                       setActivePopover(null);
                     }}
-                    className="hover:text-white ml-0.5 p-0.5"
+                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
                     title="Clear niche"
                   >
                     <X className="w-3 h-3" />
                   </span>
                 ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400" />
+                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
                 )}
               </button>
 
@@ -382,7 +382,7 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={(e) => togglePopover('metrics', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   isMetricsActive
                     ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                     : activePopover === 'metrics'
@@ -390,8 +390,8 @@ export function DiscoverCommandBar({
                     : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
                 }`}
               >
-                <Activity className={`w-3.5 h-3.5 ${isMetricsActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span>
+                <Activity className={`w-3.5 h-3.5 shrink-0 ${isMetricsActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                <span className="whitespace-nowrap">
                   {isMetricsActive
                     ? `${filters.minFollowers > 5000 ? `≥${formatFollowers(filters.minFollowers)}` : ''}${
                         filters.minFollowers > 5000 && filters.minEngagement > 1.0 ? ' • ' : ''
@@ -406,13 +406,13 @@ export function DiscoverCommandBar({
                       dispatch(setMinEngagement(1.0));
                       setActivePopover(null);
                     }}
-                    className="hover:text-white ml-0.5 p-0.5"
+                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
                     title="Reset metrics"
                   >
                     <X className="w-3 h-3" />
                   </span>
                 ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400" />
+                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
                 )}
               </button>
 
@@ -420,7 +420,7 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={(e) => togglePopover('budget', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   isBudgetActive
                     ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                     : activePopover === 'budget'
@@ -428,8 +428,8 @@ export function DiscoverCommandBar({
                     : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
                 }`}
               >
-                <IndianRupee className={`w-3.5 h-3.5 ${isBudgetActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="max-w-[110px] truncate">
+                <IndianRupee className={`w-3.5 h-3.5 shrink-0 ${isBudgetActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                <span className="max-w-[120px] truncate whitespace-nowrap">
                   {selectedBudgetBracket || 'Budget ▾'}
                 </span>
                 {isBudgetActive ? (
@@ -439,13 +439,13 @@ export function DiscoverCommandBar({
                       if (onBudgetChange) onBudgetChange(null);
                       setActivePopover(null);
                     }}
-                    className="hover:text-white ml-0.5 p-0.5"
+                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
                     title="Clear budget filter"
                   >
                     <X className="w-3 h-3" />
                   </span>
                 ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400" />
+                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
                 )}
               </button>
 
@@ -453,37 +453,37 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={onToggleMinCredibility}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   minCredibilityOnly
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
                     : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
                 }`}
               >
-                <ShieldCheck className={`w-3.5 h-3.5 ${minCredibilityOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span>Credibility &gt;80%</span>
+                <ShieldCheck className={`w-3.5 h-3.5 shrink-0 ${minCredibilityOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                <span className="whitespace-nowrap">Credibility &gt;80%</span>
               </button>
 
               {/* 7. Direct Contact Toggle Pill */}
               <button
                 type="button"
                 onClick={() => dispatch(setVerifiedEmailOnly(!filters.verifiedEmailOnly))}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   filters.verifiedEmailOnly
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
                     : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
                 }`}
               >
-                <Mail className={`w-3.5 h-3.5 ${filters.verifiedEmailOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span>⚡ Verified Email</span>
+                <Mail className={`w-3.5 h-3.5 shrink-0 ${filters.verifiedEmailOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                <span className="whitespace-nowrap">⚡ Verified Email</span>
               </button>
             </div>
 
             {/* ============================================================= */}
             {/* RIGHT: TELEMETRY, SORT & 3-WAY VIEW SWITCHER                  */}
             {/* ============================================================= */}
-            <div className="flex items-center gap-2 justify-between lg:justify-end shrink-0 pt-1 lg:pt-0">
+            <div className="shrink-0 flex items-center gap-2.5 sm:gap-3 ml-auto pl-3 bg-[#060709] z-10 pt-1 lg:pt-0">
               {/* Live Counter */}
-              <span className="text-xs font-mono text-zinc-400 whitespace-nowrap">
+              <span className="text-xs font-mono text-zinc-400 whitespace-nowrap shrink-0">
                 <strong className="text-white">{totalCount.toLocaleString('en-IN')}</strong> creators
               </span>
 
@@ -491,25 +491,25 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={(e) => togglePopover('sort', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all cursor-pointer ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   activePopover === 'sort'
                     ? 'bg-white/[0.08] border-white/20 text-white'
                     : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
                 }`}
               >
-                <ArrowUpDown className="w-3 h-3 text-zinc-400" />
-                <span className="hidden sm:inline">
+                <ArrowUpDown className="w-3 h-3 text-zinc-400 shrink-0" />
+                <span className="hidden sm:inline whitespace-nowrap">
                   {filters.sortBy === 'engagement'
                     ? 'Engagement Rate'
                     : filters.sortBy === 'authenticity'
                     ? 'Authenticity'
                     : 'Followers'}
                 </span>
-                <ChevronDown className="w-3 h-3 text-zinc-400" />
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
               </button>
 
               {/* 3-WAY VIEW SWITCHER: Grid vs Table vs Split Inspector */}
-              <div className="flex items-center rounded-lg border border-white/[0.08] bg-white/[0.03] p-0.5">
+              <div className="flex items-center rounded-lg border border-white/[0.08] bg-white/[0.03] p-0.5 shrink-0">
                 <button
                   type="button"
                   onClick={() => onViewModeChange('grid')}
@@ -555,11 +555,11 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={onOpenApifyModal}
-                className="h-8 inline-flex items-center gap-1 px-2.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-xs shrink-0 cursor-pointer"
+                className="h-8 inline-flex items-center gap-1 px-2.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-xs shrink-0 whitespace-nowrap cursor-pointer"
                 title="Import influencer via live Apify scraper"
               >
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline">Import</span>
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="hidden sm:inline whitespace-nowrap">Import</span>
               </button>
             </div>
           </div>
