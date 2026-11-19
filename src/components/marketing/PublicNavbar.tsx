@@ -62,7 +62,7 @@ export function PublicNavbar() {
           : 'bg-[#060709]/60 backdrop-blur-md border-b border-white/[0.05]'
         }`}
     >
-      <div className="mx-auto flex h-12 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left: Crisp Geometric Logo Mark + Brand Wordmark */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0">
           <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-transform duration-200 group-hover:scale-105">
