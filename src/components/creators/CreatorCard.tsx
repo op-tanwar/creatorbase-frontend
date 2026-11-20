@@ -63,7 +63,7 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
       initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       transition={{ duration: 0.2 }}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#0C0E12] border border-white/[0.08] p-4 hover:border-emerald-500/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.6)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl h-full"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#0C0E12] border border-white/[0.08] p-4 hover:border-emerald-500/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.6)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl h-full w-full min-w-0"
     >
       <div>
         {/* 1. Header Row: Avatar, Name, Handle, City & External Platform Icon */}
@@ -90,8 +90,8 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
 
             {/* Creator Identity, City & Niche */}
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-sm text-white truncate font-sans tracking-tight">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <h3 className="font-bold text-sm text-white truncate font-sans tracking-tight" title={creator.fullName}>
                   {creator.fullName}
                 </h3>
                 {creator.isVerified && (
@@ -101,25 +101,25 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
                 )}
               </div>
 
-              <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+              <div className="flex items-center gap-1.5 mt-0.5 min-w-0 overflow-hidden">
                 <a
                   href={platformUrl}
                   {...EXTERNAL_LINK_PROPS}
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs text-zinc-400 font-mono truncate hover:text-emerald-400 transition-colors"
+                  className="text-xs text-zinc-400 font-mono truncate hover:text-emerald-400 transition-colors shrink-0 max-w-[110px]"
                   title={`Open canonical @${creator.handle}`}
                 >
                   @{creator.handle}
                 </a>
-                <span className="text-[10px] text-zinc-600 font-mono">•</span>
+                <span className="text-[10px] text-zinc-600 font-mono shrink-0">•</span>
                 <span className="text-[11px] text-zinc-400 font-mono flex items-center gap-0.5 shrink-0">
-                  <MapPin className="w-3 h-3 text-emerald-400/80" />
-                  <span>{creator.city}</span>
+                  <MapPin className="w-3 h-3 text-emerald-400/80 shrink-0" />
+                  <span className="truncate max-w-[80px]">{creator.city}</span>
                 </span>
                 {creator.niche && (
                   <>
-                    <span className="text-[10px] text-zinc-600 font-mono">•</span>
-                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-white/[0.04] text-zinc-300 border border-white/[0.08] truncate max-w-[120px]">
+                    <span className="text-[10px] text-zinc-600 font-mono shrink-0">•</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-white/[0.04] text-zinc-300 border border-white/[0.08] truncate max-w-[90px] shrink-0">
                       {creator.niche}
                     </span>
                   </>
@@ -191,14 +191,14 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
       </div>
 
       {/* 3. Footer Action Row: Direct Email Status + Action Buttons */}
-      <div className="pt-2 border-t border-white/[0.05] flex items-center justify-between gap-2">
+      <div className="pt-2 border-t border-white/[0.05] flex items-center justify-between gap-1.5 sm:gap-2">
         {/* Left: Direct Collab Email pill with 1-click copy */}
-        <div>
+        <div className="shrink-0 min-w-0">
           {creator.businessEmail ? (
             <button
               type="button"
               onClick={handleCopyEmail}
-              className={`inline-flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded-md border transition-all ${
+              className={`inline-flex items-center gap-1 text-[10px] font-mono px-2 py-1.5 rounded-md border transition-all whitespace-nowrap shrink-0 ${
                 copiedEmail
                   ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold'
                   : 'bg-emerald-950/40 text-emerald-400 border-emerald-500/20 hover:bg-emerald-900/40 hover:text-emerald-300'
@@ -207,18 +207,18 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
             >
               {copiedEmail ? (
                 <>
-                  <Check className="w-3 h-3 text-emerald-400" />
+                  <Check className="w-3 h-3 text-emerald-400 shrink-0" />
                   <span>Copied</span>
                 </>
               ) : (
                 <>
-                  <Zap className="w-3 h-3 text-emerald-400" />
-                  <span>⚡ Email Ready</span>
+                  <Zap className="w-3 h-3 text-emerald-400 shrink-0" />
+                  <span className="whitespace-nowrap">⚡ Email Ready</span>
                 </>
               )}
             </button>
           ) : (
-            <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-500 bg-white/[0.02] border border-white/[0.04] px-2 py-1 rounded-md">
+            <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-500 bg-white/[0.02] border border-white/[0.04] px-2 py-1.5 rounded-md whitespace-nowrap shrink-0">
               <span>Direct DM</span>
             </span>
           )}
@@ -229,17 +229,17 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
           <button
             type="button"
             onClick={() => dispatch(setDetailModalCreator(creator))}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] text-[11px] font-mono font-medium text-zinc-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all active:scale-98"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] text-[11px] font-mono font-medium text-zinc-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all active:scale-98 whitespace-nowrap shrink-0"
             title="Inspect full analytics & demographic breakdown"
           >
-            <BarChart2 className="w-3 h-3 text-zinc-400" />
+            <BarChart2 className="w-3 h-3 text-zinc-400 shrink-0" />
             <span>Inspect</span>
           </button>
 
           <button
             type="button"
             onClick={() => dispatch(setQuickAddCreator(creator))}
-            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all active:scale-98 shadow-sm ${
+            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all active:scale-98 shadow-sm whitespace-nowrap shrink-0 ${
               isShortlisted
                 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-500/30'
                 : 'bg-emerald-500 text-black hover:bg-emerald-400 shadow-emerald-500/20'
@@ -247,12 +247,12 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
           >
             {isShortlisted ? (
               <>
-                <Check className="w-3 h-3 stroke-[3]" />
+                <Check className="w-3 h-3 stroke-[3] shrink-0" />
                 <span>Added</span>
               </>
             ) : (
               <>
-                <Plus className="w-3 h-3 stroke-[2.5]" />
+                <Plus className="w-3 h-3 stroke-[2.5] shrink-0" />
                 <span>Shortlist</span>
               </>
             )}

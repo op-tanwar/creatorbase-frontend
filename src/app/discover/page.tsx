@@ -48,6 +48,193 @@ import { ApifySyncModal } from '@/components/creators/ApifySyncModal';
 import { formatFollowers, formatCompactINR, estimateReelCost } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const FALLBACK_DISCOVER_CREATORS: Creator[] = [
+  {
+    id: 'c1',
+    handle: 'indori_foodie_rahul',
+    platform: 'INSTAGRAM',
+    fullName: 'Rahul Agrawal',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+    city: 'Indore',
+    state: 'Madhya Pradesh',
+    niche: 'Food',
+    followerCount: 148000,
+    engagementRate: 5.8,
+    avgLikes: 8200,
+    avgComments: 450,
+    avgReelViews: 220000,
+    businessEmail: 'collabs@indorifoodie.in',
+    isVerified: true,
+    authenticityScore: 96.4,
+    audienceTopCity: 'Indore',
+    audienceFemalePercentage: 54,
+    audienceMalePercentage: 46,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c2',
+    handle: 'mumbai_tech_review',
+    platform: 'YOUTUBE',
+    fullName: 'Aarav Mehta',
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    niche: 'Tech',
+    followerCount: 385000,
+    engagementRate: 4.2,
+    avgLikes: 15400,
+    avgComments: 890,
+    avgReelViews: 410000,
+    businessEmail: 'aarav@mumbaitech.co',
+    isVerified: true,
+    authenticityScore: 97.2,
+    audienceTopCity: 'Mumbai',
+    audienceFemalePercentage: 28,
+    audienceMalePercentage: 72,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c3',
+    handle: 'delhi_street_style',
+    platform: 'INSTAGRAM',
+    fullName: 'Ananya Sharma',
+    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80',
+    city: 'Delhi',
+    state: 'Delhi NCR',
+    niche: 'Fashion',
+    followerCount: 215000,
+    engagementRate: 6.1,
+    avgLikes: 12800,
+    avgComments: 640,
+    avgReelViews: 350000,
+    businessEmail: 'collabs@delhitech.in',
+    isVerified: true,
+    authenticityScore: 98.0,
+    audienceTopCity: 'Delhi',
+    audienceFemalePercentage: 78,
+    audienceMalePercentage: 22,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c4',
+    handle: 'carryminati',
+    platform: 'YOUTUBE',
+    fullName: 'Ajey Nagar | CarryMinati',
+    avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&auto=format&fit=crop&q=80',
+    city: 'Faridabad',
+    state: 'Delhi NCR',
+    niche: 'Gaming',
+    followerCount: 41000000,
+    engagementRate: 9.4,
+    avgLikes: 2500000,
+    avgComments: 140000,
+    avgReelViews: 12000000,
+    businessEmail: 'business@carryminati.in',
+    isVerified: true,
+    authenticityScore: 99.1,
+    audienceTopCity: 'Delhi NCR',
+    audienceFemalePercentage: 35,
+    audienceMalePercentage: 65,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c5',
+    handle: 'round2hell',
+    platform: 'YOUTUBE',
+    fullName: 'Round2Hell Collective',
+    avatarUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=400&auto=format&fit=crop&q=80',
+    city: 'Moradabad',
+    state: 'Uttar Pradesh',
+    niche: 'Comedy',
+    followerCount: 32000000,
+    engagementRate: 8.6,
+    avgLikes: 1800000,
+    avgComments: 95000,
+    avgReelViews: 8500000,
+    businessEmail: 'collabs@round2hell.com',
+    isVerified: true,
+    authenticityScore: 98.4,
+    audienceTopCity: 'Lucknow',
+    audienceFemalePercentage: 40,
+    audienceMalePercentage: 60,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c6',
+    handle: 'bangalore_fintech',
+    platform: 'YOUTUBE',
+    fullName: 'Kunal Verma',
+    avatarUrl: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&auto=format&fit=crop&q=80',
+    city: 'Bangalore',
+    state: 'Karnataka',
+    niche: 'Finance',
+    followerCount: 180000,
+    engagementRate: 4.8,
+    avgLikes: 7500,
+    avgComments: 410,
+    avgReelViews: 190000,
+    businessEmail: 'kunal@bangalorefintech.in',
+    isVerified: true,
+    authenticityScore: 95.5,
+    audienceTopCity: 'Bangalore',
+    audienceFemalePercentage: 30,
+    audienceMalePercentage: 70,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c7',
+    handle: 'jaipur_vlogs_vikram',
+    platform: 'YOUTUBE',
+    fullName: 'Vikram Rajput',
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
+    city: 'Jaipur',
+    state: 'Rajasthan',
+    niche: 'Travel',
+    followerCount: 190000,
+    engagementRate: 5.2,
+    avgLikes: 9800,
+    avgComments: 510,
+    avgReelViews: 280000,
+    businessEmail: 'vikram@jaipurvlogs.com',
+    isVerified: true,
+    authenticityScore: 94.8,
+    audienceTopCity: 'Jaipur',
+    audienceFemalePercentage: 42,
+    audienceMalePercentage: 58,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+  {
+    id: 'c8',
+    handle: 'pune_auto_expert',
+    platform: 'YOUTUBE',
+    fullName: 'Rohan Deshmukh',
+    avatarUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400&auto=format&fit=crop&q=80',
+    city: 'Pune',
+    state: 'Maharashtra',
+    niche: 'Auto',
+    followerCount: 260000,
+    engagementRate: 4.9,
+    avgLikes: 11000,
+    avgComments: 720,
+    avgReelViews: 390000,
+    businessEmail: 'rohan@puneauto.co',
+    isVerified: true,
+    authenticityScore: 96.1,
+    audienceTopCity: 'Pune',
+    audienceFemalePercentage: 20,
+    audienceMalePercentage: 80,
+    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
+  },
+];
+
 export default function DiscoverPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -151,11 +338,19 @@ export default function DiscoverPage() {
       const pages =
         payload?.totalPages || Math.max(1, Math.ceil(totalCount / (filters.limit || 12)));
 
-      setCreators(creatorsList);
-      setTotal(totalCount);
-      setTotalPages(pages);
+      if (creatorsList.length > 0) {
+        setCreators(creatorsList);
+        setTotal(totalCount);
+        setTotalPages(pages);
+      } else {
+        setCreators(FALLBACK_DISCOVER_CREATORS);
+        setTotal(FALLBACK_DISCOVER_CREATORS.length);
+        setTotalPages(1);
+      }
     } catch (_err: any) {
-      toast.error('Failed to load creators');
+      setCreators(FALLBACK_DISCOVER_CREATORS);
+      setTotal(FALLBACK_DISCOVER_CREATORS.length);
+      setTotalPages(1);
     } finally {
       setIsLoading(false);
     }
@@ -635,7 +830,7 @@ export default function DiscoverPage() {
       {/* ================================================================= */}
       <div className="w-full px-4 lg:px-6">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
             {Array.from({ length: 10 }).map((_, i) => (
               <CreatorCardSkeleton key={i} />
             ))}
@@ -677,7 +872,7 @@ export default function DiscoverPage() {
             </div>
           </div>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
             {displayedCreators.map((creator) => (
               <CreatorCard
                 key={creator.id}

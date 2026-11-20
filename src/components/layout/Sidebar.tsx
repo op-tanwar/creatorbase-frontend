@@ -136,7 +136,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+      <div className="flex-1 min-h-0 px-3 py-4 sm:py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
         <div className="px-3 mb-2 text-[10px] font-mono font-semibold uppercase tracking-wider text-zinc-500">
           Core Engine
         </div>

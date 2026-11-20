@@ -496,7 +496,7 @@ export default function PublicPitchPage({
       </header>
 
       {/* Main Pitch Roster Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-32 sm:pb-36 space-y-6">
         {/* Hero Pitch Banner */}
         <div className="rounded-2xl border border-white/[0.07] bg-[#0C0E12]/90 p-6 sm:p-8 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] relative overflow-hidden">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -546,7 +546,7 @@ export default function PublicPitchPage({
         </div>
 
         {/* Talent Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {pitch.creators.map((c) => {
             const isApproved = c.clientApprovalStatus === 'APPROVED';
             const isRejected = c.clientApprovalStatus === 'REJECTED';
@@ -792,7 +792,7 @@ export default function PublicPitchPage({
 
       {/* Floating Summary Pill */}
       <div className="fixed bottom-5 inset-x-4 max-w-2xl mx-auto z-40">
-        <div className="rounded-2xl bg-[#0C0E12]/95 backdrop-blur-2xl border border-white/[0.08] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex items-center justify-between gap-4 text-xs font-mono">
+        <div className="rounded-2xl bg-[#0C0E12]/95 backdrop-blur-2xl border border-white/[0.08] p-3.5 sm:p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 text-xs font-mono">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="font-bold text-white text-sm">

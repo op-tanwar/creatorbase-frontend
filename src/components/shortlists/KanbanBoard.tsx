@@ -259,8 +259,8 @@ export function KanbanBoard({ shortlist, onRefresh }: KanbanBoardProps) {
         </div>
       </div>
 
-      {/* 5-Column Kanban Board */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto pb-4 items-start min-h-[600px]">
+      {/* 5-Column Kanban Board with Fixed-Width Horizontal Scrollable Columns */}
+      <div className="flex gap-4 overflow-x-auto pb-4 items-start min-h-[600px] custom-scrollbar">
         {COLUMNS.map((col) => {
           const colItems = getItemsForStage(col.key);
           const colFeeTotal = colItems.reduce((acc, it) => {
@@ -275,7 +275,7 @@ export function KanbanBoard({ shortlist, onRefresh }: KanbanBoardProps) {
               onDragOver={(e) => handleDragOver(e, col.key)}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, col.key)}
-              className={`flex flex-col rounded-2xl border transition-all duration-200 min-h-[500px] p-3 backdrop-blur-xl ${
+              className={`w-[290px] shrink-0 flex flex-col rounded-2xl border transition-all duration-200 min-h-[500px] p-3 backdrop-blur-xl ${
                 isOver
                   ? 'border-emerald-500/80 bg-emerald-950/20 shadow-lg shadow-emerald-950/40 ring-1 ring-emerald-500/30'
                   : 'border-white/[0.06] bg-[#08090C]'

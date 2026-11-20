@@ -377,12 +377,12 @@ export function DiscoverCommandBar({
           {/* ============================================================= */}
           {/* ROW 2: CLEAN FILTER PILLS BAR (Full Width, Zero Overlap)       */}
           {/* ============================================================= */}
-          <div className="flex flex-wrap items-center gap-2 pt-2.5 mt-2.5 border-t border-white/[0.05]">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-2.5 mt-2.5 border-t border-white/[0.05]">
             {/* 1. Platform Pill */}
             <button
               type="button"
               onClick={(e) => togglePopover('platform', e)}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 isPlatformActive
                   ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                   : activePopover === 'platform'
@@ -423,7 +423,7 @@ export function DiscoverCommandBar({
             <button
               type="button"
               onClick={(e) => togglePopover('city', e)}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 isCityActive
                   ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                   : activePopover === 'city'
@@ -456,7 +456,7 @@ export function DiscoverCommandBar({
             <button
               type="button"
               onClick={(e) => togglePopover('niche', e)}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 isNicheActive
                   ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                   : activePopover === 'niche'
@@ -489,7 +489,7 @@ export function DiscoverCommandBar({
             <button
               type="button"
               onClick={(e) => togglePopover('metrics', e)}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 isMetricsActive
                   ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                   : activePopover === 'metrics'
@@ -527,7 +527,7 @@ export function DiscoverCommandBar({
             <button
               type="button"
               onClick={(e) => togglePopover('budget', e)}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 isBudgetActive
                   ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                   : activePopover === 'budget'
@@ -537,7 +537,7 @@ export function DiscoverCommandBar({
             >
               <IndianRupee className={`w-3.5 h-3.5 shrink-0 ${isBudgetActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
               <span className="max-w-[120px] truncate whitespace-nowrap">
-                {selectedBudgetBracket || 'Budget ▾'}
+                {selectedBudgetBracket || 'Budget'}
               </span>
               {isBudgetActive ? (
                 <span
@@ -560,7 +560,7 @@ export function DiscoverCommandBar({
             <button
               type="button"
               onClick={onToggleMinCredibility}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 minCredibilityOnly
                   ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
                   : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
@@ -574,7 +574,7 @@ export function DiscoverCommandBar({
             <button
               type="button"
               onClick={() => dispatch(setVerifiedEmailOnly(!filters.verifiedEmailOnly))}
-              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                 filters.verifiedEmailOnly
                   ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
                   : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'

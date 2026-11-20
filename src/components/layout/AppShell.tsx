@@ -148,7 +148,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         />
         <main
           className={`flex-1 min-w-0 w-full bg-[#060709] overflow-x-hidden ${
-            pathname.startsWith('/discover') ? '' : 'px-6 py-5'
+            pathname.startsWith('/discover') ? '' : 'px-4 sm:px-6 py-5'
           }`}
         >
           {children}
