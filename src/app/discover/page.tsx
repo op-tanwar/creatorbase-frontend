@@ -633,7 +633,7 @@ export default function DiscoverPage() {
       {/* ================================================================= */}
       {/* 4. MAIN RESULTS CANVAS (Grid, Table, or Split Inspector)          */}
       {/* ================================================================= */}
-      <div className="w-full px-4">
+      <div className="w-full px-4 lg:px-6">
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Array.from({ length: 10 }).map((_, i) => (
