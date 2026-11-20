@@ -138,16 +138,16 @@ export default function DiscoverPage() {
       const creatorsList: Creator[] = Array.isArray(payload)
         ? payload
         : Array.isArray(payload?.creators)
-        ? payload.creators
-        : Array.isArray(res.data?.creators)
-        ? res.data.creators
-        : [];
+          ? payload.creators
+          : Array.isArray(res.data?.creators)
+            ? res.data.creators
+            : [];
       const totalCount =
         typeof payload?.total === 'number'
           ? payload.total
           : typeof res.data?.total === 'number'
-          ? res.data.total
-          : creatorsList.length;
+            ? res.data.total
+            : creatorsList.length;
       const pages =
         payload?.totalPages || Math.max(1, Math.ceil(totalCount / (filters.limit || 12)));
 
@@ -633,9 +633,9 @@ export default function DiscoverPage() {
       {/* ================================================================= */}
       {/* 4. MAIN RESULTS CANVAS (Grid, Table, or Split Inspector)          */}
       {/* ================================================================= */}
-      <div className="w-full">
+      <div className="w-full px-4">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Array.from({ length: 10 }).map((_, i) => (
               <CreatorCardSkeleton key={i} />
             ))}
@@ -677,7 +677,7 @@ export default function DiscoverPage() {
             </div>
           </div>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {displayedCreators.map((creator) => (
               <CreatorCard
                 key={creator.id}
