@@ -146,7 +146,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           title={title}
           subtitle={subtitle}
         />
-        <main className="flex-1 w-full mx-auto px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8 lg:pb-10 bg-[#060709] overflow-x-hidden">
+        <main
+          className={`flex-1 min-w-0 w-full bg-[#060709] overflow-x-hidden ${
+            pathname.startsWith('/discover') ? '' : 'px-6 py-5'
+          }`}
+        >
           {children}
         </main>
       </div>

@@ -16,7 +16,7 @@ export function Navbar({ onOpenMobileMenu, title, subtitle }: NavbarProps) {
   const { user } = useAppSelector((state) => state.auth);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-white/[0.06] bg-[#060709]/80 px-4 md:px-8 backdrop-blur-2xl">
+    <header className="sticky top-0 z-30 flex w-full items-center justify-between gap-4 px-6 py-4 border-b border-white/[0.07] bg-[#060709]/90 backdrop-blur-2xl">
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenMobileMenu}
@@ -74,8 +74,8 @@ export function Navbar({ onOpenMobileMenu, title, subtitle }: NavbarProps) {
           className="flex items-center gap-2 pl-2 border-l border-white/[0.08] hover:opacity-90 transition-opacity"
           title="Account & Organization Settings"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-950 to-zinc-900 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs uppercase shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-            {user?.name ? user.name.slice(0, 2) : 'CB'}
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-emerald-950 to-zinc-900 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs uppercase shadow-[0_0_15px_rgba(16,185,129,0.2)] shrink-0">
+            {user?.name ? user.name.slice(0, 2).toUpperCase() : 'AD'}
           </div>
         </Link>
       </div>
