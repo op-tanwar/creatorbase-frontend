@@ -370,9 +370,9 @@ export default function DiscoverPage() {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto overflow-x-hidden space-y-3.5 pb-20">
+    <div className="w-full max-w-[1920px] mx-auto space-y-4 pb-20">
       {/* ================================================================= */}
-      {/* 1. SLEEK COMMAND BAR (h-13, Sticky Top)                          */}
+      {/* 1. SLEEK COMMAND BAR (Sticky Top)                                */}
       {/* ================================================================= */}
       <DiscoverCommandBar
         totalCount={finalTotal}
@@ -386,6 +386,11 @@ export default function DiscoverPage() {
         onToggleMinCredibility={() => setMinCredibilityOnly((prev) => !prev)}
         onExecuteAIBrief={handleExecuteAIBrief}
         isAIMatching={isAIMatching}
+        onResetAllFilters={() => {
+          dispatch(resetFilters());
+          setSelectedBudgetBracket(null);
+          setMinCredibilityOnly(false);
+        }}
       />
 
       {/* ================================================================= */}
@@ -397,7 +402,7 @@ export default function DiscoverPage() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mx-2 sm:mx-4 p-4 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-[#0C0E12] to-indigo-950/50 border border-emerald-500/40 shadow-[0_12px_36px_rgba(16,185,129,0.15)] space-y-3"
+            className="w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-[#0C0E12] to-indigo-950/50 border border-emerald-500/40 shadow-[0_12px_36px_rgba(16,185,129,0.15)] space-y-3"
           >
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2">
@@ -489,7 +494,7 @@ export default function DiscoverPage() {
       {/* 3. ACTIVE FILTERS MICRO-CHIPS ROW                                 */}
       {/* ================================================================= */}
       {activeCount > 0 && (
-        <div className="flex items-center gap-1.5 flex-wrap px-2 sm:px-4 text-xs font-mono">
+        <div className="flex items-center gap-1.5 flex-wrap w-full text-xs font-mono">
           <span className="text-[10px] uppercase text-zinc-500 mr-1 tracking-wider">
             Active Filters ({activeCount}):
           </span>
@@ -628,10 +633,10 @@ export default function DiscoverPage() {
       {/* ================================================================= */}
       {/* 4. MAIN RESULTS CANVAS (Grid, Table, or Split Inspector)          */}
       {/* ================================================================= */}
-      <div className="px-2 sm:px-4">
+      <div className="w-full">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+            {Array.from({ length: 10 }).map((_, i) => (
               <CreatorCardSkeleton key={i} />
             ))}
           </div>
@@ -672,7 +677,7 @@ export default function DiscoverPage() {
             </div>
           </div>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
             {displayedCreators.map((creator) => (
               <CreatorCard
                 key={creator.id}

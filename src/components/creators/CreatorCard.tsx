@@ -63,7 +63,7 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
       initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       transition={{ duration: 0.2 }}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#0C0E12] border border-white/[0.07] p-4 hover:border-emerald-500/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.6)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#0C0E12] border border-white/[0.08] p-4 hover:border-emerald-500/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.6)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl h-full"
     >
       <div>
         {/* 1. Header Row: Avatar, Name, Handle, City & External Platform Icon */}
@@ -83,12 +83,12 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
                 />
               ) : (
                 <span className="font-mono text-xs font-bold text-white uppercase tracking-tight">
-                  {creator.fullName.slice(0, 2)}
+                  {creator.fullName ? creator.fullName.slice(0, 2).toUpperCase() : 'CB'}
                 </span>
               )}
             </div>
 
-            {/* Creator Identity & City */}
+            {/* Creator Identity, City & Niche */}
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
                 <h3 className="font-bold text-sm text-white truncate font-sans tracking-tight">
@@ -101,7 +101,7 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
                 )}
               </div>
 
-              <div className="flex items-center gap-1.5 mt-0.5">
+              <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
                 <a
                   href={platformUrl}
                   {...EXTERNAL_LINK_PROPS}
@@ -116,6 +116,14 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
                   <MapPin className="w-3 h-3 text-emerald-400/80" />
                   <span>{creator.city}</span>
                 </span>
+                {creator.niche && (
+                  <>
+                    <span className="text-[10px] text-zinc-600 font-mono">•</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-white/[0.04] text-zinc-300 border border-white/[0.08] truncate max-w-[120px]">
+                      {creator.niche}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>

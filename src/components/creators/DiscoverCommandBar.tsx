@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
@@ -12,6 +12,7 @@ import {
   setSearch,
   setVerifiedEmailOnly,
   setSortBy,
+  resetFilters,
 } from '@/store/slices/filterSlice';
 import {
   Search,
@@ -92,6 +93,7 @@ interface DiscoverCommandBarProps {
   onToggleMinCredibility?: () => void;
   onExecuteAIBrief?: (brief: string) => void;
   isAIMatching?: boolean;
+  onResetAllFilters?: () => void;
 }
 
 export function DiscoverCommandBar({
@@ -106,6 +108,7 @@ export function DiscoverCommandBar({
   onToggleMinCredibility,
   onExecuteAIBrief,
   isAIMatching,
+  onResetAllFilters,
 }: DiscoverCommandBarProps) {
   const dispatch = useAppDispatch();
   const filters = useAppSelector((state) => state.filters);
@@ -138,7 +141,7 @@ export function DiscoverCommandBar({
     setLocalEngagement(filters.minEngagement);
   }, [filters.minEngagement]);
 
-  // Handle escape key and scroll
+  // Handle escape key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -186,6 +189,25 @@ export function DiscoverCommandBar({
   const isMetricsActive = filters.minFollowers > 5000 || filters.minEngagement > 1.0;
   const isBudgetActive = !!selectedBudgetBracket;
 
+  const hasActiveFilters = Boolean(
+    isPlatformActive ||
+    isCityActive ||
+    isNicheActive ||
+    isMetricsActive ||
+    isBudgetActive ||
+    minCredibilityOnly ||
+    filters.verifiedEmailOnly ||
+    filters.search.trim() !== ''
+  );
+
+  const handleReset = () => {
+    dispatch(resetFilters());
+    if (onBudgetChange) onBudgetChange(null);
+    if (minCredibilityOnly && onToggleMinCredibility) onToggleMinCredibility();
+    if (onResetAllFilters) onResetAllFilters();
+    setActivePopover(null);
+  };
+
   // Calculate desktop fixed style for portaled dropdown
   const getDesktopStyle = (preferredWidth: number): React.CSSProperties => {
     if (!popoverCoords || typeof window === 'undefined') return {};
@@ -211,23 +233,24 @@ export function DiscoverCommandBar({
 
   return (
     <>
-      <div className="sticky top-0 z-30 w-full bg-[#08090B]/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-        <div className="max-w-[1600px] mx-auto px-3 sm:px-6 py-2.5 space-y-2">
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
-            {/* ============================================================= */}
-            {/* LEFT: SEARCH & AI BRIEF MAGIC TRIGGER                        */}
-            {/* ============================================================= */}
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Standard Search Bar */}
-              <div className="relative w-full sm:w-60 lg:w-56 xl:w-64 shrink-0">
+      <div className="sticky top-0 z-20 w-full bg-[#060709]/95 backdrop-blur-2xl border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.5)] py-3">
+        <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 space-y-2.5">
+          {/* ============================================================= */}
+          {/* ROW 1: SEARCH, AI BRIEF & PRIMARY CONTROLS                    */}
+          {/* ============================================================= */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            {/* Left: Instant Search Bar + AI Brief Trigger */}
+            <div className="flex items-center gap-2.5 flex-1 max-w-xl">
+              {/* Wide Instant Search Bar */}
+              <div className="relative flex-1 min-w-[200px]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search handle, name, bio..."
+                  placeholder="Search handle, creator name, bio, keywords..."
                   value={filters.search}
                   onChange={(e) => dispatch(setSearch(e.target.value))}
-                  className="w-full h-9 rounded-lg bg-white/[0.03] border border-white/[0.08] pl-9 pr-14 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-mono shadow-xs transition-all focus:border-emerald-500/50 focus:bg-white/[0.05] focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
+                  className="w-full h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] pl-9 pr-14 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-mono shadow-xs transition-all focus:border-emerald-500/50 focus:bg-white/[0.06] focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
                 />
                 <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
                   {filters.search ? (
@@ -248,7 +271,7 @@ export function DiscoverCommandBar({
                 </div>
               </div>
 
-              {/* AI Brief Magic Button */}
+              {/* ✨ AI Brief Button */}
               <button
                 type="button"
                 onClick={(e) => {
@@ -263,242 +286,29 @@ export function DiscoverCommandBar({
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span className="whitespace-nowrap">✨ AI Brief</span>
+                <span>✨ AI Brief</span>
               </button>
             </div>
 
-            {/* ============================================================= */}
-            {/* CENTER: INTERACTIVE FILTER PILLS (Raycast Style)              */}
-            {/* ============================================================= */}
-            <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap 2xl:flex-nowrap py-1 sm:py-1.5">
-              {/* 1. Platform Pill */}
-              <button
-                type="button"
-                onClick={(e) => togglePopover('platform', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  isPlatformActive
-                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                    : activePopover === 'platform'
-                    ? 'bg-white/[0.08] border-white/20 text-white'
-                    : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
-                }`}
-              >
-                {filters.platform === 'INSTAGRAM' ? (
-                  <InstagramIcon className="w-3.5 h-3.5 text-pink-400 shrink-0" />
-                ) : filters.platform === 'YOUTUBE' ? (
-                  <YoutubeIcon className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                ) : null}
-                <span className="whitespace-nowrap">
-                  {filters.platform === 'INSTAGRAM'
-                    ? 'Instagram'
-                    : filters.platform === 'YOUTUBE'
-                    ? 'YouTube'
-                    : 'Platform'}
-                </span>
-                {isPlatformActive ? (
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(setPlatform('ALL'));
-                      setActivePopover(null);
-                    }}
-                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
-                    title="Clear platform"
-                  >
-                    <X className="w-3 h-3" />
-                  </span>
-                ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
-                )}
-              </button>
-
-              {/* 2. City Hub Pill */}
-              <button
-                type="button"
-                onClick={(e) => togglePopover('city', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  isCityActive
-                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                    : activePopover === 'city'
-                    ? 'bg-white/[0.08] border-white/20 text-white'
-                    : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
-                }`}
-              >
-                <MapPin className={`w-3.5 h-3.5 shrink-0 ${isCityActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="max-w-[120px] truncate whitespace-nowrap">
-                  {isCityActive ? filters.city : '50+ Cities'}
-                </span>
-                {isCityActive ? (
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(setCity('All'));
-                      setActivePopover(null);
-                    }}
-                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
-                    title="Clear city"
-                  >
-                    <X className="w-3 h-3" />
-                  </span>
-                ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
-                )}
-              </button>
-
-              {/* 3. Category / Niche Pill */}
-              <button
-                type="button"
-                onClick={(e) => togglePopover('niche', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  isNicheActive
-                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                    : activePopover === 'niche'
-                    ? 'bg-white/[0.08] border-white/20 text-white'
-                    : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
-                }`}
-              >
-                <Sparkles className={`w-3.5 h-3.5 shrink-0 ${isNicheActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="max-w-[120px] truncate whitespace-nowrap">
-                  {isNicheActive ? filters.niche : 'All Niches'}
-                </span>
-                {isNicheActive ? (
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(setNiche('All'));
-                      setActivePopover(null);
-                    }}
-                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
-                    title="Clear niche"
-                  >
-                    <X className="w-3 h-3" />
-                  </span>
-                ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
-                )}
-              </button>
-
-              {/* 4. Reach & ER Pill (Metrics) */}
-              <button
-                type="button"
-                onClick={(e) => togglePopover('metrics', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  isMetricsActive
-                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                    : activePopover === 'metrics'
-                    ? 'bg-white/[0.08] border-white/20 text-white'
-                    : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
-                }`}
-              >
-                <Activity className={`w-3.5 h-3.5 shrink-0 ${isMetricsActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="whitespace-nowrap">
-                  {isMetricsActive
-                    ? `${filters.minFollowers > 5000 ? `≥${formatFollowers(filters.minFollowers)}` : ''}${
-                        filters.minFollowers > 5000 && filters.minEngagement > 1.0 ? ' • ' : ''
-                      }${filters.minEngagement > 1.0 ? `≥${filters.minEngagement}% ER` : ''}`
-                    : 'Metrics'}
-                </span>
-                {isMetricsActive ? (
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(setMinFollowers(5000));
-                      dispatch(setMinEngagement(1.0));
-                      setActivePopover(null);
-                    }}
-                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
-                    title="Reset metrics"
-                  >
-                    <X className="w-3 h-3" />
-                  </span>
-                ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
-                )}
-              </button>
-
-              {/* 5. Budget Range Pill */}
-              <button
-                type="button"
-                onClick={(e) => togglePopover('budget', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  isBudgetActive
-                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                    : activePopover === 'budget'
-                    ? 'bg-white/[0.08] border-white/20 text-white'
-                    : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
-                }`}
-              >
-                <IndianRupee className={`w-3.5 h-3.5 shrink-0 ${isBudgetActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="max-w-[120px] truncate whitespace-nowrap">
-                  {selectedBudgetBracket || 'Budget ▾'}
-                </span>
-                {isBudgetActive ? (
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (onBudgetChange) onBudgetChange(null);
-                      setActivePopover(null);
-                    }}
-                    className="hover:text-white ml-0.5 p-0.5 shrink-0"
-                    title="Clear budget filter"
-                  >
-                    <X className="w-3 h-3" />
-                  </span>
-                ) : (
-                  <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
-                )}
-              </button>
-
-              {/* 6. Credibility >80% Pill */}
-              <button
-                type="button"
-                onClick={onToggleMinCredibility}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  minCredibilityOnly
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
-                    : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
-                }`}
-              >
-                <ShieldCheck className={`w-3.5 h-3.5 shrink-0 ${minCredibilityOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="whitespace-nowrap">Credibility &gt;80%</span>
-              </button>
-
-              {/* 7. Direct Contact Toggle Pill */}
-              <button
-                type="button"
-                onClick={() => dispatch(setVerifiedEmailOnly(!filters.verifiedEmailOnly))}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
-                  filters.verifiedEmailOnly
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
-                    : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
-                }`}
-              >
-                <Mail className={`w-3.5 h-3.5 shrink-0 ${filters.verifiedEmailOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
-                <span className="whitespace-nowrap">⚡ Verified Email</span>
-              </button>
-            </div>
-
-            {/* ============================================================= */}
-            {/* RIGHT: TELEMETRY, SORT & 3-WAY VIEW SWITCHER                  */}
-            {/* ============================================================= */}
-            <div className="shrink-0 flex items-center gap-2.5 sm:gap-3 ml-auto pl-3 bg-[#060709] z-10 pt-1 lg:pt-0">
-              {/* Live Counter */}
-              <span className="text-xs font-mono text-zinc-400 whitespace-nowrap shrink-0">
-                <strong className="text-white">{totalCount.toLocaleString('en-IN')}</strong> creators
-              </span>
+            {/* Right: Live Count, Sort, View Modes & Import */}
+            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 justify-between sm:justify-end">
+              {/* Live Count Pill */}
+              <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] text-xs font-mono text-zinc-400 whitespace-nowrap shrink-0">
+                <strong className="text-white font-bold">{totalCount.toLocaleString('en-IN')}</strong> creators
+              </div>
 
               {/* Sort Dropdown Trigger */}
               <button
                 type="button"
                 onClick={(e) => togglePopover('sort', e)}
-                className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                className={`h-9 px-3 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   activePopover === 'sort'
                     ? 'bg-white/[0.08] border-white/20 text-white'
                     : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
                 }`}
               >
-                <ArrowUpDown className="w-3 h-3 text-zinc-400 shrink-0" />
-                <span className="hidden sm:inline whitespace-nowrap">
+                <ArrowUpDown className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                <span className="whitespace-nowrap">
                   {filters.sortBy === 'engagement'
                     ? 'Engagement Rate'
                     : filters.sortBy === 'authenticity'
@@ -555,17 +365,241 @@ export function DiscoverCommandBar({
               <button
                 type="button"
                 onClick={onOpenApifyModal}
-                className="h-8 inline-flex items-center gap-1 px-2.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-xs shrink-0 whitespace-nowrap cursor-pointer"
+                className="h-9 inline-flex items-center gap-1.5 px-3 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-xs font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all shadow-xs shrink-0 whitespace-nowrap cursor-pointer"
                 title="Import influencer via live Apify scraper"
               >
                 <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="hidden sm:inline whitespace-nowrap">Import</span>
+                <span className="whitespace-nowrap">Import</span>
               </button>
             </div>
           </div>
 
           {/* ============================================================= */}
-          {/* EXPANDABLE AI BRIEF MAGIC BAR                                 */}
+          {/* ROW 2: CLEAN FILTER PILLS BAR (Full Width, Zero Overlap)       */}
+          {/* ============================================================= */}
+          <div className="flex flex-wrap items-center gap-2 pt-2.5 mt-2.5 border-t border-white/[0.05]">
+            {/* 1. Platform Pill */}
+            <button
+              type="button"
+              onClick={(e) => togglePopover('platform', e)}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                isPlatformActive
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  : activePopover === 'platform'
+                  ? 'bg-white/[0.08] border-white/20 text-white'
+                  : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
+              }`}
+            >
+              {filters.platform === 'INSTAGRAM' ? (
+                <InstagramIcon className="w-3.5 h-3.5 text-pink-400 shrink-0" />
+              ) : filters.platform === 'YOUTUBE' ? (
+                <YoutubeIcon className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              ) : null}
+              <span className="whitespace-nowrap">
+                {filters.platform === 'INSTAGRAM'
+                  ? 'Instagram'
+                  : filters.platform === 'YOUTUBE'
+                  ? 'YouTube'
+                  : 'Platform'}
+              </span>
+              {isPlatformActive ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(setPlatform('ALL'));
+                    setActivePopover(null);
+                  }}
+                  className="hover:text-white ml-0.5 p-0.5 shrink-0"
+                  title="Clear platform"
+                >
+                  <X className="w-3 h-3" />
+                </span>
+              ) : (
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
+              )}
+            </button>
+
+            {/* 2. City Hub Pill */}
+            <button
+              type="button"
+              onClick={(e) => togglePopover('city', e)}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                isCityActive
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  : activePopover === 'city'
+                  ? 'bg-white/[0.08] border-white/20 text-white'
+                  : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
+              }`}
+            >
+              <MapPin className={`w-3.5 h-3.5 shrink-0 ${isCityActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="max-w-[120px] truncate whitespace-nowrap">
+                {isCityActive ? filters.city : '50+ Cities'}
+              </span>
+              {isCityActive ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(setCity('All'));
+                    setActivePopover(null);
+                  }}
+                  className="hover:text-white ml-0.5 p-0.5 shrink-0"
+                  title="Clear city"
+                >
+                  <X className="w-3 h-3" />
+                </span>
+              ) : (
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
+              )}
+            </button>
+
+            {/* 3. Category / Niche Pill */}
+            <button
+              type="button"
+              onClick={(e) => togglePopover('niche', e)}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                isNicheActive
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  : activePopover === 'niche'
+                  ? 'bg-white/[0.08] border-white/20 text-white'
+                  : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
+              }`}
+            >
+              <Sparkles className={`w-3.5 h-3.5 shrink-0 ${isNicheActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="max-w-[120px] truncate whitespace-nowrap">
+                {isNicheActive ? filters.niche : 'All Niches'}
+              </span>
+              {isNicheActive ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(setNiche('All'));
+                    setActivePopover(null);
+                  }}
+                  className="hover:text-white ml-0.5 p-0.5 shrink-0"
+                  title="Clear niche"
+                >
+                  <X className="w-3 h-3" />
+                </span>
+              ) : (
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
+              )}
+            </button>
+
+            {/* 4. Reach & ER Pill (Metrics) */}
+            <button
+              type="button"
+              onClick={(e) => togglePopover('metrics', e)}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                isMetricsActive
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  : activePopover === 'metrics'
+                  ? 'bg-white/[0.08] border-white/20 text-white'
+                  : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
+              }`}
+            >
+              <Activity className={`w-3.5 h-3.5 shrink-0 ${isMetricsActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="whitespace-nowrap">
+                {isMetricsActive
+                  ? `${filters.minFollowers > 5000 ? `≥${formatFollowers(filters.minFollowers)}` : ''}${
+                      filters.minFollowers > 5000 && filters.minEngagement > 1.0 ? ' • ' : ''
+                    }${filters.minEngagement > 1.0 ? `≥${filters.minEngagement}% ER` : ''}`
+                  : 'Metrics'}
+              </span>
+              {isMetricsActive ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(setMinFollowers(5000));
+                    dispatch(setMinEngagement(1.0));
+                    setActivePopover(null);
+                  }}
+                  className="hover:text-white ml-0.5 p-0.5 shrink-0"
+                  title="Reset metrics"
+                >
+                  <X className="w-3 h-3" />
+                </span>
+              ) : (
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
+              )}
+            </button>
+
+            {/* 5. Budget Range Pill */}
+            <button
+              type="button"
+              onClick={(e) => togglePopover('budget', e)}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                isBudgetActive
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  : activePopover === 'budget'
+                  ? 'bg-white/[0.08] border-white/20 text-white'
+                  : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
+              }`}
+            >
+              <IndianRupee className={`w-3.5 h-3.5 shrink-0 ${isBudgetActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="max-w-[120px] truncate whitespace-nowrap">
+                {selectedBudgetBracket || 'Budget ▾'}
+              </span>
+              {isBudgetActive ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onBudgetChange) onBudgetChange(null);
+                    setActivePopover(null);
+                  }}
+                  className="hover:text-white ml-0.5 p-0.5 shrink-0"
+                  title="Clear budget filter"
+                >
+                  <X className="w-3 h-3" />
+                </span>
+              ) : (
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
+              )}
+            </button>
+
+            {/* 6. Credibility >80% Pill */}
+            <button
+              type="button"
+              onClick={onToggleMinCredibility}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                minCredibilityOnly
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
+                  : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
+              }`}
+            >
+              <ShieldCheck className={`w-3.5 h-3.5 shrink-0 ${minCredibilityOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="whitespace-nowrap">Credibility &gt;80%</span>
+            </button>
+
+            {/* 7. Direct Contact Toggle Pill */}
+            <button
+              type="button"
+              onClick={() => dispatch(setVerifiedEmailOnly(!filters.verifiedEmailOnly))}
+              className={`h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                filters.verifiedEmailOnly
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] font-semibold'
+                  : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
+              }`}
+            >
+              <Mail className={`w-3.5 h-3.5 shrink-0 ${filters.verifiedEmailOnly ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="whitespace-nowrap">⚡ Verified Email</span>
+            </button>
+
+            {/* 8. Reset Filters Button (if active) */}
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={handleReset}
+                className="h-8 px-2.5 rounded-lg text-xs font-mono flex items-center gap-1 text-zinc-400 hover:text-white hover:bg-white/[0.04] border border-transparent hover:border-white/[0.08] transition-all shrink-0 whitespace-nowrap cursor-pointer ml-auto"
+                title="Reset all active filters"
+              >
+                <RotateCcw className="w-3 h-3 text-zinc-400" />
+                <span>Reset Filters</span>
+              </button>
+            )}
+          </div>
+
+          {/* ============================================================= */}
+          {/* EXPANDABLE AI BRIEF MAGIC DRAWER                              */}
           {/* ============================================================= */}
           <AnimatePresence>
             {aiBriefOpen && (
@@ -624,7 +658,7 @@ export function DiscoverCommandBar({
 
       {/* ================================================================= */}
       {/* REACT PORTAL: DROPDOWN POPOVERS & MOBILE SHEETS                   */}
-      {/* Detached from command bar to eliminate ANY overflow clipping      */}
+      {/* Detached to document.body to eliminate ANY overflow clipping      */}
       {/* ================================================================= */}
       {mounted && activePopover && typeof document !== 'undefined' && createPortal(
         <>
@@ -1018,8 +1052,8 @@ export function DiscoverCommandBar({
                 </div>
                 {[
                   { label: 'Followers (High → Low)', value: 'followers' as const },
-                  { label: 'Engagement (High → Low)', value: 'engagement' as const },
-                  { label: 'Authenticity (High → Low)', value: 'authenticity' as const },
+                  { label: 'Engagement Rate (High → Low)', value: 'engagement' as const },
+                  { label: 'Authenticity Score (High → Low)', value: 'authenticity' as const },
                 ].map((item) => {
                   const isSelected = filters.sortBy === item.value;
                   return (
