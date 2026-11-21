@@ -7,6 +7,7 @@ import {
   setPlatform,
   setCity,
   setNiche,
+  setGender,
   setMinFollowers,
   setMinEngagement,
   setSearch,
@@ -21,6 +22,7 @@ import {
   MapPin,
   Sparkles,
   Activity,
+  Users,
   Mail,
   ArrowUpDown,
   LayoutGrid,
@@ -45,11 +47,11 @@ import { formatFollowers } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const FOLLOWER_PRESETS = [
-  { label: '5K+', value: 5000 },
-  { label: '25K+', value: 25000 },
-  { label: '50K+', value: 50000 },
   { label: '100K+', value: 100000 },
   { label: '250K+', value: 250000 },
+  { label: '500K+', value: 500000 },
+  { label: '1M+', value: 1000000 },
+  { label: '5M+', value: 5000000 },
 ];
 
 const ENGAGEMENT_PRESETS = [
@@ -79,7 +81,7 @@ const TOP_CITIES_QUICK = [
   'Ahmedabad',
 ];
 
-type PopoverType = 'platform' | 'city' | 'niche' | 'metrics' | 'budget' | 'sort' | null;
+type PopoverType = 'platform' | 'city' | 'niche' | 'gender' | 'metrics' | 'budget' | 'sort' | null;
 
 interface DiscoverCommandBarProps {
   totalCount: number;
@@ -186,13 +188,15 @@ export function DiscoverCommandBar({
   const isPlatformActive = filters.platform !== 'ALL';
   const isCityActive = filters.city !== 'All';
   const isNicheActive = filters.niche !== 'All';
-  const isMetricsActive = filters.minFollowers > 5000 || filters.minEngagement > 1.0;
+  const isGenderActive = filters.gender !== 'ALL';
+  const isMetricsActive = filters.minFollowers > 100000 || filters.minEngagement > 1.0;
   const isBudgetActive = !!selectedBudgetBracket;
 
   const hasActiveFilters = Boolean(
     isPlatformActive ||
     isCityActive ||
     isNicheActive ||
+    isGenderActive ||
     isMetricsActive ||
     isBudgetActive ||
     minCredibilityOnly ||
@@ -477,6 +481,43 @@ export function DiscoverCommandBar({
                   }}
                   className="hover:text-white ml-0.5 p-0.5 shrink-0"
                   title="Clear niche"
+                >
+                  <X className="w-3 h-3" />
+                </span>
+              ) : (
+                <ChevronDown className="w-3 h-3 text-zinc-400 shrink-0" />
+              )}
+            </button>
+
+            {/* 4. Gender Filter Pill (All | Male | Female) */}
+            <button
+              type="button"
+              onClick={(e) => togglePopover('gender', e)}
+              className={`h-8 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 border transition-all shrink-0 whitespace-nowrap cursor-pointer ${
+                isGenderActive
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  : activePopover === 'gender'
+                  ? 'bg-white/[0.08] border-white/20 text-white'
+                  : 'bg-white/[0.03] border-white/[0.08] text-zinc-300 hover:text-white hover:border-white/20'
+              }`}
+            >
+              <Users className={`w-3.5 h-3.5 shrink-0 ${isGenderActive ? 'text-emerald-400' : 'text-zinc-400'}`} />
+              <span className="whitespace-nowrap">
+                {filters.gender === 'MALE'
+                  ? '♂ Male'
+                  : filters.gender === 'FEMALE'
+                  ? '♀ Female'
+                  : 'All Genders'}
+              </span>
+              {isGenderActive ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(setGender('ALL'));
+                    setActivePopover(null);
+                  }}
+                  className="hover:text-white ml-0.5 p-0.5 shrink-0"
+                  title="Clear gender filter"
                 >
                   <X className="w-3 h-3" />
                 </span>
@@ -883,6 +924,69 @@ export function DiscoverCommandBar({
               </motion.div>
             )}
 
+            {activePopover === 'gender' && (
+              <motion.div
+                initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                transition={{ duration: 0.15 }}
+                style={getDesktopStyle(210)}
+                onClick={(e) => e.stopPropagation()}
+                className="rounded-xl border border-white/[0.12] bg-[#0C0E12]/95 p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+              >
+                <div className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 px-2.5 py-1">
+                  Creator Gender
+                </div>
+                <div className="space-y-0.5 mt-0.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(setGender('ALL'));
+                      setActivePopover(null);
+                    }}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                      filters.gender === 'ALL'
+                        ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                        : 'text-zinc-300 hover:bg-white/[0.06] hover:text-white'
+                    }`}
+                  >
+                    <span>All Genders</span>
+                    {filters.gender === 'ALL' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(setGender('MALE'));
+                      setActivePopover(null);
+                    }}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                      filters.gender === 'MALE'
+                        ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                        : 'text-zinc-300 hover:bg-white/[0.06] hover:text-white'
+                    }`}
+                  >
+                    <span>♂ Male Creators</span>
+                    {filters.gender === 'MALE' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(setGender('FEMALE'));
+                      setActivePopover(null);
+                    }}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                      filters.gender === 'FEMALE'
+                        ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                        : 'text-zinc-300 hover:bg-white/[0.06] hover:text-white'
+                    }`}
+                  >
+                    <span>♀ Female Creators</span>
+                    {filters.gender === 'FEMALE' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
             {activePopover === 'metrics' && (
               <motion.div
                 initial={{ opacity: 0, y: 6, scale: 0.98 }}
@@ -900,9 +1004,9 @@ export function DiscoverCommandBar({
                   </div>
                   <input
                     type="range"
-                    min="5000"
-                    max="500000"
-                    step="5000"
+                    min="100000"
+                    max="10000000"
+                    step="50000"
                     value={localFollowers}
                     onChange={(e) => setLocalFollowers(Number(e.target.value))}
                     onMouseUp={() => dispatch(setMinFollowers(localFollowers))}
@@ -1097,6 +1201,7 @@ export function DiscoverCommandBar({
                   {activePopover === 'platform' && 'Select Platform'}
                   {activePopover === 'city' && 'Filter by City Hub'}
                   {activePopover === 'niche' && 'Select Industry Niche'}
+                  {activePopover === 'gender' && 'Filter by Gender'}
                   {activePopover === 'metrics' && 'Reach & Engagement'}
                   {activePopover === 'budget' && 'Estimated Reel Rate'}
                   {activePopover === 'sort' && 'Sort Creators'}
@@ -1261,6 +1366,56 @@ export function DiscoverCommandBar({
                 </div>
               )}
 
+              {activePopover === 'gender' && (
+                <div className="space-y-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(setGender('ALL'));
+                      setActivePopover(null);
+                    }}
+                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-mono ${
+                      filters.gender === 'ALL'
+                        ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                        : 'text-zinc-300 hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    <span>All Genders</span>
+                    {filters.gender === 'ALL' && <Check className="w-4 h-4 text-emerald-400" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(setGender('MALE'));
+                      setActivePopover(null);
+                    }}
+                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-mono ${
+                      filters.gender === 'MALE'
+                        ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                        : 'text-zinc-300 hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    <span>♂ Male Creators</span>
+                    {filters.gender === 'MALE' && <Check className="w-4 h-4 text-emerald-400" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(setGender('FEMALE'));
+                      setActivePopover(null);
+                    }}
+                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-mono ${
+                      filters.gender === 'FEMALE'
+                        ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                        : 'text-zinc-300 hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    <span>♀ Female Creators</span>
+                    {filters.gender === 'FEMALE' && <Check className="w-4 h-4 text-emerald-400" />}
+                  </button>
+                </div>
+              )}
+
               {activePopover === 'metrics' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
@@ -1270,9 +1425,9 @@ export function DiscoverCommandBar({
                     </div>
                     <input
                       type="range"
-                      min="5000"
-                      max="500000"
-                      step="5000"
+                      min="100000"
+                      max="10000000"
+                      step="50000"
                       value={localFollowers}
                       onChange={(e) => setLocalFollowers(Number(e.target.value))}
                       className="w-full accent-emerald-500 h-2 bg-zinc-800 rounded-lg"

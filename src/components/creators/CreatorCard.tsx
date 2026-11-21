@@ -47,7 +47,7 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
   );
 
   const estimatedReelFee = estimateReelCost(creator);
-  const platformUrl = getCreatorPlatformUrl(creator);
+  const platformUrl = creator.profileUrl || getCreatorPlatformUrl(creator);
 
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -121,6 +121,21 @@ export function CreatorCard({ creator, isSelected = false, onToggleSelect }: Cre
                     <span className="text-[10px] text-zinc-600 font-mono shrink-0">•</span>
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-white/[0.04] text-zinc-300 border border-white/[0.08] truncate max-w-[90px] shrink-0">
                       {creator.niche}
+                    </span>
+                  </>
+                )}
+                {creator.gender && creator.gender !== 'UNSPECIFIED' && (
+                  <>
+                    <span className="text-[10px] text-zinc-600 font-mono shrink-0">•</span>
+                    <span
+                      title={creator.gender === 'MALE' ? 'Male Creator' : 'Female Creator'}
+                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded shrink-0 font-medium ${
+                        creator.gender === 'FEMALE'
+                          ? 'text-pink-300 bg-pink-500/10 border border-pink-500/20'
+                          : 'text-sky-300 bg-sky-500/10 border border-sky-500/20'
+                      }`}
+                    >
+                      {creator.gender === 'FEMALE' ? '♀ Female' : '♂ Male'}
                     </span>
                   </>
                 )}

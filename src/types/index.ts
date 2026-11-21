@@ -44,9 +44,11 @@ export interface RazorpaySuccessResponse {
 export interface Creator {
   id: string;
   handle: string;
+  canonicalHandle?: string;
   platform: Platform;
   fullName: string;
   avatarUrl: string;
+  gender?: 'MALE' | 'FEMALE' | 'UNSPECIFIED' | string;
   city: string;
   state: string;
   niche: string;
@@ -59,6 +61,7 @@ export interface Creator {
   isVerified: boolean;
   isVerifiedAuthentic?: boolean;
   lastVerifiedAt?: string | null;
+  lastAuditedAt?: string | null;
   profileUrl?: string | null;
   channelId?: string | null;
   authenticityScore?: number;

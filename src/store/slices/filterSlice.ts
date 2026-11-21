@@ -4,6 +4,7 @@ export interface FilterState {
   platform: 'ALL' | 'INSTAGRAM' | 'YOUTUBE';
   city: string;
   niche: string;
+  gender: 'ALL' | 'MALE' | 'FEMALE';
   minFollowers: number;
   maxFollowers: number;
   minEngagement: number;
@@ -18,8 +19,9 @@ const initialState: FilterState = {
   platform: 'ALL',
   city: 'All',
   niche: 'All',
-  minFollowers: 5000,
-  maxFollowers: 500000,
+  gender: 'ALL',
+  minFollowers: 100000,
+  maxFollowers: 50000000,
   minEngagement: 1.0,
   search: '',
   verifiedEmailOnly: false,
@@ -42,6 +44,10 @@ export const filterSlice = createSlice({
     },
     setNiche: (state, action: PayloadAction<string>) => {
       state.niche = action.payload;
+      state.page = 1;
+    },
+    setGender: (state, action: PayloadAction<'ALL' | 'MALE' | 'FEMALE'>) => {
+      state.gender = action.payload;
       state.page = 1;
     },
     setMinFollowers: (state, action: PayloadAction<number>) => {
@@ -74,8 +80,9 @@ export const filterSlice = createSlice({
       state.platform = 'ALL';
       state.city = 'All';
       state.niche = 'All';
-      state.minFollowers = 5000;
-      state.maxFollowers = 500000;
+      state.gender = 'ALL';
+      state.minFollowers = 100000;
+      state.maxFollowers = 50000000;
       state.minEngagement = 1.0;
       state.search = '';
       state.verifiedEmailOnly = false;
@@ -89,6 +96,7 @@ export const {
   setPlatform,
   setCity,
   setNiche,
+  setGender,
   setMinFollowers,
   setMaxFollowers,
   setMinEngagement,

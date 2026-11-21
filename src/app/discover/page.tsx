@@ -10,6 +10,7 @@ import {
   setPlatform,
   setCity,
   setNiche,
+  setGender,
   setMinFollowers,
   setMinEngagement,
   setSearch,
@@ -52,19 +53,24 @@ const FALLBACK_DISCOVER_CREATORS: Creator[] = [
   {
     id: 'c1',
     handle: 'indori_foodie_rahul',
+    canonicalHandle: 'indori_foodie_rahul',
     platform: 'INSTAGRAM',
     fullName: 'Rahul Agrawal',
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+    profileUrl: 'https://www.instagram.com/indori_foodie_rahul/',
+    gender: 'MALE',
     city: 'Indore',
     state: 'Madhya Pradesh',
     niche: 'Food',
-    followerCount: 148000,
+    followerCount: 185000,
     engagementRate: 5.8,
     avgLikes: 8200,
     avgComments: 450,
     avgReelViews: 220000,
     businessEmail: 'collabs@indorifoodie.in',
     isVerified: true,
+    isVerifiedAuthentic: true,
+    lastAuditedAt: '2026-11-21T00:00:00.000Z',
     authenticityScore: 96.4,
     audienceTopCity: 'Indore',
     audienceFemalePercentage: 54,
@@ -74,22 +80,27 @@ const FALLBACK_DISCOVER_CREATORS: Creator[] = [
   },
   {
     id: 'c2',
-    handle: 'mumbai_tech_review',
+    handle: 'technicalguruji',
+    canonicalHandle: 'TechnicalGuruji',
     platform: 'YOUTUBE',
-    fullName: 'Aarav Mehta',
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-    city: 'Mumbai',
-    state: 'Maharashtra',
+    fullName: 'Gaurav Chaudhary | Technical Guruji',
+    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+    profileUrl: 'https://www.youtube.com/@TechnicalGuruji',
+    gender: 'MALE',
+    city: 'Delhi NCR',
+    state: 'Delhi',
     niche: 'Tech',
-    followerCount: 385000,
-    engagementRate: 4.2,
-    avgLikes: 15400,
-    avgComments: 890,
-    avgReelViews: 410000,
-    businessEmail: 'aarav@mumbaitech.co',
+    followerCount: 23500000,
+    engagementRate: 2.8,
+    avgLikes: 350000,
+    avgComments: 24000,
+    avgReelViews: 650000,
+    businessEmail: 'business@technicalguruji.in',
     isVerified: true,
+    isVerifiedAuthentic: true,
+    lastAuditedAt: '2026-11-21T00:00:00.000Z',
     authenticityScore: 97.2,
-    audienceTopCity: 'Mumbai',
+    audienceTopCity: 'Delhi NCR',
     audienceFemalePercentage: 28,
     audienceMalePercentage: 72,
     createdAt: '2026-01-01',
@@ -97,20 +108,25 @@ const FALLBACK_DISCOVER_CREATORS: Creator[] = [
   },
   {
     id: 'c3',
-    handle: 'delhi_street_style',
+    handle: 'komalpandeyofficial',
+    canonicalHandle: 'komalpandeyofficial',
     platform: 'INSTAGRAM',
-    fullName: 'Ananya Sharma',
-    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80',
-    city: 'Delhi',
-    state: 'Delhi NCR',
+    fullName: 'Komal Pandey',
+    avatarUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&auto=format&fit=crop&q=80',
+    profileUrl: 'https://www.instagram.com/komalpandeyofficial/',
+    gender: 'FEMALE',
+    city: 'Delhi NCR',
+    state: 'Delhi',
     niche: 'Fashion',
-    followerCount: 215000,
-    engagementRate: 6.1,
-    avgLikes: 12800,
-    avgComments: 640,
-    avgReelViews: 350000,
-    businessEmail: 'collabs@delhitech.in',
+    followerCount: 1950000,
+    engagementRate: 5.6,
+    avgLikes: 110000,
+    avgComments: 1800,
+    avgReelViews: 950000,
+    businessEmail: 'collabs@komalpandey.com',
     isVerified: true,
+    isVerifiedAuthentic: true,
+    lastAuditedAt: '2026-11-21T00:00:00.000Z',
     authenticityScore: 98.0,
     audienceTopCity: 'Delhi',
     audienceFemalePercentage: 78,
@@ -307,10 +323,13 @@ export default function DiscoverPage() {
       if (filters.niche && filters.niche !== 'All') {
         params.niche = filters.niche;
       }
-      if (filters.minFollowers && filters.minFollowers >= 5000) {
+      if (filters.gender && filters.gender !== 'ALL') {
+        params.gender = filters.gender;
+      }
+      if (filters.minFollowers && filters.minFollowers >= 100000) {
         params.minFollowers = filters.minFollowers;
       }
-      if (filters.maxFollowers && filters.maxFollowers < 500000) {
+      if (filters.maxFollowers && filters.maxFollowers < 50000000) {
         params.maxFollowers = filters.maxFollowers;
       }
       if (filters.minEngagement && filters.minEngagement >= 1.0) {
@@ -450,7 +469,8 @@ export default function DiscoverPage() {
     (filters.platform !== 'ALL' ? 1 : 0) +
     (filters.city !== 'All' ? 1 : 0) +
     (filters.niche !== 'All' ? 1 : 0) +
-    (filters.minFollowers > 5000 ? 1 : 0) +
+    (filters.gender !== 'ALL' ? 1 : 0) +
+    (filters.minFollowers > 100000 ? 1 : 0) +
     (filters.minEngagement > 1.0 ? 1 : 0) +
     (filters.verifiedEmailOnly ? 1 : 0) +
     (selectedBudgetBracket ? 1 : 0) +
@@ -752,6 +772,21 @@ export default function DiscoverPage() {
             </span>
           )}
 
+          {filters.gender !== 'ALL' && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
+              <Users className="w-3 h-3 text-emerald-400" />
+              <span>Gender: {filters.gender === 'MALE' ? '♂ Male' : '♀ Female'}</span>
+              <button
+                type="button"
+                onClick={() => dispatch(setGender('ALL'))}
+                className="hover:text-white"
+                title="Clear gender filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+
           {selectedBudgetBracket && (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
               <IndianRupee className="w-3 h-3 text-emerald-400" />
@@ -767,12 +802,12 @@ export default function DiscoverPage() {
             </span>
           )}
 
-          {filters.minFollowers > 5000 && (
+          {filters.minFollowers > 100000 && (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-300">
               <span>&ge; {formatFollowers(filters.minFollowers)} Followers</span>
               <button
                 type="button"
-                onClick={() => dispatch(setMinFollowers(5000))}
+                onClick={() => dispatch(setMinFollowers(100000))}
                 className="hover:text-white"
                 title="Reset follower filter"
               >

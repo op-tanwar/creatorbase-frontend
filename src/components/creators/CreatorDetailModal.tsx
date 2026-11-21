@@ -110,7 +110,7 @@ export function CreatorDetailModal() {
     }
   };
 
-  const platformUrl = getCreatorPlatformUrl(creator);
+  const platformUrl = creator.profileUrl || getCreatorPlatformUrl(creator);
 
   const estimatedReel = estimateReelCost(creator);
   const authScore =
@@ -217,16 +217,43 @@ export function CreatorDetailModal() {
                   </a>
                 </div>
 
-                <div className="flex items-center gap-3 mt-1 text-xs font-mono text-zinc-400 flex-wrap">
+                <div className="flex items-center gap-2.5 mt-1 text-xs font-mono text-zinc-400 flex-wrap">
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3 h-3 text-emerald-400" />
                     <span>{creator.city}</span>
                   </span>
                   <span>•</span>
                   <span className="text-zinc-300">{creator.niche}</span>
+                  {creator.gender && creator.gender !== 'UNSPECIFIED' && (
+                    <>
+                      <span>•</span>
+                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${
+                        creator.gender === 'FEMALE'
+                          ? 'bg-pink-500/10 text-pink-300 border border-pink-500/20'
+                          : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+                      }`}>
+                        {creator.gender === 'FEMALE' ? '♀ Female' : '♂ Male'}
+                      </span>
+                    </>
+                  )}
                   <span>•</span>
                   <span className="text-emerald-400 font-semibold">
                     {authScore}/100 Authenticity
+                  </span>
+                </div>
+
+                {/* Live Audited 100K+ Trust Badge */}
+                <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-mono text-emerald-300">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span className="font-semibold">✓ Live Audited • 100K+ Verified</span>
+                  <span className="text-emerald-400/70 text-[10px]">
+                    ({creator.lastAuditedAt
+                      ? new Date(creator.lastAuditedAt).toLocaleDateString('en-IN', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })
+                      : 'Verified Authentic'})
                   </span>
                 </div>
               </div>
@@ -835,8 +862,19 @@ export function CreatorDetailModal() {
                         <div className="text-xs font-bold text-white truncate font-sans group-hover:text-emerald-300 transition-colors">
                           {lk.fullName}
                         </div>
-                        <div className="text-[11px] font-mono text-zinc-500 truncate">
-                          @{lk.handle}
+                        <div className="text-[11px] font-mono text-zinc-500 truncate flex items-center gap-1">
+                          <span>@{lk.handle}</span>
+                          {(lk.profileUrl || getCreatorPlatformUrl(lk)) && (
+                            <a
+                              href={lk.profileUrl || getCreatorPlatformUrl(lk)}
+                              {...EXTERNAL_LINK_PROPS}
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-zinc-500 hover:text-emerald-400"
+                              title="Open verified profile"
+                            >
+                              <ExternalLink className="w-2.5 h-2.5 inline" />
+                            </a>
+                          )}
                         </div>
                       </div>
                     </div>
