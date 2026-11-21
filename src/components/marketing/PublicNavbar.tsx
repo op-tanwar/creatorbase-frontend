@@ -52,7 +52,7 @@ export function PublicNavbar() {
     { label: 'Pitch Portals', href: '/#pitch-portals' },
     { label: 'Workflow', href: '/#workflow' },
     { label: 'Pricing', href: '/#pricing' },
-    { label: 'Cities', href: '/#cities' },
+    // { label: 'Cities', href: '/#cities' },
   ];
 
   return (
